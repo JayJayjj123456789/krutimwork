@@ -1,0 +1,20 @@
+.chart {
+  position: relative;
+  height: 180px;
+}
+
+.labels {
+  position: absolute;
+  bottom: -24px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.label {
+  font-size: 11px;
+  color: var(--color-on-surface-variant);
+  font-family: var(--font-headline);
+  font-weight: 700;
+}

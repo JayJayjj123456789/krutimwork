@@ -1,0 +1,85 @@
+=== TERMINAL 3 — Integration & Polish ===
+Project: E:\testtest\weather-health-ai
+
+GOAL:
+Connect frontend to backend, add loading/error/empty states, polish CSS, ensure mobile responsiveness, and verify full data flow end-to-end.
+
+BEFORE YOU START:
+Read key files:
+- frontend/src/App.tsx (routing, layout)
+- frontend/src/index.css (CSS custom properties, global styles)
+- frontend/src/pages/ (all pages)
+- frontend/src/components/ (all new components)
+- frontend/src/context/UserContext.tsx
+- frontend/src/context/ThemeContext.tsx
+- database/api-contract.ts (shared types)
+- frontend/vite.config.ts
+- frontend/.env.example
+
+WHAT TO DO:
+
+1. Frontend-Backend Connection
+   - Create `frontend/.env` file with: VITE_API_URL=http://localhost:3000
+   - Read frontend/src/services/weatherApi.ts and other service files
+   - Make sure the baseURL or axios instance reads from VITE_API_URL env var
+   - Test that the frontend can reach the backend
+
+2. Loading States
+   - All pages should show a loading indicator while fetching data
+   - Add a reusable LoadingSpinner component to frontend/src/components/
+   - Use it in pages: when hooks return isLoading=true, show spinner instead of content
+   - Style it to match the dark theme
+
+3. Error States
+   - All pages should handle errors gracefully
+   - If an API call fails, show an error message with a "Retry" button
+   - Add an ErrorBanner component to frontend/src/components/
+   - Use it in pages when hooks return error
+
+4. Empty States
+   - Chat page: show "No messages yet. Ask something!" when chat is empty
+   - Reports page: show "No reports available yet" when empty
+   - Recommendations: show "Check back later for recommendations"
+   - Add empty state illustrations using material-symbols-outlined icons
+
+5. Mobile Responsiveness
+   - Test by resizing browser to mobile width (~375px)
+   - Fix any layout breaks:
+     - Sidebar should collapse/hide on mobile
+     - Cards should stack vertically on small screens
+     - Forecast strip should scroll horizontally
+     - Header should be compact on mobile
+   - Check all pages: Dashboard, Health, Recommendations, Chat, Reports
+   - The header search bar should work on mobile
+
+6. Theme Toggle Polish
+   - Wire ThemeContext into App.tsx and Navbar
+   - Make sure the theme toggle works (dark ↔ light)
+   - Verify CSS custom properties switch correctly
+   - Persist theme choice in localStorage
+   - Check all components render correctly in both themes
+
+7. Ensure frontend compiles
+   - Run `cd E:\testtest\weather-health-ai\frontend && npx tsc --noEmit`
+   - Fix any type errors
+
+8. Run the dev server
+   - `cd E:\testtest\weather-health-ai\frontend && npm run dev`
+   - Open http://localhost:5173 in browser
+   - Navigate to all pages, verify they load without console errors
+   - Check that the 404 case or unknown routes are handled
+
+9. Check index.css
+   - Ensure custom properties are complete
+   - Add any missing CSS variables referenced by new components
+   - Verify the scrollbar styling works
+   - Check font imports are correct
+
+RULES:
+- Don't change the visual design language (glass-morphism, color scheme, typography)
+- All text should be in English (the project defaults to English UI)
+- Don't remove existing features — only add loading/error/empty states
+- Test on both dark and light themes
+
+VERIFICATION:
+Frontend runs on localhost:5173, all pages work with loading/error/empty states visible when appropriate, mobile responsive, theme toggle works, TypeScript compiles with 0 errors.

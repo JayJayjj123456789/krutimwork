@@ -1,0 +1,32 @@
+.iconBox {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-md);
+  background: rgba(137, 208, 237, 0.12);
+  border: 1px solid rgba(137, 208, 237, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.subtitle {
+  font-family: var(--font-headline);
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-primary);
+}
+
+.content {
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-on-surface-variant);
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}

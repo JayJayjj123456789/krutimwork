@@ -1,0 +1,54 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 200px;
+  background: linear-gradient(135deg, rgba(137, 208, 237, 0.08), rgba(17, 19, 22, 0.5));
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.city {
+  font-family: var(--font-headline);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-on-surface-variant);
+}
+
+.main {
+  display: flex;
+  align-items: flex-end;
+  gap: 12px;
+}
+
+.temp {
+  font-family: var(--font-headline);
+  font-size: 72px;
+  font-weight: 300;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-primary);
+}
+
+.feels {
+  font-size: 14px;
+  color: var(--color-on-surface-variant);
+}
+
+.meta {
+  display: flex;
+  gap: 16px;
+  margin-top: 4px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--color-on-surface-variant);
+}

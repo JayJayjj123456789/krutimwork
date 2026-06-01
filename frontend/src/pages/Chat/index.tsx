@@ -1,0 +1,19 @@
+import { useChat } from '../../hooks/useChat'
+import ChatBox from '../../components/ai/ChatBox'
+
+export default function Chat() {
+  const { messages, loading, sendMessage } = useChat(1)
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - var(--header-height) - 180px)' }}>
+      {messages.length === 0 && !loading && (
+        <div style={{ textAlign: 'center', padding: 40, color: 'var(--color-on-surface-variant)' }}>
+          <span className="material-symbols-outlined" style={{ fontSize: 48, opacity: 0.3, marginBottom: 12 }}>chat_bubble</span>
+          <p style={{ fontFamily: 'var(--font-headline)', fontSize: 16, fontWeight: 600 }}>No messages yet</p>
+          <p style={{ fontSize: 14, marginTop: 4 }}>Ask about weather, health, or recommendations</p>
+        </div>
+      )}
+      <ChatBox messages={messages} onSend={sendMessage} loading={loading} />
+    </div>
+  )
+}

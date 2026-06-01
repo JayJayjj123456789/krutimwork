@@ -1,0 +1,55 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.gauge {
+  position: relative;
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  transform: rotate(-90deg);
+}
+
+.center {
+  z-index: 1;
+  text-align: center;
+}
+
+.scoreValue {
+  font-family: var(--font-headline);
+  font-size: 52px;
+  font-weight: 300;
+  letter-spacing: -0.04em;
+  color: var(--color-primary);
+  line-height: 1;
+}
+
+.badge {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+  margin-top: 4px;
+  font-family: var(--font-headline);
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.sub {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  text-align: center;
+}

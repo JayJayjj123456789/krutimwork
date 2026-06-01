@@ -1,0 +1,16 @@
+.container {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  margin-top: 1rem;
+}
+
+.title {
+  color: #333;
+  margin-bottom: 1rem;
+  font-size: 0.95rem;
+}
+
+.chartArea {
+  min-height: 200px;
+}

@@ -1,0 +1,17 @@
+.valueRow {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+}
+
+.unit {
+  font-family: var(--font-headline);
+  font-size: 16px;
+  color: var(--color-on-surface-variant);
+}
+
+.pm25 {
+  font-size: 12px;
+  color: var(--color-on-surface-variant);
+  margin-top: 4px;
+}

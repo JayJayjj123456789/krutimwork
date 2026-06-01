@@ -1,0 +1,122 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  color: white;
+  margin-bottom: 2rem;
+  font-size: 2rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.filterContainer {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  padding: 0.5rem 1rem;
+  border: 2px solid #667eea;
+  background: transparent;
+  color: #667eea;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.filterBtn:hover {
+  background: #667eea;
+  color: white;
+}
+
+.filterBtn.active {
+  background: #667eea;
+  color: white;
+}
+
+.recommendationsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.recCard {
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease;
+}
+
+.recCard:hover {
+  transform: translateY(-5px);
+}
+
+.recHeader {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  border-left: 4px solid;
+  padding-left: 1rem;
+  margin-bottom: 1rem;
+}
+
+.recIcon {
+  font-size: 2rem;
+}
+
+.recTitleArea {
+  flex: 1;
+}
+
+.recCategory {
+  font-size: 0.75rem;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.recTitle {
+  color: #333;
+  font-size: 1.1rem;
+  margin: 0.25rem 0;
+}
+
+.dismissBtn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  color: #ccc;
+  cursor: pointer;
+  padding: 0;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.dismissBtn:hover {
+  color: #ef4444;
+}
+
+.recDescription {
+  color: #666;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.recFooter {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.priorityBadge {
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
