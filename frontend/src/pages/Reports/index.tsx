@@ -1,37 +1,48 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useRef } from 'react'
 import { getReports } from '../../services/reportApi'
 import { ReportData } from '../../types'
+import { useUser } from '../../context/UserContext'
 import WeeklyReport from '../../components/reports/WeeklyReport'
 import TrendChart from '../../components/reports/TrendChart'
 import ReportTable from '../../components/reports/ReportTable'
 
-const trendData = [
-  { label: 'Mon', primary: 72, secondary: 95 },
-  { label: 'Tue', primary: 68, secondary: 88 },
-  { label: 'Wed', primary: 55, secondary: 102 },
-  { label: 'Thu', primary: 60, secondary: 110 },
-  { label: 'Fri', primary: 75, secondary: 75 },
-  { label: 'Sat', primary: 82, secondary: 65 },
-  { label: 'Sun', primary: 70, secondary: 90 },
-]
-
 export default function Reports() {
+  const { userId } = useUser()
   const [report, setReport] = useState<ReportData | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const mountedRef = useRef(true)
+  const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
-    getReports(1)
-      .then((res) => {
-        const r = Array.isArray(res) ? res[0] : res
-        setReport(r || null)
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      abortRef.current?.abort()
+    }
+  }, [])
+
+  useEffect(() => {
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
+    setLoading(true)
+    setError(null)
+    getReports(userId, controller.signal)
+      .then((r) => {
+        if (mountedRef.current && !controller.signal.aborted) setReport(r)
       })
       .catch((e) => {
-        console.error('Failed to load reports:', e)
-        setError(e instanceof Error ? e.message : 'Could not load reports')
+        if (mountedRef.current && !controller.signal.aborted) {
+          if (e instanceof Error && e.name === 'AbortError') return
+          console.error('Failed to load reports:', e)
+          setError(e instanceof Error ? e.message : 'Could not load reports')
+        }
       })
-      .finally(() => setLoading(false))
-  }, [])
+      .finally(() => {
+        if (mountedRef.current && !controller.signal.aborted) setLoading(false)
+      })
+  }, [userId])
 
   if (loading) {
     return (
@@ -53,10 +64,20 @@ export default function Reports() {
     )
   }
 
+  const analyses = report?.data ?? []
+  const trendData = analyses.slice(0, 7).reverse().map((a) => {
+    const d = new Date(a.created_at)
+    return {
+      label: d.toLocaleDateString('en-US', { weekday: 'short' }),
+      primary: a.health_score,
+      secondary: a.respiratory_risk === 'very_high' ? 200 : a.respiratory_risk === 'high' ? 150 : a.respiratory_risk === 'moderate' ? 100 : 50,
+    }
+  })
+
   const tableColumns = [
-    { key: 'day', label: 'Day', render: (r: typeof trendData[0]) => r.label },
-    { key: 'health', label: 'Health Score', render: (r: typeof trendData[0]) => r.primary },
-    { key: 'aqi', label: 'AQI', render: (r: typeof trendData[0]) => r.secondary },
+    { key: 'label', label: 'Day', render: (r: { label: string; primary: number }) => r.label },
+    { key: 'health', label: 'Health Score', render: (r: { primary: number }) => r.primary },
+    { key: 'respiratory', label: 'Resp. Risk', render: (r: { secondary: number }) => r.secondary > 150 ? 'Very High' : r.secondary > 100 ? 'High' : r.secondary > 50 ? 'Moderate' : 'Low' },
   ]
 
   return (
@@ -69,19 +90,23 @@ export default function Reports() {
         </div>
       )}
 
-      <TrendChart
-        data={trendData}
-        primaryColor="var(--color-secondary)"
-        secondaryColor="rgba(198,198,199,0.6)"
-        primaryLabel="Health Score"
-        secondaryLabel="AQI"
-      />
+      {trendData.length > 0 && (
+        <TrendChart
+          data={trendData}
+          primaryColor="var(--color-secondary)"
+          secondaryColor="rgba(198,198,199,0.6)"
+          primaryLabel="Health Score"
+          secondaryLabel="Resp. Risk"
+        />
+      )}
 
-      <ReportTable
-        columns={tableColumns}
-        data={trendData}
-        title="Daily Summary"
-      />
+      {trendData.length > 0 && (
+        <ReportTable
+          columns={tableColumns}
+          data={trendData}
+          title="Daily Summary"
+        />
+      )}
     </div>
   )
 }

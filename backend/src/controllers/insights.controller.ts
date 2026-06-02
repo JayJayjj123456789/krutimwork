@@ -26,7 +26,7 @@ export async function getMoodHandler(req: Request, res: Response, next: NextFunc
       temperature: weather.temperature ?? 30,
       humidity: weather.humidity ?? 60,
       weatherCode: weather.weather_code ?? 0,
-      isDay: 1,
+      isDay: weather.is_day ?? 1,
     });
     res.json({ success: true, data: { city: weather.city, mood } });
   } catch (err) {

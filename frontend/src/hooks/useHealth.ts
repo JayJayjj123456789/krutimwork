@@ -7,26 +7,32 @@ export function useHealth() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const mountedRef = useRef(true)
+  const abortRef = useRef<AbortController | null>(null)
 
   useEffect(() => {
     mountedRef.current = true
     return () => {
       mountedRef.current = false
+      abortRef.current?.abort()
     }
   }, [])
 
   const analyze = useCallback(async (userId: number, city: string) => {
+    abortRef.current?.abort()
+    const controller = new AbortController()
+    abortRef.current = controller
     setLoading(true)
     setError(null)
     try {
-      const d = await analyzeHealth(userId, city)
-      if (mountedRef.current) setData(d)
+      const d = await analyzeHealth(userId, city, controller.signal)
+      if (mountedRef.current && !controller.signal.aborted) setData(d)
     } catch (e) {
-      if (mountedRef.current) {
+      if (mountedRef.current && !controller.signal.aborted) {
+        if (e instanceof Error && e.name === 'AbortError') return
         setError(e instanceof Error ? e.message : 'An error occurred')
       }
     } finally {
-      if (mountedRef.current) setLoading(false)
+      if (mountedRef.current && !controller.signal.aborted) setLoading(false)
     }
   }, [])
 

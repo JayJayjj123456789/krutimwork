@@ -13,6 +13,7 @@ export async function getRecommendations(params: {
   healthScore: number;
   humidity?: number;
   weatherCode?: number;
+  isDay?: number;
 }): Promise<{
   activity: string;
   clothing: string;
@@ -69,7 +70,7 @@ export async function getRecommendations(params: {
       temperature: temp,
       humidity: params.humidity ?? 60,
       weatherCode: params.weatherCode ?? 0,
-      isDay: 1,
+      isDay: params.isDay ?? 1,
     }).catch((err) => {
       console.error('Mood generation failed:', err);
       return '';

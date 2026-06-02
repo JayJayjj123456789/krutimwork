@@ -20,6 +20,7 @@ export interface WeatherData {
   wind_speed: number
   precipitation: number
   weather_code: number
+  is_day: number
   aqi: number | null
   pm25: number
   pm10: number
@@ -74,12 +75,21 @@ export interface ChatMessage {
 }
 
 export interface ReportData {
-  id: number
   week_start: string
   week_end: string
-  avg_aqi: number
   avg_health_score: number
-  ai_report: string
+  analyses_count: number
+  ai_summary: string
+  data: Array<{
+    id: number
+    health_score: number
+    respiratory_risk: string
+    migraine_risk: string
+    fatigue_risk: string
+    ai_summary: string
+    created_at: string
+  }>
+  message?: string
 }
 
 export const RISK_LABELS_TH: Record<RiskLevel, string> = {

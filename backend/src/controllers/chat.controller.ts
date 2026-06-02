@@ -40,12 +40,16 @@ export async function chatHandler(req: Request, res: Response, next: NextFunctio
 
     const answer = await chat(userId, cleanQuestion);
 
-    const supabase = requireSupabase();
-    const { error: dbErr } = await supabase
-      .from('chat_history')
-      .insert({ user_id: userId, question: cleanQuestion, answer });
-    if (dbErr) {
-      console.error('Failed to save chat history:', dbErr);
+    try {
+      const supabase = requireSupabase();
+      const { error: dbErr } = await supabase
+        .from('chat_history')
+        .insert({ user_id: userId, question: cleanQuestion, answer });
+      if (dbErr) {
+        console.error('Failed to save chat history:', dbErr);
+      }
+    } catch (dbSetupErr) {
+      console.error('Supabase unavailable for chat history save:', dbSetupErr);
     }
 
     res.json({ success: true, data: { answer } });

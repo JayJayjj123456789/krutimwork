@@ -8,7 +8,7 @@ ALTER TABLE weather_records
     ADD COLUMN IF NOT EXISTS latitude     DECIMAL(9,6),
     ADD COLUMN IF NOT EXISTS longitude    DECIMAL(9,6),
     ADD COLUMN IF NOT EXISTS feels_like   DECIMAL(4,1),
-    ADD COLUMN IF NOT EXISTS pm10         DECIMAL(6,2),
+    ADD COLUMN IF NOT EXISTS pm10         DECIMAL(6,2) CHECK (pm10 >= 0),
     ADD COLUMN IF NOT EXISTS weather_code INTEGER;
 
 ALTER TABLE recommendations

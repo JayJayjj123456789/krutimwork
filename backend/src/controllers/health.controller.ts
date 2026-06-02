@@ -3,11 +3,15 @@ import { analyzeHealth } from '../services/health/analysis.service';
 
 export async function analyzeHealthHandler(req: Request, res: Response, next: NextFunction) {
   try {
-    const { userId, city } = req.body;
-    if (!userId || !city) {
-      return res.status(400).json({ success: false, error: 'userId and city required' });
+    const userId = req.userId;
+    const city = req.body?.city;
+    if (!userId) {
+      return res.status(401).json({ success: false, error: 'Authentication required' });
     }
-    const result = await analyzeHealth(userId, city);
+    if (typeof city !== 'string' || !city.trim()) {
+      return res.status(400).json({ success: false, error: 'city required' });
+    }
+    const result = await analyzeHealth(String(userId), city);
     res.json({ success: true, data: result });
   } catch (err) {
     next(err);

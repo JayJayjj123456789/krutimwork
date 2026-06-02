@@ -44,6 +44,7 @@ export async function getRecommendationsHandler(
       healthScore: (analysis as any).health_score ?? 50,
       humidity: weather.humidity ?? 60,
       weatherCode: weather.weather_code ?? 0,
+      isDay: weather.is_day ?? 1,
     });
 
     const menuStr = rec.menu && rec.menu.length > 0 ? JSON.stringify(rec.menu) : null;

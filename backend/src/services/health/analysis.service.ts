@@ -28,7 +28,7 @@ export async function analyzeHealth(userId: string, city: string) {
     .eq('user_id', userId)
     .single();
 
-  if (profileErr) {
+  if (profileErr && profileErr.code !== 'PGRST116') {
     throw httpError('Failed to fetch health profile', 500);
   }
 

@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from 'react'
+import { useState, useCallback, useRef, useEffect } from 'react'
 import { ChatMessage } from '../types'
 import { sendChat } from '../services/chatApi'
 
@@ -8,6 +8,14 @@ export function useChat(userId: number) {
   const [error, setError] = useState<string | null>(null)
   const mountedRef = useRef(true)
   const abortRef = useRef<AbortController | null>(null)
+
+  useEffect(() => {
+    mountedRef.current = true
+    return () => {
+      mountedRef.current = false
+      abortRef.current?.abort()
+    }
+  }, [])
 
   const sendMessage = useCallback(async (question: string) => {
     abortRef.current?.abort()

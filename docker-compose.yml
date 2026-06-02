@@ -1,29 +1,18 @@
 version: '3.8'
 services:
   backend:
-    build: ./backend
+    build:
+      context: ./backend
     ports:
       - "3000:3000"
-    env_file: ./backend/.env
+    env_file:
+      - ./backend/.env
     environment:
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_NAME: aether_ai
-      DB_USER: aether
-      DB_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell or .env}
-    depends_on:
-      - db
-  db:
-    image: postgres:16-alpine
-    expose:
-      - "5432"
-    environment:
-      POSTGRES_DB: aether_ai
-      POSTGRES_USER: aether
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in your shell or .env}
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/01-schema.sql
-      - ./database/seed.sql:/docker-entrypoint-initdb.d/02-seed.sql
-volumes:
-  pgdata:
+      NODE_ENV: production
+      PORT: 3000
+      SUPABASE_URL: ${SUPABASE_URL:?Required}
+      SUPABASE_KEY: ${SUPABASE_KEY:?Required}
+      TYPHOON_API_KEY: ${TYPHOON_API_KEY:?Required}
+      TYPHOON_API_URL: ${TYPHOON_API_URL:-https://api.opentyphoon.ai/v1/chat/completions}
+      ALLOWED_ORIGINS: ${ALLOWED_ORIGINS:-http://localhost:5173,http://127.0.0.1:5173}
+    restart: unless-stopped

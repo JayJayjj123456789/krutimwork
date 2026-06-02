@@ -1,9 +1,11 @@
 import { useChat } from '../../hooks/useChat'
+import { useUser } from '../../context/UserContext'
 import ChatBox from '../../components/ai/ChatBox'
 import ErrorBanner from '../../components/ErrorBanner'
 
 export default function Chat() {
-  const { messages, loading, error, sendMessage } = useChat(1)
+  const { userId } = useUser()
+  const { messages, loading, error, sendMessage } = useChat(userId)
 
   return (
     <div className="chat-container">

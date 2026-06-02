@@ -5,12 +5,18 @@ import { getAirQuality, AirQualityResult } from './air-quality.service';
 
 const MAX_CITY_LENGTH = 100;
 
+function httpError(message: string, status: number): Error & { status: number } {
+  const err = new Error(message) as Error & { status: number };
+  err.status = status;
+  return err;
+}
+
 function sanitizeCity(city: string): string {
-  if (typeof city !== 'string') throw new Error('city must be a string');
+  if (typeof city !== 'string') throw httpError('city must be a string', 400);
   const cleaned = city.replace(/[<>'"%;()&+]/g, '').trim();
-  if (!cleaned) throw new Error('city cannot be empty');
+  if (!cleaned) throw httpError('city cannot be empty', 400);
   if (cleaned.length > MAX_CITY_LENGTH) {
-    throw new Error(`city name exceeds maximum length of ${MAX_CITY_LENGTH}`);
+    throw httpError(`city name exceeds maximum length of ${MAX_CITY_LENGTH}`, 400);
   }
   return cleaned;
 }
@@ -26,6 +32,7 @@ export interface WeatherRecord {
   wind_speed: number;
   precipitation: number;
   weather_code: number;
+  is_day: number;
   aqi: number | null;
   pm25: number;
   pm10: number;
@@ -89,7 +96,8 @@ export async function getWeatherByCity(city: string): Promise<WeatherRecord> {
     wind_speed: forecast.current.wind_speed,
     precipitation: forecast.current.precipitation,
     weather_code: forecast.current.weather_code,
-    aqi: air?.aqi ?? null as any,
+    is_day: forecast.current.is_day,
+    aqi: air?.aqi ?? null,
     pm25: air?.pm25 ?? 0,
     pm10: air?.pm10 ?? 0,
     o3: air?.o3 ?? 0,
@@ -116,6 +124,8 @@ export async function getWeatherByCity(city: string): Promise<WeatherRecord> {
       uv: record.uv,
       wind_speed: record.wind_speed / 3.6,
       pm25: record.pm25,
+      weather_code: record.weather_code,
+      is_day: record.is_day,
       timestamp: record.timestamp,
     });
   } catch (err) {

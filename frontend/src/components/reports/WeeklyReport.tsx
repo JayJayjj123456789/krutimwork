@@ -26,8 +26,8 @@ export default function WeeklyReport({ report }: WeeklyReportProps) {
             <span className={styles.statLabel}>Health</span>
           </div>
           <div className={styles.stat}>
-            <span className={styles.statValue}>{report.avg_aqi}</span>
-            <span className={styles.statLabel}>Avg AQI</span>
+            <span className={styles.statValue}>{report.analyses_count}</span>
+            <span className={styles.statLabel}>Analyses</span>
           </div>
         </div>
       </div>
@@ -36,7 +36,7 @@ export default function WeeklyReport({ report }: WeeklyReportProps) {
           <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-ai-accent)', fontSize: 18 }}>auto_awesome</span>
           <span className="section-label" style={{ color: 'var(--color-ai-accent)' }}>AI Summary</span>
         </div>
-        <p className={styles.summary}>{report.ai_report}</p>
+        <p className={styles.summary}>{report.ai_summary || 'No summary available for this week.'}</p>
       </div>
     </div>
   )

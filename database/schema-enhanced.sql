@@ -46,6 +46,7 @@ CREATE TABLE IF NOT EXISTS weather_records (
     pm25          DECIMAL(6,2) CHECK (pm25 >= 0),
     pm10          DECIMAL(6,2) CHECK (pm10 >= 0),
     weather_code  INTEGER,
+    is_day        SMALLINT CHECK (is_day IN (0, 1)),
     timestamp     TIMESTAMPTZ DEFAULT NOW(),
     deleted_at    TIMESTAMPTZ DEFAULT NULL    -- soft delete
 );

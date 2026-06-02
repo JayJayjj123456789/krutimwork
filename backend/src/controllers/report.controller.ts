@@ -3,14 +3,12 @@ import { getWeeklyReport } from '../services/reports/report.service';
 
 export async function getReport(req: Request, res: Response, next: NextFunction) {
   try {
-    const userId = req.query.userId as string;
-    const weekStart = req.query.week as string;
-
+    const userId = req.userId;
     if (!userId) {
-      return res.status(400).json({ success: false, error: 'userId required' });
+      return res.status(401).json({ success: false, error: 'Authentication required' });
     }
-
-    const result = await getWeeklyReport(userId, weekStart);
+    const weekStart = typeof req.query.week === 'string' ? req.query.week : undefined;
+    const result = await getWeeklyReport(String(userId), weekStart);
     res.json({ success: true, data: result });
   } catch (err) {
     next(err);
