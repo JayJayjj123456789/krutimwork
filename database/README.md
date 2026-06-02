@@ -18,23 +18,30 @@ The database uses PostgreSQL (via Supabase) with 7 tables:
 
 | File                          | Description                                      |
 |-------------------------------|--------------------------------------------------|
-| `schema.sql`                  | **Canonical schema** — used by docker-compose, deploy scripts. Mirrors `schema-enhanced.sql`. |
-| `schema-enhanced.sql`         | Same content as `schema.sql` (kept for naming convention). Source of truth. |
+| `schema-enhanced.sql`         | **Source of truth** — full schema with all columns. Run this in Supabase SQL Editor. |
+| `schema.sql`                  | Mirror of `schema-enhanced.sql` (kept in sync). |
 | `seed.sql`                    | Sample data (5 users, 5 cities, 7 days each)     |
 | `api-contract.ts`             | Shared TypeScript types (imported by FE & BE)    |
 | `migrations/001_initial_schema.sql` | V1: create all tables (legacy)            |
 | `migrations/002_add_pm25_column.sql` | V2: add pm25 (idempotent)               |
 | `migrations/003_add_indexes.sql`     | V3: performance indexes (legacy)        |
+| `migrations/004_add_weather_code.sql`| V4: add weather_code, country, lat/lon, feels_like, pm10, menu, mood (idempotent) |
+| `migrations/005_add_is_day.sql`      | V5: add is_day column to weather_records (idempotent) |
+
+**Important:** `schema.sql` and `schema-enhanced.sql` must be kept in sync. If you change one, change the other. Both are now identical as of the latest update.
 
 ## How to Run Migrations
 
 ### Via Supabase Dashboard
 
 1. Open your Supabase project → SQL Editor
-2. Copy and paste each migration file in order:
-   - `migrations/001_initial_schema.sql`
-   - `migrations/002_add_pm25_column.sql`
-   - `migrations/003_add_indexes.sql`
+2. **Recommended**: Copy-paste the full content of `schema-enhanced.sql` and click Run (creates everything in one shot, including the new columns).
+   - If you prefer migrations, run them in order:
+     - `migrations/001_initial_schema.sql`
+     - `migrations/002_add_pm25_column.sql`
+     - `migrations/003_add_indexes.sql`
+     - `migrations/004_add_weather_code.sql`
+     - `migrations/005_add_is_day.sql`
 3. (Optional) Run `seed.sql` for test data
 
 ### Via Docker (local)

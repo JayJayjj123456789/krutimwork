@@ -118,12 +118,17 @@ export async function getWeatherByCity(city: string): Promise<WeatherRecord> {
   try {
     await requireSupabase().from('weather_records').insert({
       city: record.city,
+      country: record.country,
+      latitude: record.latitude,
+      longitude: record.longitude,
       temperature: record.temperature,
+      feels_like: record.feels_like,
       humidity: record.humidity,
       aqi: record.aqi,
       uv: record.uv,
-      wind_speed: record.wind_speed / 3.6,
+      wind_speed: record.wind_speed,
       pm25: record.pm25,
+      pm10: record.pm10,
       weather_code: record.weather_code,
       is_day: record.is_day,
       timestamp: record.timestamp,

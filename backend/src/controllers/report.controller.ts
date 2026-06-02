@@ -7,7 +7,7 @@ export async function getReport(req: Request, res: Response, next: NextFunction)
     if (!userId) {
       return res.status(401).json({ success: false, error: 'Authentication required' });
     }
-    const weekStart = typeof req.query.week === 'string' ? req.query.week : undefined;
+    const weekStart = typeof req.query.weekStart === 'string' ? req.query.weekStart : undefined;
     const result = await getWeeklyReport(String(userId), weekStart);
     res.json({ success: true, data: result });
   } catch (err) {
