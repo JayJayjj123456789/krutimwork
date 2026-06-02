@@ -35,7 +35,18 @@ export default function Health() {
           <div style={{ position: 'relative', width: 180, height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
             <svg style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', transform: 'rotate(-90deg)' }} viewBox="0 0 100 100">
               <circle cx="50" cy="50" r="40" fill="none" stroke="var(--color-surface-container-high)" strokeWidth="5" />
-              <circle cx="50" cy="50" r="40" fill="none" stroke="var(--color-secondary)" strokeWidth="7" strokeLinecap="round" className="gauge-progress" />
+              <circle
+                cx="50"
+                cy="50"
+                r="40"
+                fill="none"
+                stroke="var(--color-secondary)"
+                strokeWidth="7"
+                strokeLinecap="round"
+                strokeDasharray={251}
+                strokeDashoffset={healthData ? Math.max(0, 251 - (healthData.health_score / 100) * 251) : 251}
+                style={{ transition: 'stroke-dashoffset 1.2s ease-out', filter: 'drop-shadow(0 0 10px rgba(137,208,237,0.6))' }}
+              />
             </svg>
             <div style={{ zIndex: 1, textAlign: 'center' }}>
               <span style={{ fontFamily: 'var(--font-headline)', fontSize: 52, fontWeight: 300, letterSpacing: '-0.04em', color: 'var(--color-primary)', lineHeight: 1 }}>{healthData ? healthData.health_score : '-'}</span>

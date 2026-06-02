@@ -38,7 +38,7 @@ export async function getMenuSuggestions(params: {
 ตอบเป็น JSON array เท่านั้น:`;
 
   const text = await callTyphoon(prompt, undefined, 400);
-  const match = text.match(/\[[\s\S]*\]/);
+  const match = text.match(/\[[\s\S]*?\]/);
   const jsonStr = match ? match[0] : text;
   try {
     const parsed = JSON.parse(jsonStr);

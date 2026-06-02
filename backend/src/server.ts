@@ -72,15 +72,10 @@ const server = app.listen(PORT, () => {
   console.log(`🚀 Aether AI Backend running on http://localhost:${PORT}`);
 });
 
-process.on('unhandledRejection', (reason) => {
-  console.error('[unhandledRejection]', reason);
-});
-process.on('uncaughtException', (err) => {
-  console.error('[uncaughtException]', err);
-  shutdown('uncaughtException');
-});
-
-const shutdown = (signal: string) => {
+let shuttingDown = false;
+function shutdown(signal: string) {
+  if (shuttingDown) return;
+  shuttingDown = true;
   console.log(`\n[${signal}] Shutting down gracefully…`);
   server.close(() => {
     console.log('HTTP server closed');
@@ -90,7 +85,15 @@ const shutdown = (signal: string) => {
     console.error('Force exit after 10s');
     process.exit(1);
   }, 10_000).unref();
-};
+}
+
+process.on('unhandledRejection', (reason) => {
+  console.error('[unhandledRejection]', reason);
+});
+process.on('uncaughtException', (err) => {
+  console.error('[uncaughtException]', err);
+  shutdown('uncaughtException');
+});
 
 process.on('SIGTERM', () => shutdown('SIGTERM'));
 process.on('SIGINT', () => shutdown('SIGINT'));
