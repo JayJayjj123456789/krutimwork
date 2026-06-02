@@ -31,12 +31,23 @@ export async function getRecommendationsHandler(
         .json({ success: false, error: 'Weather record not found for this analysis' });
     }
 
+    if (typeof weather.temperature !== 'number' || typeof weather.aqi !== 'number') {
+      return res
+        .status(422)
+        .json({ success: false, error: 'Weather record contains invalid data' });
+    }
+
     const rec = await getRecommendations({
       temperature: weather.temperature,
       aqi: weather.aqi,
-      uv: weather.uv,
-      healthScore: (analysis as any).health_score,
+      uv: weather.uv ?? 0,
+      healthScore: (analysis as any).health_score ?? 50,
+      humidity: weather.humidity ?? 60,
+      weatherCode: weather.weather_code ?? 0,
     });
+
+    const menuStr = rec.menu && rec.menu.length > 0 ? JSON.stringify(rec.menu) : null;
+    const moodStr = rec.mood || null;
 
     const { data: saved, error: saveErr } = await supabase
       .from('recommendations')
@@ -45,6 +56,8 @@ export async function getRecommendationsHandler(
         activity: rec.activity,
         clothing: rec.clothing,
         hydration: rec.hydration,
+        menu: menuStr,
+        mood: moodStr,
       })
       .select()
       .single();

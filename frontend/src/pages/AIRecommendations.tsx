@@ -1,4 +1,56 @@
+import { useEffect, useState } from 'react'
+import { useUser } from '../context/UserContext'
+import { analyzeHealth, getRecommendations } from '../services/healthApi'
+import LoadingSpinner from '../components/LoadingSpinner'
+import ErrorBanner from '../components/ErrorBanner'
+import { Recommendation, HealthAnalysis } from '../types'
+
+interface AIRecState {
+  analysis: HealthAnalysis | null
+  rec: Recommendation | null
+  loading: boolean
+  error: string | null
+}
+
 export default function AIRecommendations() {
+  const { city, userId } = useUser()
+  const [state, setState] = useState<AIRecState>({ analysis: null, rec: null, loading: true, error: null })
+  const [menu, setMenu] = useState<{ name: string; reason: string; benefit: string }[]>([])
+  const [mood, setMood] = useState<string>('')
+
+  useEffect(() => {
+    let cancelled = false
+    const controller = new AbortController()
+    setState(s => ({ ...s, loading: true, error: null }))
+
+    ;(async () => {
+      try {
+        const analysis: HealthAnalysis = await analyzeHealth(userId, city.split(',')[0].trim(), controller.signal)
+        if (cancelled) return
+        const rec: Recommendation = await getRecommendations(analysis.id, controller.signal)
+        if (cancelled) return
+        let parsedMenu: { name: string; reason: string; benefit: string }[] = []
+        try { if (rec.menu) parsedMenu = JSON.parse(rec.menu) } catch {}
+        setMenu(parsedMenu)
+        setMood(rec.mood || '')
+        setState({ analysis, rec, loading: false, error: null })
+      } catch (e) {
+        if (cancelled) return
+        if (e instanceof Error && e.name === 'AbortError') return
+        setState(s => ({ ...s, loading: false, error: e instanceof Error ? e.message : 'Failed to load' }))
+      }
+    })()
+
+    return () => { cancelled = true; controller.abort() }
+  }, [city, userId])
+
+  if (state.loading && !state.analysis) return <LoadingSpinner text="Generating AI recommendations..." />
+  if (state.error) return <ErrorBanner message={state.error} onRetry={() => window.location.reload()} />
+
+  const a = state.analysis
+  const r = state.rec
+  if (!a || !r) return null
+
   return (
     <div className="section-gap page-enter">
       <div className="grid-rec-top">
@@ -7,75 +59,38 @@ export default function AIRecommendations() {
           <div style={{ position: 'relative', zIndex: 1 }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
               <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-secondary)', fontSize: 22 }}>local_drink</span>
-              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Hydration Goal</span>
+              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Hydration</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
-              <span className="hydration-big">1.2</span>
-              <span style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--color-on-surface-variant)' }}>/ 2.5 L</span>
-            </div>
-            <p style={{ fontSize: 13, color: 'var(--color-on-surface-variant)', marginBottom: 14 }}>1.3 L remaining today</p>
-            <div className="progress-track" style={{ height: 10, marginBottom: 8 }}>
-              <div className="progress-fill" style={{ width: '48%' }}>
-                <div className="progress-shimmer" />
-              </div>
-            </div>
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, fontFamily: 'var(--font-headline)', fontWeight: 700, color: 'var(--color-on-surface-variant)' }}>
-              <span>0L</span><span>1.25L</span><span>2.5L</span>
-            </div>
-            <button className="btn btn-primary" style={{ width: '100%', justifyContent: 'center', marginTop: 16 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 18 }}>add</span>
-              Log Intake
-            </button>
+            <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7, color: 'var(--color-on-surface)' }}>
+              {r.hydration}
+            </p>
           </div>
         </div>
 
         <div className="glass-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
             <span className="material-symbols-outlined" style={{ color: 'var(--color-ai-accent)', fontSize: 18 }}>auto_awesome</span>
-            <span className="section-label" style={{ color: 'var(--color-ai-accent)' }}>Today's Weather Analysis</span>
+            <span className="section-label" style={{ color: 'var(--color-ai-accent)' }}>AI Insight</span>
           </div>
-          <h3 style={{ fontFamily: 'var(--font-headline)', fontSize: 22, fontWeight: 700, color: 'var(--color-primary)', marginBottom: 4, lineHeight: 1.3 }}>
-            Extremely Hot Day
-          </h3>
-          <p style={{ fontSize: 14, color: 'var(--color-on-surface-variant)', marginBottom: 16 }}>
-            Focus on protection and hydration
-          </p>
-          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.75, color: 'var(--color-on-surface-variant)' }}>
-            Today's heat index reaches 38°C with high UV radiation. AI analysis indicates elevated dehydration risk and sun exposure hazards. Follow all hydration targets and limit outdoor activity between 11:00–15:00.
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.75, color: 'var(--color-on-surface)' }}>
+            {a.ai_summary}
           </p>
           <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
-            <span className="chip chip-warning">UV Very High</span>
-            <span className="chip chip-warning">Heat Index 38°C</span>
-            <span className="chip chip-good">AQI Good</span>
+            <span className={`chip ${a.health_score >= 70 ? 'chip-good' : a.health_score >= 40 ? 'chip-neutral' : 'chip-warning'}`}>
+              Health {a.health_score}/100
+            </span>
+            <span className="chip chip-neutral">Updated just now</span>
           </div>
         </div>
 
-        <div className="error-accent-card">
-          <span className="material-symbols-outlined ai-watermark">sunny</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
-            <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-error)', fontSize: 20 }}>warning</span>
-            <span className="section-label" style={{ color: 'var(--color-error)' }}>Outdoor Safety</span>
+        <div className="glass-card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span className="material-symbols-outlined" style={{ color: 'var(--color-secondary)', fontSize: 18 }}>psychology</span>
+            <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Mood Forecast</span>
           </div>
-          <div style={{ marginBottom: 12 }}>
-            <p style={{ fontFamily: 'var(--font-headline)', fontSize: 18, fontWeight: 700, color: 'var(--color-primary)', marginBottom: 6 }}>UV Index Very High</p>
-            <p style={{ fontSize: 13, lineHeight: 1.65, color: 'var(--color-on-surface-variant)' }}>
-              Avoid direct sunlight <strong style={{ color: 'var(--color-primary)' }}>11:00–15:00</strong>. If outdoor exposure is necessary:
-            </p>
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-            {[
-              { icon: 'sunny', text: 'SPF 50+ sunscreen' },
-              { icon: 'beach_access', text: 'Wide-brim hat' },
-              { icon: 'local_drink', text: 'Water every 30 min' },
-            ].map(({ icon, text }) => (
-              <div key={text} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <div style={{ width: 32, height: 32, borderRadius: 'var(--radius-md)', background: 'rgba(147,0,10,0.2)', border: '1px solid rgba(255,180,171,0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span className="material-symbols-outlined" style={{ color: 'var(--color-on-error-container)', fontSize: 16 }}>{icon}</span>
-                </div>
-                <span style={{ fontSize: 13, color: 'var(--color-on-surface-variant)' }}>{text}</span>
-              </div>
-            ))}
-          </div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7, color: 'var(--color-on-surface)' }}>
+            {mood || '—'}
+          </p>
         </div>
       </div>
 
@@ -86,28 +101,13 @@ export default function AIRecommendations() {
               <span className="material-symbols-outlined" style={{ color: 'var(--color-secondary)', fontSize: 20 }}>directions_run</span>
             </div>
             <div>
-              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Recommended Activities</span>
-              <p style={{ fontFamily: 'var(--font-headline)', fontSize: 14, fontWeight: 700, color: 'var(--color-primary)', marginTop: 2 }}>Indoor & low-intensity</p>
+              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Activity</span>
+              <p style={{ fontFamily: 'var(--font-headline)', fontSize: 14, fontWeight: 700, color: 'var(--color-primary)', marginTop: 2 }}>Recommended</p>
             </div>
           </div>
-          <div className="rec-activities-grid">
-            {[
-              { icon: 'pool',             label: 'Swimming',       time: 'Any time'   },
-              { icon: 'self_improvement', label: 'Indoor Yoga',    time: 'Morning'    },
-              { icon: 'fitness_center',   label: 'Gym Workout',    time: 'Evening'    },
-              { icon: 'hiking',           label: 'Light Walking',  time: 'After 17:00'},
-            ].map(({ icon, label, time }) => (
-              <div key={label} style={{ display: 'flex', gap: 12, alignItems: 'center', padding: '12px 14px', borderRadius: 'var(--radius-lg)', background: 'var(--color-glass-fill)', border: '1px solid var(--color-glass-border)' }}>
-                <div style={{ width: 38, height: 38, borderRadius: 'var(--radius-md)', background: 'var(--color-surface-container-high)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span className="material-symbols-outlined" style={{ color: 'var(--color-secondary)', fontSize: 20 }}>{icon}</span>
-                </div>
-                <div>
-                  <p style={{ fontFamily: 'var(--font-headline)', fontSize: 13, fontWeight: 700, color: 'var(--color-primary)' }}>{label}</p>
-                  <p style={{ fontSize: 11, color: 'var(--color-on-surface-variant)' }}>{time}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7, color: 'var(--color-on-surface)' }}>
+            {r.activity}
+          </p>
         </div>
 
         <div className="glass-card">
@@ -116,30 +116,43 @@ export default function AIRecommendations() {
               <span className="material-symbols-outlined" style={{ color: 'var(--color-secondary)', fontSize: 20 }}>checkroom</span>
             </div>
             <div>
-              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Clothing Suggestions</span>
-              <p style={{ fontFamily: 'var(--font-headline)', fontSize: 14, fontWeight: 700, color: 'var(--color-primary)', marginTop: 2 }}>Breathable & light-coloured</p>
+              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Clothing</span>
+              <p style={{ fontFamily: 'var(--font-headline)', fontSize: 14, fontWeight: 700, color: 'var(--color-primary)', marginTop: 2 }}>What to wear</p>
             </div>
           </div>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-            {[
-              { icon: 'apparel', label: 'Linen or Cotton', sub: 'Lightweight, breathable fabrics' },
-              { icon: 'air',     label: 'Light Colours',   sub: 'Reflects sunlight and heat'      },
-              { icon: 'face',    label: 'Wide-Brim Hat',   sub: 'Essential for UV protection'     },
-              { icon: 'visibility', label: 'UV Sunglasses', sub: 'UV400 lenses recommended'       },
-            ].map(({ icon, label, sub }) => (
-              <div key={label} style={{ display: 'flex', gap: 14, alignItems: 'center', padding: '10px 14px', borderRadius: 'var(--radius-lg)', background: 'var(--color-glass-fill)', border: '1px solid var(--color-glass-border)' }}>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7, color: 'var(--color-on-surface)' }}>
+            {r.clothing}
+          </p>
+        </div>
+      </div>
+
+      {menu.length > 0 && (
+        <div className="glass-card">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+            <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-md)', background: 'rgba(137,208,237,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <span className="material-symbols-outlined" style={{ color: 'var(--color-secondary)', fontSize: 20 }}>restaurant</span>
+            </div>
+            <div>
+              <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Menu Suggestions</span>
+              <p style={{ fontFamily: 'var(--font-headline)', fontSize: 14, fontWeight: 700, color: 'var(--color-primary)', marginTop: 2 }}>Weather-aware picks</p>
+            </div>
+          </div>
+          <div className="rec-activities-grid">
+            {menu.map((m, i) => (
+              <div key={i} style={{ display: 'flex', gap: 12, alignItems: 'flex-start', padding: '12px 14px', borderRadius: 'var(--radius-lg)', background: 'var(--color-glass-fill)', border: '1px solid var(--color-glass-border)' }}>
                 <div style={{ width: 38, height: 38, borderRadius: 'var(--radius-md)', background: 'var(--color-surface-container-high)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span className="material-symbols-outlined" style={{ color: 'var(--color-primary)', fontSize: 20 }}>{icon}</span>
+                  <span className="material-symbols-outlined" style={{ color: 'var(--color-secondary)', fontSize: 20 }}>restaurant_menu</span>
                 </div>
-                <div>
-                  <p style={{ fontFamily: 'var(--font-headline)', fontSize: 13, fontWeight: 700, color: 'var(--color-primary)' }}>{label}</p>
-                  <p style={{ fontSize: 11, color: 'var(--color-on-surface-variant)', marginTop: 2 }}>{sub}</p>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontFamily: 'var(--font-headline)', fontSize: 13, fontWeight: 700, color: 'var(--color-primary)' }}>{m.name}</p>
+                  <p style={{ fontSize: 12, color: 'var(--color-on-surface-variant)', marginTop: 4, lineHeight: 1.5 }}>{m.reason}</p>
+                  {m.benefit && <p style={{ fontSize: 11, color: 'var(--color-secondary)', marginTop: 4, fontStyle: 'italic' }}>{m.benefit}</p>}
                 </div>
               </div>
             ))}
           </div>
         </div>
-      </div>
+      )}
     </div>
   )
 }

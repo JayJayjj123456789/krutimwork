@@ -1,9 +1,8 @@
-import axios from 'axios';
 import { requireSupabase } from '../../config/supabase';
-import { getAQIByCoords } from './aqi.service';
-import { getUVByCoords } from './uv.service';
+import { geocode, GeoLocation } from './geocoding.service';
+import { getForecast, ForecastResult, DailyForecast } from './forecast.service';
+import { getAirQuality, AirQualityResult } from './air-quality.service';
 
-const OPENWEATHER_KEY = process.env.OPENWEATHER_API_KEY || '';
 const MAX_CITY_LENGTH = 100;
 
 function sanitizeCity(city: string): string {
@@ -16,44 +15,114 @@ function sanitizeCity(city: string): string {
   return cleaned;
 }
 
-export async function getWeatherByCity(city: string) {
-  const cleanCity = sanitizeCity(city);
-  const url = 'https://api.openweathermap.org/data/2.5/weather';
-  const res = await axios.get(url, {
-    params: { q: cleanCity, appid: OPENWEATHER_KEY, units: 'metric' },
-    timeout: 10_000,
-  });
+export interface WeatherRecord {
+  city: string;
+  country: string | null;
+  latitude: number;
+  longitude: number;
+  temperature: number;
+  feels_like: number;
+  humidity: number;
+  wind_speed: number;
+  precipitation: number;
+  weather_code: number;
+  aqi: number | null;
+  pm25: number;
+  pm10: number;
+  o3: number;
+  no2: number;
+  uv: number;
+  timestamp: string;
+  daily: DailyForecast[];
+  dataAvailability?: {
+    aqi: boolean;
+    uv: boolean;
+  };
+}
 
-  if (!res.data?.coord || !res.data?.main) {
-    throw new Error('Invalid response from weather API');
+function mapAqiCategory(aqi: number): { label: string; chip: string; chipClass: string } {
+  if (aqi <= 50)  return { label: 'ดีมาก',     chip: 'Good',        chipClass: 'chip-good' };
+  if (aqi <= 100) return { label: 'ปานกลาง',  chip: 'Moderate',    chipClass: 'chip-neutral' };
+  if (aqi <= 150) return { label: 'ไม่ดีต่อกลุ่มเสี่ยง', chip: 'Unhealthy for Sensitive', chipClass: 'chip-warning' };
+  if (aqi <= 200) return { label: 'ไม่ดี',     chip: 'Unhealthy',   chipClass: 'chip-warning' };
+  if (aqi <= 300) return { label: 'ไม่ดีมาก',  chip: 'Very Unhealthy', chipClass: 'chip-error' };
+  return                  { label: 'อันตราย',  chip: 'Hazardous',   chipClass: 'chip-error' };
+}
+
+function mapUvCategory(uv: number): { label: string; chip: string; chipClass: string } {
+  if (uv <= 2)  return { label: 'ต่ำ',      chip: 'Low',            chipClass: 'chip-good' };
+  if (uv <= 5)  return { label: 'ปานกลาง',  chip: 'Moderate',       chipClass: 'chip-neutral' };
+  if (uv <= 7)  return { label: 'สูง',     chip: 'High',           chipClass: 'chip-warning' };
+  if (uv <= 10) return { label: 'สูงมาก',   chip: 'Very High',      chipClass: 'chip-warning' };
+  return               { label: 'อันตราย',  chip: 'Extreme',        chipClass: 'chip-error' };
+}
+
+export async function getWeatherByCity(city: string): Promise<WeatherRecord> {
+  const cleanCity = sanitizeCity(city);
+  const locations = await geocode(cleanCity, 1);
+  const location: GeoLocation | null = locations?.[0] ?? null;
+  if (!location) {
+    throw Object.assign(new Error(`City not found: ${cleanCity}`), { status: 404 });
   }
 
-  const { lat, lon } = res.data.coord;
+  const [forecast, air] = await Promise.all([
+    getForecast(location.latitude, location.longitude, location.timezone),
+    getAirQuality(location.latitude, location.longitude).catch((err) => {
+      console.error('Air quality lookup failed:', err);
+      return null;
+    }),
+  ]);
 
-  const aqiResult = await getAQIByCoords(lat, lon).catch((err) => {
-    console.error('AQI lookup failed:', err);
-    return null;
-  });
-  const uvResult = await getUVByCoords(lat, lon).catch((err) => {
-    console.error('UV lookup failed:', err);
-    return null;
-  });
+  const uvToday = forecast.daily[0]?.uv_index_max ?? null;
+  if (uvToday === null) {
+    console.warn('UV index data unavailable for', cleanCity);
+  }
 
-  const data = {
-    city: res.data.name,
-    temperature: res.data.main.temp,
-    humidity: res.data.main.humidity,
-    wind_speed: res.data.wind?.speed ?? 0,
-    aqi: aqiResult?.aqi ?? 0,
-    uv: uvResult?.uv ?? 0,
-    pm25: aqiResult?.components?.pm2_5 ?? 0,
+  const record: WeatherRecord = {
+    city: location.name,
+    country: location.country,
+    latitude: location.latitude,
+    longitude: location.longitude,
+    temperature: forecast.current.temperature,
+    feels_like: forecast.current.apparent_temperature,
+    humidity: forecast.current.humidity,
+    wind_speed: forecast.current.wind_speed,
+    precipitation: forecast.current.precipitation,
+    weather_code: forecast.current.weather_code,
+    aqi: air?.aqi ?? null as any,
+    pm25: air?.pm25 ?? 0,
+    pm10: air?.pm10 ?? 0,
+    o3: air?.o3 ?? 0,
+    no2: air?.no2 ?? 0,
+    uv: uvToday ?? 0,
     timestamp: new Date().toISOString(),
+    daily: forecast.daily,
+    dataAvailability: {
+      aqi: air !== null,
+      uv: uvToday !== null,
+    },
   };
 
+  if (air === null) {
+    console.warn('Air quality data unavailable for', cleanCity, '- showing warning to user');
+  }
+
   try {
-    await requireSupabase().from('weather_records').insert(data);
+    await requireSupabase().from('weather_records').insert({
+      city: record.city,
+      temperature: record.temperature,
+      humidity: record.humidity,
+      aqi: record.aqi,
+      uv: record.uv,
+      wind_speed: record.wind_speed / 3.6,
+      pm25: record.pm25,
+      timestamp: record.timestamp,
+    });
   } catch (err) {
     console.error('Failed to persist weather data:', err);
   }
-  return data;
+
+  return record;
 }
+
+export { mapAqiCategory, mapUvCategory };

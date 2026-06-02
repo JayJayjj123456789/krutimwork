@@ -34,12 +34,18 @@ CREATE TABLE IF NOT EXISTS health_profiles (
 CREATE TABLE IF NOT EXISTS weather_records (
     id            BIGSERIAL PRIMARY KEY,
     city          VARCHAR(100) NOT NULL,
+    country       VARCHAR(100),
+    latitude      DECIMAL(9,6),
+    longitude     DECIMAL(9,6),
     temperature   DECIMAL(4,1) CHECK (temperature >= -50 AND temperature <= 60),
+    feels_like    DECIMAL(4,1),
     humidity      DECIMAL(4,1) CHECK (humidity >= 0 AND humidity <= 100),
     aqi           INTEGER CHECK (aqi >= 0 AND aqi <= 500),
     uv            DECIMAL(3,1) CHECK (uv >= 0 AND uv <= 20),
     wind_speed    DECIMAL(4,1) CHECK (wind_speed >= 0),
     pm25          DECIMAL(6,2) CHECK (pm25 >= 0),
+    pm10          DECIMAL(6,2) CHECK (pm10 >= 0),
+    weather_code  INTEGER,
     timestamp     TIMESTAMPTZ DEFAULT NOW(),
     deleted_at    TIMESTAMPTZ DEFAULT NULL    -- soft delete
 );
@@ -65,6 +71,8 @@ CREATE TABLE IF NOT EXISTS recommendations (
     activity        TEXT,
     clothing        TEXT,
     hydration       TEXT,
+    menu            TEXT,
+    mood            TEXT,
     created_at      TIMESTAMPTZ DEFAULT NOW(),
     deleted_at      TIMESTAMPTZ DEFAULT NULL   -- soft delete
 );
@@ -104,3 +112,4 @@ CREATE INDEX IF NOT EXISTS idx_chat_history_user ON chat_history(user_id, create
 CREATE INDEX IF NOT EXISTS idx_reports_user_week ON reports(user_id, week_start DESC) WHERE deleted_at IS NULL;
 CREATE INDEX IF NOT EXISTS idx_health_profiles_user ON health_profiles(user_id) WHERE deleted_at IS NULL;
 CREATE INDEX IF NOT EXISTS idx_recommendations_analysis ON recommendations(analysis_id) WHERE deleted_at IS NULL;
+CREATE INDEX IF NOT EXISTS idx_weather_weather_code ON weather_records(weather_code) WHERE deleted_at IS NULL;

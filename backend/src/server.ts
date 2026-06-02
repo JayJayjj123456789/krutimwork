@@ -8,6 +8,7 @@ import healthRoutes from './routes/health.routes';
 import chatRoutes from './routes/chat.routes';
 import recommendationRoutes from './routes/recommendation.routes';
 import reportRoutes from './routes/report.routes';
+import insightsRoutes from './routes/insights.routes';
 import { errorHandler } from './middleware/errorHandler';
 
 dotenv.config();
@@ -63,6 +64,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/chat', chatLimiter, chatRoutes);
 app.use('/api/recommendations', recommendationRoutes);
 app.use('/api/reports', reportRoutes);
+app.use('/api/insights', insightsRoutes);
 
 app.use(errorHandler);
 

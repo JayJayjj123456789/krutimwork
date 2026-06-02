@@ -1,5 +1,9 @@
+import { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
+import { useUser } from '../context/UserContext'
+import API from '../services/api'
+import { useNavigate } from 'react-router-dom'
 
 const navItems = [
   { to: '/',       icon: 'dashboard',        label: 'Dashboard'   },
@@ -9,8 +13,70 @@ const navItems = [
   { to: '/reports',icon: 'assessment',       label: 'Reports'     },
 ]
 
+interface GeoResult {
+  name: string
+  country: string | null
+  admin1: string | null
+  latitude: number
+  longitude: number
+  timezone: string
+}
+
 export default function Sidebar() {
   const { theme, toggleTheme } = useTheme()
+  const { city, setCity } = useUser()
+  const navigate = useNavigate()
+  const [query, setQuery] = useState('')
+  const [results, setResults] = useState<GeoResult[]>([])
+  const [searching, setSearching] = useState(false)
+  const [open, setOpen] = useState(false)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
+
+  useEffect(() => {
+    if (debounceRef.current) clearTimeout(debounceRef.current)
+    if (!query.trim() || query.trim().length < 2) {
+      setResults([])
+      return
+    }
+    setSearching(true)
+    debounceRef.current = setTimeout(async () => {
+      try {
+        const r = await API.get(`/weather/geocode?name=${encodeURIComponent(query.trim())}&count=6`)
+        if (r.data?.success && Array.isArray(r.data.data)) {
+          setResults(r.data.data)
+        } else {
+          setResults([])
+        }
+      } catch {
+        setResults([])
+      } finally {
+        setSearching(false)
+      }
+    }, 350)
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current)
+    }
+  }, [query])
+
+  useEffect(() => {
+    const handler = (e: MouseEvent) => {
+      if (containerRef.current && !containerRef.current.contains(e.target as Node)) {
+        setOpen(false)
+      }
+    }
+    document.addEventListener('mousedown', handler)
+    return () => document.removeEventListener('mousedown', handler)
+  }, [])
+
+  const pick = (g: GeoResult) => {
+    const label = `${g.name}${g.admin1 && g.admin1 !== g.name ? ', ' + g.admin1 : ''}, ${g.country ?? ''}`
+    setCity(label)
+    setQuery('')
+    setResults([])
+    setOpen(false)
+    navigate('/')
+  }
 
   return (
     <aside className="sidebar">
@@ -22,6 +88,42 @@ export default function Sidebar() {
           <h1>Aether AI</h1>
           <p>Atmospheric Intelligence</p>
         </div>
+      </div>
+
+      <div ref={containerRef} className="sidebar-search">
+        <span className="material-symbols-outlined sidebar-search-icon">search</span>
+        <input
+          type="text"
+          className="sidebar-search-input"
+          placeholder={`Search city… (${city.split(',')[0]})`}
+          value={query}
+          onChange={(e) => { setQuery(e.target.value); setOpen(true) }}
+          onFocus={() => setOpen(true)}
+        />
+        {searching && <span className="material-symbols-outlined sidebar-search-spin">progress_activity</span>}
+        {open && (results.length > 0 || (query.trim().length >= 2 && !searching)) && (
+          <div className="sidebar-search-dropdown">
+            {results.length === 0 ? (
+              <div className="sidebar-search-empty">No matches</div>
+            ) : (
+              results.map((g, i) => (
+                <button
+                  key={`${g.latitude}-${g.longitude}-${i}`}
+                  className="sidebar-search-item"
+                  onClick={() => pick(g)}
+                >
+                  <span className="material-symbols-outlined" style={{ fontSize: 16 }}>location_on</span>
+                  <div style={{ flex: 1, textAlign: 'left' }}>
+                    <div className="sidebar-search-item-name">{g.name}</div>
+                    <div className="sidebar-search-item-sub">
+                      {[g.admin1, g.country].filter(Boolean).join(' · ')}
+                    </div>
+                  </div>
+                </button>
+              ))
+            )}
+          </div>
+        )}
       </div>
 
       <nav className="sidebar-nav">
@@ -62,7 +164,7 @@ export default function Sidebar() {
           </div>
           <div className="user-card-info">
             <p>Aether User</p>
-            <p>Bangkok, Thailand</p>
+            <p>{city}</p>
           </div>
           <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--color-on-surface-variant)' }}>settings</span>
         </div>

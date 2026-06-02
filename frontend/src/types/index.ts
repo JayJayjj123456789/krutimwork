@@ -1,14 +1,35 @@
 export type RiskLevel = 'low' | 'moderate' | 'high' | 'very_high'
 
+export interface DailyForecast {
+  date: string
+  weather_code: number
+  temperature_max: number
+  temperature_min: number
+  precipitation_sum: number
+  uv_index_max: number
+}
+
 export interface WeatherData {
   city: string
+  country: string | null
+  latitude: number
+  longitude: number
   temperature: number
+  feels_like: number
   humidity: number
-  aqi: number
-  uv: number
   wind_speed: number
+  precipitation: number
+  weather_code: number
+  aqi: number | null
   pm25: number
+  pm10: number
+  uv: number
   timestamp: string
+  daily: DailyForecast[]
+  dataAvailability?: {
+    aqi: boolean
+    uv: boolean
+  }
 }
 
 export interface HealthProfile {
@@ -40,6 +61,8 @@ export interface Recommendation {
   activity: string
   clothing: string
   hydration: string
+  menu: string | null
+  mood: string | null
   created_at: string
 }
 
