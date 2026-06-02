@@ -1,11 +1,13 @@
-import axios from 'axios'
+import API from './api'
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
-})
+export const analyzeHealth = async (userId: number, city: string, signal?: AbortSignal) => {
+  const r = await API.post('/health/analyze', { userId, city }, { signal, timeout: 60_000 })
+  if (!r.data.success) throw new Error(r.data.error || 'Analysis failed')
+  return r.data.data
+}
 
-export const analyzeHealth = (userId: number, city: string) =>
-  API.post('/health/analyze', { userId, city }).then(r => r.data)
-
-export const getRecommendations = (analysisId: number) =>
-  API.get(`/recommendations?analysisId=${analysisId}`).then(r => r.data)
+export const getRecommendations = async (analysisId: number, signal?: AbortSignal) => {
+  const r = await API.get(`/recommendations?analysisId=${analysisId}`, { signal, timeout: 60_000 })
+  if (!r.data.success) throw new Error(r.data.error || 'Failed to get recommendations')
+  return r.data.data
+}

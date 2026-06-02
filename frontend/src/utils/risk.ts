@@ -8,6 +8,7 @@ export function riskColor(level: RiskLevel): string {
   return RISK_COLORS[level]
 }
 
+// Inverts health score (0-100, higher=better) → risk level (low=best)
 export function riskSeverity(score: number): RiskLevel {
   if (score >= 80) return 'low'
   if (score >= 60) return 'moderate'

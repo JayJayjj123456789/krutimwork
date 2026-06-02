@@ -1,11 +1,13 @@
 import { useChat } from '../../hooks/useChat'
 import ChatBox from '../../components/ai/ChatBox'
+import ErrorBanner from '../../components/ErrorBanner'
 
 export default function Chat() {
-  const { messages, loading, sendMessage } = useChat(1)
+  const { messages, loading, error, sendMessage } = useChat(1)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - var(--header-height) - 180px)' }}>
+    <div className="chat-container">
+      {error && <ErrorBanner message={error} />}
       {messages.length === 0 && !loading && (
         <div style={{ textAlign: 'center', padding: 40, color: 'var(--color-on-surface-variant)' }}>
           <span className="material-symbols-outlined" style={{ fontSize: 48, opacity: 0.3, marginBottom: 12 }}>chat_bubble</span>

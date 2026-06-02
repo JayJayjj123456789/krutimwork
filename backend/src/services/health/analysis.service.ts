@@ -1,11 +1,16 @@
 import { requireSupabase } from '../../config/supabase';
 import { calculateRisks } from './risk.service';
-import { computeHealthScore } from './score.service';
 import { generateHealthSummary } from '../ai/summary.service';
+
+function httpError(message: string, status: number): Error & { status: number } {
+  const err = new Error(message) as Error & { status: number };
+  err.status = status;
+  return err;
+}
 
 export async function analyzeHealth(userId: string, city: string) {
   const supabase = requireSupabase();
-  const { data: weather } = await supabase
+  const { data: weather, error: weatherErr } = await supabase
     .from('weather_records')
     .select('*')
     .eq('city', city)
@@ -13,25 +18,29 @@ export async function analyzeHealth(userId: string, city: string) {
     .limit(1)
     .single();
 
-  if (!weather) throw new Error('No weather data for city');
+  if (weatherErr || !weather) {
+    throw httpError('No weather data for city', 404);
+  }
 
-  const { data: profile } = await requireSupabase()
+  const { data: profile, error: profileErr } = await supabase
     .from('health_profiles')
     .select('*')
     .eq('user_id', userId)
     .single();
+
+  if (profileErr) {
+    throw httpError('Failed to fetch health profile', 500);
+  }
 
   const risks = calculateRisks({
     temperature: weather.temperature,
     humidity: weather.humidity,
     aqi: weather.aqi,
     uv: weather.uv,
-    hasAsthma: profile?.has_asthma || false,
-    hasAllergy: profile?.has_allergy || false,
-    hasMigraine: profile?.has_migraine || false,
+    hasAsthma: profile?.has_asthma ?? false,
+    hasAllergy: profile?.has_allergy ?? false,
+    hasMigraine: profile?.has_migraine ?? false,
   });
-
-  computeHealthScore(risks);
 
   const aiSummary = await generateHealthSummary({
     temperature: weather.temperature,
@@ -44,7 +53,7 @@ export async function analyzeHealth(userId: string, city: string) {
     fatigueRisk: risks.fatigueRisk,
   });
 
-  const { data: analysis } = await requireSupabase()
+  const { data: analysis, error: insertErr } = await supabase
     .from('health_analysis')
     .insert({
       user_id: userId,
@@ -57,6 +66,11 @@ export async function analyzeHealth(userId: string, city: string) {
     })
     .select()
     .single();
+
+  if (insertErr || !analysis) {
+    console.error('Insert health_analysis error:', insertErr);
+    throw httpError('Failed to save health analysis', 500);
+  }
 
   return { ...analysis, ai_summary: aiSummary };
 }

@@ -11,3 +11,15 @@
   padding: 20px 24px;
   overflow-y: auto;
 }
+
+@media (max-width: 900px) {
+  .messages {
+    padding: 12px 8px;
+  }
+}
+
+@media (max-width: 480px) {
+  .messages {
+    padding: 8px 6px;
+  }
+}

@@ -40,11 +40,11 @@ export default function RiskChart({ data, color = 'var(--color-secondary)', high
           <polyline fill="none" stroke={color} strokeWidth="2.5" strokeLinejoin="round" points={polyline} />
           {points.map((p, i) => (
             <circle
-              key={i}
+              key={`pt-${data[i]?.label ?? i}`}
               cx={(p.x / 100) * 600}
               cy={(p.y / 100) * 160}
               r={i === highlightIndex ? 5 : 3}
-              fill={i === highlightIndex ? '#0c0e11' : color}
+              fill={i === highlightIndex ? 'var(--color-background)' : color}
               stroke={color}
               strokeWidth="2.5"
             />

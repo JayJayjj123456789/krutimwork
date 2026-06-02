@@ -15,14 +15,14 @@ export default function RiskGauge({ value, label }: RiskGaugeProps) {
     <div className={styles.gauge}>
       <svg width="100%" height="100%" viewBox="0 0 120 70">
         <defs>
-          <linearGradient id={`riskGrad-${label}`} x1="0" y1="0" x2="1" y2="0">
+          <linearGradient id={`riskGrad-${label.replace(/\s+/g, '')}`} x1="0" y1="0" x2="1" y2="0">
             <stop offset="0%" stopColor="#22c55e" />
             <stop offset="40%" stopColor="#eab308" />
             <stop offset="70%" stopColor="#f97316" />
             <stop offset="100%" stopColor="#ef4444" />
           </linearGradient>
         </defs>
-        <path d="M10 60 A 50 50 0 0 1 110 60" fill="none" stroke={`url(#riskGrad-${label})`} strokeWidth="8" strokeLinecap="round" opacity="0.3" />
+        <path d="M10 60 A 50 50 0 0 1 110 60" fill="none" stroke={`url(#riskGrad-${label.replace(/\s+/g, '')})`} strokeWidth="8" strokeLinecap="round" opacity="0.3" />
         <path
           d="M10 60 A 50 50 0 0 1 110 60"
           fill="none"

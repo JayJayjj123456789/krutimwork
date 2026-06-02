@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { sanitizeForPrompt } from '../../utils/sanitize';
 
 const TYPHOON_URL =
   process.env.TYPHOON_API_URL || 'https://api.opentyphoon.ai/v1/chat/completions';
@@ -18,15 +19,20 @@ export async function callTyphoon(
     },
     {
       headers: { Authorization: `Bearer ${TYPHOON_KEY}` },
+      timeout: 30_000,
     }
   );
+  if (!res.data?.choices?.[0]?.message?.content) {
+    throw new Error('Invalid AI API response: missing choices');
+  }
   return res.data.choices[0].message.content;
 }
 
-export async function chat(_userId: number, question: string): Promise<string> {
+export async function chat(_userId: number | string, question: string): Promise<string> {
+  const cleanQuestion = sanitizeForPrompt(question);
   const prompt = `คุณเป็นผู้ช่วยอัจฉริยะด้านสุขภาพจากข้อมูลสภาพอากาศ ตอบเป็นภาษาไทย สั้นและเป็นมิตร
 
-คำถาม: ${question}`;
+คำถาม: ${cleanQuestion}`;
 
   return callTyphoon(prompt);
 }

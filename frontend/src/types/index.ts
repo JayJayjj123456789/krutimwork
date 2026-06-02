@@ -36,11 +36,11 @@ export interface HealthAnalysis {
 
 export interface Recommendation {
   id: number
-  category: string
-  title: string
-  description: string
-  priority: 'high' | 'medium' | 'low'
-  icon: string
+  analysis_id: number
+  activity: string
+  clothing: string
+  hydration: string
+  created_at: string
 }
 
 export interface ChatMessage {

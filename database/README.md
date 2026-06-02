@@ -18,13 +18,13 @@ The database uses PostgreSQL (via Supabase) with 7 tables:
 
 | File                          | Description                                      |
 |-------------------------------|--------------------------------------------------|
-| `schema.sql`                  | Production schema (used by docker-compose)       |
-| `schema-enhanced.sql`         | Extended schema with soft-delete + constraints   |
+| `schema.sql`                  | **Canonical schema** — used by docker-compose, deploy scripts. Mirrors `schema-enhanced.sql`. |
+| `schema-enhanced.sql`         | Same content as `schema.sql` (kept for naming convention). Source of truth. |
 | `seed.sql`                    | Sample data (5 users, 5 cities, 7 days each)     |
 | `api-contract.ts`             | Shared TypeScript types (imported by FE & BE)    |
-| `migrations/001_initial_schema.sql` | V1: create all tables                      |
+| `migrations/001_initial_schema.sql` | V1: create all tables (legacy)            |
 | `migrations/002_add_pm25_column.sql` | V2: add pm25 (idempotent)               |
-| `migrations/003_add_indexes.sql`     | V3: performance indexes                 |
+| `migrations/003_add_indexes.sql`     | V3: performance indexes (legacy)        |
 
 ## How to Run Migrations
 

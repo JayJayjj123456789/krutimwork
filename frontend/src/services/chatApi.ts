@@ -1,8 +1,7 @@
-import axios from 'axios'
+import API from './api'
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
-})
-
-export const sendChat = (userId: number, question: string) =>
-  API.post('/chat', { userId, question }).then(r => r.data)
+export const sendChat = async (userId: number, question: string, signal?: AbortSignal) => {
+  const r = await API.post('/chat', { userId, question }, { signal, timeout: 60_000 })
+  if (!r.data.success) throw new Error(r.data.error || 'Chat failed')
+  return r.data.data
+}

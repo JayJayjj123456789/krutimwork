@@ -14,24 +14,31 @@ export async function getRecommendationsHandler(
     }
 
     const supabase = requireSupabase();
-    const { data: analysis } = await supabase
+    const { data: analysis, error: analysisErr } = await supabase
       .from('health_analysis')
       .select('*, weather_records(*)')
       .eq('id', analysisId)
       .single();
 
-    if (!analysis) {
+    if (analysisErr || !analysis) {
       return res.status(404).json({ success: false, error: 'Analysis not found' });
     }
 
+    const weather = (analysis as any).weather_records;
+    if (!weather) {
+      return res
+        .status(404)
+        .json({ success: false, error: 'Weather record not found for this analysis' });
+    }
+
     const rec = await getRecommendations({
-      temperature: analysis.weather_records.temperature,
-      aqi: analysis.weather_records.aqi,
-      uv: analysis.weather_records.uv,
-      healthScore: analysis.health_score,
+      temperature: weather.temperature,
+      aqi: weather.aqi,
+      uv: weather.uv,
+      healthScore: (analysis as any).health_score,
     });
 
-    const { data: saved } = await requireSupabase()
+    const { data: saved, error: saveErr } = await supabase
       .from('recommendations')
       .insert({
         analysis_id: analysisId,
@@ -42,6 +49,12 @@ export async function getRecommendationsHandler(
       .select()
       .single();
 
+    if (saveErr) {
+      console.error('Save recommendations error:', saveErr);
+      return res
+        .status(500)
+        .json({ success: false, error: 'Failed to save recommendations' });
+    }
     res.json({ success: true, data: saved });
   } catch (err) {
     next(err);

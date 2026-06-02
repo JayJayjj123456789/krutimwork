@@ -25,7 +25,7 @@ export default function WeatherCard({ data }: WeatherCardProps) {
         </div>
         <div className={styles.metaItem}>
           <span className="material-symbols-outlined" style={{ fontSize: 14 }}>air</span>
-          <span>{data.wind_speed} km/h</span>
+          <span>{Math.round(data.wind_speed * 3.6)} km/h</span>
         </div>
       </div>
     </div>

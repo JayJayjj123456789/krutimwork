@@ -21,6 +21,7 @@ export default function ReportTable<T>({ columns, data, title }: ReportTableProp
           <span className={styles.title}>{title}</span>
         </div>
       )}
+      <div className="table-wrapper">
       <table className="data-table">
         <thead>
           <tr>
@@ -30,15 +31,19 @@ export default function ReportTable<T>({ columns, data, title }: ReportTableProp
           </tr>
         </thead>
         <tbody>
-          {data.map((row, i) => (
-            <tr key={i}>
-              {columns.map(col => (
-                <td key={col.key}>{col.render(row)}</td>
-              ))}
-            </tr>
-          ))}
+          {data.map((row, i) => {
+            const key = columns[0]?.key ? String((row as any)[columns[0].key] ?? i) : `row-${i}`
+            return (
+              <tr key={key}>
+                {columns.map(col => (
+                  <td key={col.key}>{col.render(row)}</td>
+                ))}
+              </tr>
+            )
+          })}
         </tbody>
       </table>
+      </div>
       {data.length === 0 && (
         <p className={styles.empty}>No data available</p>
       )}

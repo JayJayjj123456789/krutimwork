@@ -1,7 +1,9 @@
 import { Routes, Route, useLocation } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
 import { UserProvider } from './context/UserContext'
+import { ErrorBoundary } from './components/ErrorBoundary'
 import Sidebar from './components/Sidebar'
+import BottomNav from './components/BottomNav'
 import Dashboard from './pages/Dashboard'
 import Health from './pages/Health'
 import AIRecommendations from './pages/AIRecommendations'
@@ -27,6 +29,7 @@ function AppContent() {
       <div className="bg-orb" style={{ width: 350, height: 350, background: 'rgba(255,180,171,0.05)', top: '40%', right: '20%', animationDelay: '-12s' }} />
 
       <Sidebar />
+      <BottomNav />
 
       <div className="main-area">
         <header className="top-header">
@@ -38,7 +41,7 @@ function AppContent() {
           <div className="header-actions">
             <div className="header-location">
               <span className="material-symbols-outlined icon-fill">location_on</span>
-              Bangkok, TH
+              <span className="location-text">Bangkok, TH</span>
             </div>
             <button className="icon-btn" aria-label="Notifications">
               <span className="material-symbols-outlined">notifications</span>
@@ -55,13 +58,15 @@ function AppContent() {
             <p>{page.sub}</p>
           </div>
 
-          <Routes>
-            <Route path="/"        element={<Dashboard />} />
-            <Route path="/health"  element={<Health />} />
-            <Route path="/ai"      element={<AIRecommendations />} />
-            <Route path="/chat"    element={<Chat />} />
-            <Route path="/reports" element={<Reports />} />
-          </Routes>
+          <ErrorBoundary>
+            <Routes>
+              <Route path="/"        element={<Dashboard />} />
+              <Route path="/health"  element={<Health />} />
+              <Route path="/ai"      element={<AIRecommendations />} />
+              <Route path="/chat"    element={<Chat />} />
+              <Route path="/reports" element={<Reports />} />
+            </Routes>
+          </ErrorBoundary>
         </div>
       </div>
     </div>

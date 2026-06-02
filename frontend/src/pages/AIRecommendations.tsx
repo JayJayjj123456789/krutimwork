@@ -1,7 +1,7 @@
 export default function AIRecommendations() {
   return (
     <div className="section-gap page-enter">
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1.6fr 1fr', gap: 20 }}>
+      <div className="grid-rec-top">
         <div className="ai-accent-card">
           <span className="material-symbols-outlined ai-watermark">water_drop</span>
           <div style={{ position: 'relative', zIndex: 1 }}>
@@ -10,7 +10,7 @@ export default function AIRecommendations() {
               <span className="section-label" style={{ color: 'var(--color-secondary)' }}>Hydration Goal</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: 6, marginBottom: 6 }}>
-              <span style={{ fontFamily: 'var(--font-headline)', fontSize: 48, fontWeight: 700, color: 'var(--color-primary)', lineHeight: 1 }}>1.2</span>
+              <span className="hydration-big">1.2</span>
               <span style={{ fontFamily: 'var(--font-body)', fontSize: 16, color: 'var(--color-on-surface-variant)' }}>/ 2.5 L</span>
             </div>
             <p style={{ fontSize: 13, color: 'var(--color-on-surface-variant)', marginBottom: 14 }}>1.3 L remaining today</p>
@@ -79,7 +79,7 @@ export default function AIRecommendations() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+      <div className="grid-rec-bottom">
         <div className="glass-card">
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 20 }}>
             <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-md)', background: 'rgba(137,208,237,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -90,7 +90,7 @@ export default function AIRecommendations() {
               <p style={{ fontFamily: 'var(--font-headline)', fontSize: 14, fontWeight: 700, color: 'var(--color-primary)', marginTop: 2 }}>Indoor & low-intensity</p>
             </div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+          <div className="rec-activities-grid">
             {[
               { icon: 'pool',             label: 'Swimming',       time: 'Any time'   },
               { icon: 'self_improvement', label: 'Indoor Yoga',    time: 'Morning'    },

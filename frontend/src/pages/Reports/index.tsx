@@ -26,7 +26,10 @@ export default function Reports() {
         const r = Array.isArray(res) ? res[0] : res
         setReport(r || null)
       })
-      .catch(() => setError('Could not load reports'))
+      .catch((e) => {
+        console.error('Failed to load reports:', e)
+        setError(e instanceof Error ? e.message : 'Could not load reports')
+      })
       .finally(() => setLoading(false))
   }, [])
 

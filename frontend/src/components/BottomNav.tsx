@@ -18,7 +18,7 @@ export default function BottomNav() {
           end={to === '/'}
           className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
         >
-          <span className={`material-symbols-outlined${to === '/' ? '' : ''}`}>{icon}</span>
+          <span className="material-symbols-outlined">{icon}</span>
           <span>{label}</span>
         </NavLink>
       ))}

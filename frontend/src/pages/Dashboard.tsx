@@ -32,7 +32,7 @@ export default function Dashboard() {
         <ErrorBanner message={error} onRetry={refetch} />
       )}
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2.5fr', gap: 20 }}>
+      <div className="grid-weather-main">
         <div className="glass-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', minHeight: 220, background: 'linear-gradient(135deg, rgba(137,208,237,0.08), rgba(17,19,22,0.5))' }}>
           <div>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
@@ -40,16 +40,16 @@ export default function Dashboard() {
               <span style={{ fontFamily: 'var(--font-headline)', fontSize: 13, fontWeight: 600, color: 'var(--color-on-surface-variant)' }}>Bangkok</span>
             </div>
             <div style={{ display: 'flex', alignItems: 'flex-end', gap: 12 }}>
-              <span style={{ fontFamily: 'var(--font-headline)', fontSize: 80, fontWeight: 300, lineHeight: 1, letterSpacing: '-0.04em', color: 'var(--color-primary)' }}>{weatherData ? Math.round(weatherData.temperature) : '28'}°</span>
+              <span className="temp-big">{weatherData ? Math.round(weatherData.temperature) : '28'}°</span>
               <div style={{ paddingBottom: 12 }}>
-                <span className="material-symbols-outlined icon-fill" style={{ fontSize: 48, color: 'var(--color-secondary)' }}>partly_cloudy_day</span>
+                <span className="material-symbols-outlined icon-fill weather-icon-big" style={{ color: 'var(--color-secondary)' }}>partly_cloudy_day</span>
               </div>
             </div>
             <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, color: 'var(--color-on-surface-variant)', marginTop: 4 }}>
-              {weatherData ? `Humidity ${weatherData.humidity}% · Wind ${weatherData.wind_speed} km/h` : 'Partly Cloudy · Feels like 32°C'}
+              {weatherData ? `Humidity ${weatherData.humidity}% · Wind ${Math.round(weatherData.wind_speed * 3.6)} km/h` : 'Partly Cloudy · Feels like 32°C'}
             </p>
           </div>
-          <div style={{ display: 'flex', gap: 8, marginTop: 16 }}>
+          <div style={{ display: 'flex', gap: 8, marginTop: 16, flexWrap: 'wrap' }}>
             <span className="chip chip-good">Clear skies evening</span>
           </div>
         </div>
@@ -75,7 +75,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: 20 }}>
+      <div className="grid-ai-forecast">
         <div className="ai-accent-card">
           <span className="material-symbols-outlined ai-watermark">smart_toy</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
@@ -90,17 +90,17 @@ export default function Dashboard() {
           <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7, color: 'var(--color-on-surface-variant)' }}>
             Air quality is in the good range, suitable for outdoor activities. Temperature will rise in the afternoon. Recommend staying hydrated and wearing breathable clothing. UV index peaks at noon — apply SPF 50+ if going outdoors.
           </p>
-          <div style={{ marginTop: 16, display: 'flex', gap: 8 }}>
+          <div style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <span className="chip chip-good">Low Risk</span>
             <span className="chip chip-neutral">Updated 5m ago</span>
           </div>
         </div>
 
         <div className="glass-card">
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 8, flexWrap: 'wrap' }}>
             <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 700, color: 'var(--color-primary)' }}>7-Day Forecast</span>
-            <button className="btn" style={{ padding: '6px 14px', fontSize: 12 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 16 }}>calendar_month</span>
+            <button className="btn" style={{ padding: '6px 12px', fontSize: 12 }}>
+              <span className="material-symbols-outlined" style={{ fontSize: 14 }}>calendar_month</span>
               Full Calendar
             </button>
           </div>
@@ -118,9 +118,9 @@ export default function Dashboard() {
       </div>
 
       <div className="glass-card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 8, flexWrap: 'wrap' }}>
           <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 700, color: 'var(--color-primary)' }}>24-Hour Trend</span>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
             {['Temperature', 'Humidity', 'AQI'].map((l, i) => (
               <span key={l} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--color-on-surface-variant)' }}>
                 <span style={{ width: 8, height: 8, borderRadius: '50%', background: ['var(--color-secondary)','rgba(255,255,255,0.4)','var(--color-error)'][i], display: 'inline-block' }} />

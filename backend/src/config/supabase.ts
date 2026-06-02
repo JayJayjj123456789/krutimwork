@@ -1,7 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import ws from 'ws';
-import dotenv from 'dotenv';
-dotenv.config();
 
 const url = process.env.SUPABASE_URL || '';
 const key = process.env.SUPABASE_KEY || '';
@@ -9,16 +7,16 @@ const key = process.env.SUPABASE_KEY || '';
 const isPlaceholder =
   !url || !key || url.includes('YOUR_') || key.includes('YOUR_');
 
-export const supabase = isPlaceholder
-  ? (null as any)
-  : createClient(url, key, {
+export const supabase: SupabaseClient<any, 'public', any> | null = isPlaceholder
+  ? null
+  : createClient<any, 'public', any>(url, key, {
       realtime: { transport: ws as any },
       auth: { persistSession: false },
     });
 
-export function requireSupabase() {
+export function requireSupabase(): SupabaseClient<any, 'public', any> {
   if (!supabase) {
-    const err: any = new Error(
+    const err: Error & { status?: number } = new Error(
       'Supabase not configured. Set SUPABASE_URL and SUPABASE_KEY in .env'
     );
     err.status = 503;

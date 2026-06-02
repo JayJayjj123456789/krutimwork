@@ -2,5 +2,23 @@ services:
   - type: web
     name: aether-ai-backend
     env: node
+    rootDir: backend
     buildCommand: npm install && npm run build
     startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3000
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: TYPHOON_API_URL
+        value: https://api.opentyphoon.ai/v1/chat/completions
+      - key: TYPHOON_API_KEY
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false

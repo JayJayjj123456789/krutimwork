@@ -1,8 +1,9 @@
-import axios from 'axios'
+import API from './api'
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
-})
-
-export const getReports = (userId: number, week?: string) =>
-  API.get(`/reports?userId=${userId}${week ? '&week=' + week : ''}`).then(r => r.data)
+export const getReports = async (userId: number, week?: string, signal?: AbortSignal) => {
+  const params: Record<string, string> = { userId: String(userId) }
+  if (week) params.week = week
+  const r = await API.get('/reports', { params, signal })
+  if (!r.data.success) throw new Error(r.data.error || 'Failed to fetch reports')
+  return r.data.data
+}

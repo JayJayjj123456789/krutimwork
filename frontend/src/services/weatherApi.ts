@@ -1,8 +1,7 @@
-import axios from 'axios'
+import API from './api'
 
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:3000/api',
-})
-
-export const getWeather = (city: string = 'Bangkok') =>
-  API.get(`/weather?city=${city}`).then(r => r.data)
+export const getWeather = async (city: string = 'Bangkok', signal?: AbortSignal) => {
+  const r = await API.get(`/weather?city=${encodeURIComponent(city)}`, { signal })
+  if (!r.data.success) throw new Error(r.data.error || 'Failed to fetch weather')
+  return r.data.data
+}
