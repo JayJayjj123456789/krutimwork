@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { getReport } from '../controllers/report.controller';
-import { requireAuth } from '../middleware/auth';
+import { requireJwtAuth } from '../middleware/jwt-auth';
 
 const router = Router();
 
-router.get('/', requireAuth, getReport);
+router.get('/', requireJwtAuth, getReport);
 
 export default router;

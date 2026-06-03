@@ -31,6 +31,7 @@ function uvChip(uv: number | null): { chip: string; chipClass: string } {
 export default function Dashboard() {
   const { city } = useUser()
   const { data: weatherData, loading, error, refetch } = useWeather(city.split(',')[0].trim())
+  console.log(`[Dashboard] city="${city}" loading=${loading} hasData=${!!weatherData} error=${error}`)
 
   const wmo = useMemo(
     () => (weatherData ? getWmoInfo(weatherData.weather_code) : null),
@@ -52,7 +53,7 @@ export default function Dashboard() {
     <div className="section-gap page-enter">
       {error && <ErrorBanner message={error} onRetry={refetch} />}
       {aqiUnavailable && (
-        <ErrorBanner message="AQI data temporarily unavailable. Showing default values." onRetry={refetch} />
+        <ErrorBanner message="AQI data temporarily unavailable." onRetry={refetch} />
       )}
       {uvUnavailable && (
         <ErrorBanner message="UV index data temporarily unavailable." onRetry={refetch} />
@@ -146,7 +147,7 @@ export default function Dashboard() {
               <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-ai-accent)', fontSize: 20 }}>smart_toy</span>
             </div>
             <div>
-              <span className="section-label" style={{ color: 'var(--color-ai-accent)', display: 'block' }}>AI Summary</span>
+              <span className="section-label" style={{ color: 'var(--color-ai-accent)', display: 'block' }}>Weather Overview</span>
               <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 600, color: 'var(--color-primary)' }}>Today's Outlook</span>
             </div>
           </div>
@@ -190,38 +191,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="glass-card">
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 16, gap: 8, flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 700, color: 'var(--color-primary)' }}>24-Hour Trend</span>
-          <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
-            {['Temperature', 'Humidity', 'AQI'].map((l, i) => (
-              <span key={l} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--color-on-surface-variant)' }}>
-                <span style={{ width: 8, height: 8, borderRadius: '50%', background: ['var(--color-secondary)','rgba(255,255,255,0.4)','var(--color-error)'][i], display: 'inline-block' }} />
-                {l}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div style={{ position: 'relative', height: 140 }}>
-          <svg width="100%" height="100%" viewBox="0 0 800 140" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="areaGrad" x1="0" x2="0" y1="0" y2="1">
-                <stop offset="0%" stopColor="#89d0ed" stopOpacity="0.25" />
-                <stop offset="100%" stopColor="#89d0ed" stopOpacity="0" />
-              </linearGradient>
-            </defs>
-            <polygon fill="url(#areaGrad)" points="0,140 0,90 100,80 200,70 300,85 400,55 500,45 600,60 700,50 800,65 800,140" />
-            <polyline fill="none" stroke="#89d0ed" strokeWidth="2.5" strokeLinejoin="round" points="0,90 100,80 200,70 300,85 400,55 500,45 600,60 700,50 800,65" />
-            <polyline fill="none" stroke="rgba(255,255,255,0.25)" strokeWidth="1.5" strokeLinejoin="round" strokeDasharray="6,4" points="0,100 100,95 200,90 300,105 400,85 500,80 600,95 700,82 800,88" />
-            {[0,100,200,300,400,500,600,700,800].map((x, i) => (
-              <circle key={x} cx={x} cy={[90,80,70,85,55,45,60,50,65][i]} r="3.5" fill="#0c0e11" stroke="#89d0ed" strokeWidth="2" />
-            ))}
-          </svg>
-          <div style={{ position: 'absolute', bottom: -20, left: 0, right: 0, display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--color-on-surface-variant)', fontFamily: 'var(--font-headline)', fontWeight: 700 }}>
-            {['00:00','03:00','06:00','09:00','12:00','15:00','18:00','21:00','Now'].map(t => <span key={t}>{t}</span>)}
-          </div>
-        </div>
-      </div>
+
     </div>
   )
 }

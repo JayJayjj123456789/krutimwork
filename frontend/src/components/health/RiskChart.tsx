@@ -12,9 +12,11 @@ interface RiskChartProps {
 }
 
 export default function RiskChart({ data, color = 'var(--color-secondary)', highlightIndex }: RiskChartProps) {
+  if (data.length === 0) return null
   const maxVal = Math.max(...data.map(d => d.value), 100)
+  const denominator = Math.max(data.length - 1, 1)
   const points = data.map((d, i) => ({
-    x: (i / (data.length - 1)) * 100,
+    x: (i / denominator) * 100,
     y: 100 - (d.value / maxVal) * 100,
   }))
   const polyline = points.map(p => `${p.x},${p.y}`).join(' ')

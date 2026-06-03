@@ -1,8 +1,9 @@
 import { createContext, useContext, useState, ReactNode } from 'react'
 import { HealthProfile } from '../types'
+import { useAuth } from './AuthContext'
 
 interface UserState {
-  userId: number
+  userId: string
   city: string
   healthProfile: HealthProfile | null
   setCity: (city: string) => void
@@ -16,7 +17,7 @@ export function UserProvider({ children }: { children: ReactNode }) {
   const [healthProfile, setHealthProfile] = useState<HealthProfile | null>(null)
 
   return (
-    <UserContext.Provider value={{ userId: 1, city, healthProfile, setCity, setHealthProfile }}>
+    <UserContext.Provider value={{ userId: '', city, healthProfile, setCity, setHealthProfile }}>
       {children}
     </UserContext.Provider>
   )
@@ -25,5 +26,6 @@ export function UserProvider({ children }: { children: ReactNode }) {
 export function useUser() {
   const ctx = useContext(UserContext)
   if (!ctx) throw new Error('useUser must be used within UserProvider')
-  return ctx
+  const auth = useAuth()
+  return { ...ctx, userId: auth.user?.userId ?? '' }
 }

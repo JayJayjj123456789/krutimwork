@@ -5,9 +5,18 @@ const API: AxiosInstance = axios.create({
   timeout: 30_000,
 })
 
-API.interceptors.request.use((config) => {
-  config.headers['x-user-id'] = localStorage.getItem('userId') || '1'
-  return config
-})
+API.interceptors.response.use(
+  (res) => {
+    console.log(`[API] ${res.status} ${res.config.url} OK`)
+    return res
+  },
+  (err) => {
+    if (err.response?.status === 401) {
+      window.location.href = '/login'
+    }
+    console.error(`[API] ERROR ${err.response?.status || 'NO_RESPONSE'} ${err.config?.url}:`, err.response?.data || err.message)
+    return Promise.reject(err)
+  }
+)
 
 export default API

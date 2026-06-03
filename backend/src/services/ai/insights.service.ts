@@ -27,6 +27,8 @@ export async function getMenuSuggestions(params: {
   aqi: number;
   uv: number;
 }): Promise<MenuItem[]> {
+  console.log(`[insights.service] getMenuSuggestions: temp=${params.temperature} humidity=${params.humidity} aqi=${params.aqi} uv=${params.uv}`);
+
   const prompt = `${MENU_SYSTEM}
 
 สภาพอากาศ:
@@ -43,16 +45,29 @@ export async function getMenuSuggestions(params: {
   try {
     const parsed = JSON.parse(jsonStr);
     if (!Array.isArray(parsed)) throw new Error('not array');
+    console.log(`[insights.service] menu suggestions: ${parsed.length} items parsed`);
     return parsed.slice(0, 3).map((m: any) => ({
       name: String(m.name || '').slice(0, 100),
       reason: String(m.reason || '').slice(0, 200),
       benefit: String(m.benefit || '').slice(0, 200),
     }));
-  } catch {
-    return [
-      { name: 'ข้าวต้มร้อน ๆ', reason: 'ย่อยง่าย เหมาะกับอากาศแปรปรวน', benefit: 'ช่วยให้ร่างกายอบอุ่น' },
-    ];
+  } catch (err) {
+    console.warn(`[insights.service] menu parse failed:`, (err as Error).message);
+    return [];
   }
+}
+
+const WMO_TH: Record<number, string> = {
+  0: 'ท้องฟ้าแจ่มใส', 1: 'เมฆเล็กน้อย', 2: 'มีเมฆเป็นบางส่วน', 3: 'เมฆครึ้ม',
+  45: 'หมอก', 48: 'หมอกน้ำแข็ง', 51: 'ฝนปรอยเล็กน้อย', 53: 'ฝนปรอย',
+  55: 'ฝนปรอยหนัก', 61: 'ฝนตกเล็กน้อย', 63: 'ฝนตกปานกลาง', 65: 'ฝนตกหนัก',
+  71: 'หิมะตกเล็กน้อย', 73: 'หิมะตกปานกลาง', 75: 'หิมะตกหนัก',
+  80: 'ฝนซู่เล็กน้อย', 81: 'ฝนซู่ปานกลาง', 82: 'ฝนซู่รุนแรง',
+  95: 'พายุฝนฟ้าคะนอง', 96: 'พายุฝนฟ้าคะนอง', 99: 'พายุฝนฟ้าคะนองรุนแรง',
+};
+
+function weatherLabel(code: number): string {
+  return WMO_TH[code] || 'ไม่ทราบ';
 }
 
 export async function getMoodInsight(params: {
@@ -66,7 +81,8 @@ export async function getMoodInsight(params: {
 สภาพอากาศ:
 - อุณหภูมิ: ${clamp(params.temperature, -50, 60)}°C
 - ความชื้น: ${clamp(params.humidity, 0, 100)}%
-- สภาพ: ${params.isDay ? 'กลางวัน' : 'กลางคืน'}
+- สภาพ: ${params.isDay === 1 ? 'กลางวัน' : 'กลางคืน'}
+- ลักษณะอากาศ: ${weatherLabel(params.weatherCode)}
 
 วิเคราะห์ผลกระทบต่ออารมณ์:`;
 

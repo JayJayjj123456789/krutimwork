@@ -1,0 +1,239 @@
+{
+  "project_name": "weather-health-ai",
+  "stack": [
+    { "name": "React", "category": "frontend", "icon": "react" },
+    { "name": "Vite", "category": "frontend", "icon": "node" },
+    { "name": "TypeScript", "category": "frontend", "icon": "node" },
+    { "name": "Express", "category": "backend", "icon": "node" },
+    { "name": "PostgreSQL", "category": "database", "icon": "postgres" },
+    { "name": "Supabase", "category": "database", "icon": "supabase" },
+    { "name": "Docker", "category": "infrastructure", "icon": "box" }
+  ],
+  "features": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "layer": "frontend",
+      "plain_english": "The main screen showing real-time weather, air quality, UV index, humidity, and a 7-day forecast all in one place.",
+      "files": [
+        "frontend/src/pages/Dashboard.tsx",
+        "frontend/src/hooks/useWeather.ts",
+        "frontend/src/services/weatherApi.ts",
+        "frontend/src/services/api.ts",
+        "frontend/src/components/weather/WeatherCard.tsx",
+        "frontend/src/components/weather/ForecastCard.tsx",
+        "frontend/src/components/weather/AQICard.tsx",
+        "frontend/src/components/weather/UVCard.tsx",
+        "frontend/src/utils/wmo.ts",
+        "frontend/src/utils/weather.ts",
+        "frontend/src/components/BottomNav.tsx",
+        "frontend/src/components/Sidebar.tsx",
+        "frontend/src/context/ThemeContext.tsx",
+        "frontend/src/context/UserContext.tsx",
+        "frontend/src/App.tsx",
+        "frontend/src/main.tsx",
+        "frontend/src/types/index.ts"
+      ],
+      "icon": "dashboard"
+    },
+    {
+      "id": "health-analysis",
+      "name": "Health Analysis",
+      "layer": "frontend",
+      "plain_english": "Checks how today's weather might affect your health — breathing problems, headaches, and fatigue risks with an AI summary.",
+      "files": [
+        "frontend/src/pages/Health.tsx",
+        "frontend/src/hooks/useHealth.ts",
+        "frontend/src/services/healthApi.ts",
+        "frontend/src/components/health/HealthScore.tsx",
+        "frontend/src/components/health/HealthInsight.tsx",
+        "frontend/src/components/health/RiskChart.tsx",
+        "frontend/src/components/health/RiskGauge.tsx",
+        "frontend/src/utils/risk.ts"
+      ],
+      "icon": "box"
+    },
+    {
+      "id": "ai-recommendations",
+      "name": "AI Recommendations",
+      "layer": "frontend",
+      "plain_english": "Gives you personalized daily tips on what to wear, eat, drink, and do, based on weather and your health profile.",
+      "files": [
+        "frontend/src/pages/AIRecommendations.tsx",
+        "frontend/src/components/ai/AIInsightCard.tsx"
+      ],
+      "icon": "ai"
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat",
+      "layer": "frontend",
+      "plain_english": "A chatbot where you can ask any question about weather and your health, and get answers in Thai with web search.",
+      "files": [
+        "frontend/src/pages/Chat/index.tsx",
+        "frontend/src/components/ai/ChatBox.tsx",
+        "frontend/src/components/ai/Message.tsx",
+        "frontend/src/hooks/useChat.ts",
+        "frontend/src/services/chatApi.ts"
+      ],
+      "icon": "ai"
+    },
+    {
+      "id": "reports",
+      "name": "Weekly Reports",
+      "layer": "frontend",
+      "plain_english": "Shows weekly health summaries with bar charts, trends, and a table so you can track how your health changes over time.",
+      "files": [
+        "frontend/src/pages/Reports/index.tsx",
+        "frontend/src/components/reports/ReportTable.tsx",
+        "frontend/src/components/reports/TrendChart.tsx",
+        "frontend/src/components/reports/WeeklyReport.tsx",
+        "frontend/src/services/reportApi.ts"
+      ],
+      "icon": "chart"
+    },
+    {
+      "id": "city-search",
+      "name": "City Search (Geocoding)",
+      "layer": "frontend",
+      "plain_english": "Lets you search for any city by name and picks the right location before showing weather and health data.",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Sidebar.tsx"
+      ],
+      "icon": "globe"
+    },
+    {
+      "id": "weather-api",
+      "name": "Weather Data API",
+      "layer": "api",
+      "plain_english": "Server that fetches real-time weather, 7-day forecasts, air quality, UV index, and city search from Open-Meteo and saves them to the database.",
+      "files": [
+        "backend/src/controllers/weather.controller.ts",
+        "backend/src/controllers/geocode.controller.ts",
+        "backend/src/services/weather/weather.service.ts",
+        "backend/src/services/weather/forecast.service.ts",
+        "backend/src/services/weather/air-quality.service.ts",
+        "backend/src/services/weather/geocoding.service.ts",
+        "backend/src/routes/weather.routes.ts",
+        "backend/src/server.ts"
+      ],
+      "icon": "globe"
+    },
+    {
+      "id": "health-backend",
+      "name": "Health Analysis Backend",
+      "layer": "api",
+      "plain_english": "Server that reads weather data and user health profiles, calculates health risks, and generates AI health summaries in Thai.",
+      "files": [
+        "backend/src/controllers/health.controller.ts",
+        "backend/src/services/health/analysis.service.ts",
+        "backend/src/services/health/risk.service.ts",
+        "backend/src/routes/health.routes.ts"
+      ],
+      "icon": "box"
+    },
+    {
+      "id": "recommendation-backend",
+      "name": "Recommendations Backend",
+      "layer": "api",
+      "plain_english": "Server that generates personalized activity, clothing, hydration, food menu, and mood suggestions using AI.",
+      "files": [
+        "backend/src/controllers/recommendation.controller.ts",
+        "backend/src/controllers/insights.controller.ts",
+        "backend/src/services/ai/recommendation.service.ts",
+        "backend/src/services/ai/insights.service.ts",
+        "backend/src/routes/recommendation.routes.ts",
+        "backend/src/routes/insights.routes.ts"
+      ],
+      "icon": "ai"
+    },
+    {
+      "id": "chat-backend",
+      "name": "Chat Backend",
+      "layer": "api",
+      "plain_english": "Server that handles chat conversations — searches the web for recent info, then asks Typhoon AI to answer in Thai.",
+      "files": [
+        "backend/src/controllers/chat.controller.ts",
+        "backend/src/services/ai/typhoon.service.ts",
+        "backend/src/services/ai/summary.service.ts",
+        "backend/src/services/search/search.service.ts",
+        "backend/src/routes/chat.routes.ts"
+      ],
+      "icon": "ai"
+    },
+    {
+      "id": "report-backend",
+      "name": "Reports Backend",
+      "layer": "api",
+      "plain_english": "Server that queries the past 7 days of health analyses and generates a weekly summary report with AI.",
+      "files": [
+        "backend/src/controllers/report.controller.ts",
+        "backend/src/services/reports/report.service.ts",
+        "backend/src/routes/report.routes.ts"
+      ],
+      "icon": "chart"
+    },
+    {
+      "id": "database",
+      "name": "Database",
+      "layer": "database",
+      "plain_english": "PostgreSQL database on Supabase with 7 tables — users, health profiles, weather records, health analysis, recommendations, chat history, and reports.",
+      "files": [
+        "database/schema.sql",
+        "database/schema-enhanced.sql",
+        "database/seed.sql",
+        "database/api-contract.ts",
+        "database/migrations/001_initial_schema.sql",
+        "database/migrations/002_add_pm25_column.sql",
+        "database/migrations/003_add_indexes.sql",
+        "database/migrations/004_add_weather_code.sql",
+        "database/migrations/005_add_is_day.sql",
+        "database/RUN-THIS-IN-SUPABASE.sql",
+        "backend/src/config/supabase.ts"
+      ],
+      "icon": "postgres"
+    },
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure",
+      "layer": "backend",
+      "plain_english": "Configuration for deploying the app with Docker, Vercel (frontend), and Render (backend), plus auth middleware and error handling.",
+      "files": [
+        "docker-compose.yml",
+        "vercel.json",
+        "render.yaml",
+        "backend/Dockerfile",
+        "backend/tsconfig.json",
+        "backend/src/middleware/auth.ts",
+        "backend/src/middleware/errorHandler.ts",
+        "backend/src/utils/sanitize.ts",
+        "backend/src/utils/wmo.ts",
+        "package.json"
+      ],
+      "icon": "box"
+    }
+  ],
+  "external_services": [
+    {
+      "id": "open-meteo",
+      "name": "Open-Meteo",
+      "purpose": "Free weather API providing forecasts, air quality data, UV index, and city geocoding lookups."
+    },
+    {
+      "id": "typhoon-ai",
+      "name": "Typhoon AI",
+      "purpose": "Thai-language LLM (typhoon-v2.5-30b) that generates health analysis, recommendations, chat answers, food menu ideas, and mood insights."
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "purpose": "Cloud-hosted PostgreSQL database storing all user data, weather records, health analyses, and chat history."
+    },
+    {
+      "id": "duckduckgo",
+      "name": "DuckDuckGo Search",
+      "purpose": "Web search engine used by the AI Chat to find current information before generating answers."
+    }
+  ]
+}

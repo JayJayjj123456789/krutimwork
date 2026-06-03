@@ -26,6 +26,8 @@ export async function getRecommendations(params: {
   const uv = clampNumber(params.uv, 0, 20);
   const score = clampNumber(params.healthScore, 0, 100);
 
+  console.log(`[recommendation.service] generating recs: temp=${temp} aqi=${aqi} uv=${uv} score=${score}`);
+
   const prompt = `คุณเป็นผู้ช่วยสุขภาพส่วนบุคคล
 
 สภาพอากาศวันนี้:
@@ -41,19 +43,20 @@ export async function getRecommendations(params: {
   "hydration": "คำแนะนำการดื่มน้ำ"
 }`;
 
-  const text = await callTyphoon(prompt);
   let activity = '';
   let clothing = '';
   let hydration = '';
   try {
+    const text = await callTyphoon(prompt);
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     const jsonStr = jsonMatch ? jsonMatch[0] : text;
     const json = JSON.parse(jsonStr);
     activity = String(json.activity || '').slice(0, 500);
     clothing = String(json.clothing || '').slice(0, 500);
     hydration = String(json.hydration || '').slice(0, 500);
-  } catch {
-    activity = String(text).slice(0, 500);
+    console.log(`[recommendation.service] AI recs OK: activity="${activity.slice(0, 60)}..."`);
+  } catch (err) {
+    console.error('[recommendation.service] AI recs unavailable after retries:', (err as Error)?.message);
   }
 
   const [menu, mood] = await Promise.all([
@@ -63,7 +66,7 @@ export async function getRecommendations(params: {
       aqi,
       uv,
     }).catch((err) => {
-      console.error('Menu generation failed:', err);
+      console.error('[recommendation.service] Menu generation failed:', (err as any)?.message);
       return [];
     }),
     getMoodInsight({
@@ -72,10 +75,11 @@ export async function getRecommendations(params: {
       weatherCode: params.weatherCode ?? 0,
       isDay: params.isDay ?? 1,
     }).catch((err) => {
-      console.error('Mood generation failed:', err);
+      console.error('[recommendation.service] Mood generation failed:', (err as any)?.message);
       return '';
     }),
   ]);
 
+  console.log(`[recommendation.service] done: menu=${menu.length} items, mood=${mood ? mood.slice(0, 40) + '...' : 'none'}`);
   return { activity, clothing, hydration, menu, mood };
 }

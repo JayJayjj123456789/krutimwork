@@ -5,6 +5,8 @@ interface HealthScoreProps {
   score: number
 }
 
+const CIRCUMFERENCE = 2 * Math.PI * 40
+
 export default function HealthScore({ score }: HealthScoreProps) {
   const level = riskSeverity(score)
   const color = riskColor(level)
@@ -20,8 +22,8 @@ export default function HealthScore({ score }: HealthScoreProps) {
             cx="50" cy="50" r="40"
             fill="none" stroke={color}
             strokeWidth="7" strokeLinecap="round"
-            strokeDasharray="251"
-            strokeDashoffset={251 - (score / 100) * 251}
+            strokeDasharray={CIRCUMFERENCE}
+            strokeDashoffset={CIRCUMFERENCE - (score / 100) * CIRCUMFERENCE}
             style={{ transition: 'stroke-dashoffset 1.8s ease-out' }}
           />
         </svg>

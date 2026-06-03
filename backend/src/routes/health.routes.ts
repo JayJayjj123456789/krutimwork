@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { analyzeHealthHandler } from '../controllers/health.controller';
-import { requireAuth } from '../middleware/auth';
+import { requireJwtAuth } from '../middleware/jwt-auth';
 
 const router = Router();
 
-router.post('/analyze', requireAuth, analyzeHealthHandler);
+router.post('/analyze', requireJwtAuth, analyzeHealthHandler);
 
 export default router;

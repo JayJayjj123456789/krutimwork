@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { getRecommendationsHandler } from '../controllers/recommendation.controller';
-import { requireAuth } from '../middleware/auth';
+import { requireJwtAuth } from '../middleware/jwt-auth';
 
 const router = Router();
 
-router.get('/', requireAuth, getRecommendationsHandler);
+router.get('/', requireJwtAuth, getRecommendationsHandler);
 
 export default router;

@@ -22,9 +22,9 @@ export interface WeatherData {
   weather_code: number
   is_day: number
   aqi: number | null
-  pm25: number
-  pm10: number
-  uv: number
+  pm25: number | null
+  pm10: number | null
+  uv: number | null
   timestamp: string
   daily: DailyForecast[]
   dataAvailability?: {
@@ -44,16 +44,14 @@ export interface HealthProfile {
 
 export interface HealthAnalysis {
   id: number
+  user_id?: number
+  weather_record_id?: string | null
   health_score: number
   respiratory_risk: RiskLevel
   migraine_risk: RiskLevel
   fatigue_risk: RiskLevel
   ai_summary: string
-  recommendations: {
-    activity: string
-    clothing: string
-    hydration: string
-  }
+  created_at?: string
 }
 
 export interface Recommendation {
@@ -90,6 +88,16 @@ export interface ReportData {
     created_at: string
   }>
   message?: string
+}
+
+export interface ApiResponse<T> {
+  success: boolean
+  data: T
+  error?: string
+}
+
+export interface ChatResponse {
+  answer: string
 }
 
 export const RISK_LABELS_TH: Record<RiskLevel, string> = {

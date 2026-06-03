@@ -1,4 +1,4 @@
-import { requireSupabase } from '../../config/supabase';
+import { getFirestore } from '../../config/firebase';
 import { generateReportSummary } from '../ai/summary.service';
 
 function httpError(message: string, status: number): Error & { status: number } {
@@ -8,26 +8,25 @@ function httpError(message: string, status: number): Error & { status: number } 
 }
 
 export async function getWeeklyReport(userId: string, weekStart?: string) {
-  const supabase = requireSupabase();
+  const db = getFirestore();
   const start = weekStart ? new Date(weekStart) : new Date(Date.now() - 7 * 86400000);
   if (isNaN(start.getTime())) {
+    console.error(`[report.service] invalid weekStart date: "${weekStart}"`);
     throw httpError('Invalid weekStart date', 400);
   }
   const end = new Date(start.getTime() + 7 * 86400000);
+  console.log(`[report.service] getWeeklyReport userId=${userId} range=${start.toISOString().split('T')[0]} → ${end.toISOString().split('T')[0]}`);
 
-  const { data: analyses, error: analysesErr } = await supabase
-    .from('health_analysis')
-    .select('*')
-    .eq('user_id', userId)
-    .gte('created_at', start.toISOString())
-    .lte('created_at', end.toISOString());
+  const snapshot = await db.collection('healthAnalysis')
+    .where('user_id', '==', userId)
+    .where('created_at', '>=', start.toISOString())
+    .where('created_at', '<=', end.toISOString())
+    .get();
 
-  if (analysesErr) {
-    console.error('Fetch analyses error:', analysesErr);
-    throw httpError('Failed to fetch analyses', 500);
-  }
+  const analyses = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
 
-  if (!analyses || analyses.length === 0) {
+  if (analyses.length === 0) {
+    console.warn(`[report.service] no analyses found for userId=${userId} in range`);
     return {
       week_start: start.toISOString().split('T')[0],
       week_end: end.toISOString().split('T')[0],
@@ -40,7 +39,9 @@ export async function getWeeklyReport(userId: string, weekStart?: string) {
   }
 
   const avgHealth =
-    analyses.reduce((s, a) => s + (a.health_score ?? 0), 0) / analyses.length;
+    analyses.reduce((s: number, a: any) => s + (a.health_score ?? 0), 0) / analyses.length;
+  console.log(`[report.service] ${analyses.length} analyses found, avgHealth=${avgHealth}`);
+
   const aiSummary = await generateReportSummary(
     Math.round(avgHealth),
     analyses.length
@@ -51,7 +52,7 @@ export async function getWeeklyReport(userId: string, weekStart?: string) {
     week_end: end.toISOString().split('T')[0],
     avg_health_score: Math.round(avgHealth),
     analyses_count: analyses.length,
-    ai_summary: aiSummary,
+    ai_summary: aiSummary ?? '',
     data: analyses,
   };
 }

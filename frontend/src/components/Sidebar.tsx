@@ -71,6 +71,7 @@ export default function Sidebar() {
 
   const pick = (g: GeoResult) => {
     const label = `${g.name}${g.admin1 && g.admin1 !== g.name ? ', ' + g.admin1 : ''}, ${g.country ?? ''}`
+    console.log(`[Sidebar] city selected: "${label}"`)
     setCity(label)
     setQuery('')
     setResults([])
@@ -140,17 +141,7 @@ export default function Sidebar() {
           </NavLink>
         ))}
 
-        <span className="sidebar-section-label" style={{ marginTop: 12 }}>Weather</span>
-        {[
-          { icon: 'thermostat',    label: 'Temperature' },
-          { icon: 'air',           label: 'Air Quality'  },
-          { icon: 'wb_sunny',      label: 'UV Index'     },
-        ].map(({ icon, label }) => (
-          <button key={label} className="nav-item">
-            <span className="material-symbols-outlined">{icon}</span>
-            {label}
-          </button>
-        ))}
+
       </nav>
 
       <div className="sidebar-footer">

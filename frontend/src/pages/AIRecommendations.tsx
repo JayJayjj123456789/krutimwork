@@ -17,35 +17,40 @@ export default function AIRecommendations() {
   const [state, setState] = useState<AIRecState>({ analysis: null, rec: null, loading: true, error: null })
   const [menu, setMenu] = useState<{ name: string; reason: string; benefit: string }[]>([])
   const [mood, setMood] = useState<string>('')
+  const [retryCount, setRetryCount] = useState(0)
 
   useEffect(() => {
     let cancelled = false
     const controller = new AbortController()
     setState(s => ({ ...s, loading: true, error: null }))
+    console.log(`[AIRecommendations] loading for userId=${userId} city="${city}"`)
 
     ;(async () => {
       try {
         const analysis: HealthAnalysis = await analyzeHealth(userId, city.split(',')[0].trim(), controller.signal)
         if (cancelled) return
+        console.log(`[AIRecommendations] analysis done: id=${analysis.id} score=${analysis.health_score}`)
         const rec: Recommendation = await getRecommendations(analysis.id, controller.signal)
         if (cancelled) return
+        console.log(`[AIRecommendations] recs done: activity="${rec.activity.slice(0, 60)}..."`)
         let parsedMenu: { name: string; reason: string; benefit: string }[] = []
-        try { if (rec.menu) parsedMenu = JSON.parse(rec.menu) } catch {}
+        try { if (rec.menu) parsedMenu = JSON.parse(rec.menu) } catch (e) { console.warn('[AIRecommendations] menu parse failed:', e) }
         setMenu(parsedMenu)
         setMood(rec.mood || '')
         setState({ analysis, rec, loading: false, error: null })
       } catch (e) {
         if (cancelled) return
         if (e instanceof Error && e.name === 'AbortError') return
+        console.error(`[AIRecommendations] error:`, e)
         setState(s => ({ ...s, loading: false, error: e instanceof Error ? e.message : 'Failed to load' }))
       }
     })()
 
     return () => { cancelled = true; controller.abort() }
-  }, [city, userId])
+  }, [city, userId, retryCount])
 
   if (state.loading && !state.analysis) return <LoadingSpinner text="Generating AI recommendations..." />
-  if (state.error) return <ErrorBanner message={state.error} onRetry={() => window.location.reload()} />
+  if (state.error) return <ErrorBanner message={state.error} onRetry={() => setRetryCount(c => c + 1)} />
 
   const a = state.analysis
   const r = state.rec

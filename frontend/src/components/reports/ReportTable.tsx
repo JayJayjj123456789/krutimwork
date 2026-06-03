@@ -32,11 +32,11 @@ export default function ReportTable<T>({ columns, data, title }: ReportTableProp
         </thead>
         <tbody>
           {data.map((row, i) => {
-            const key = columns[0]?.key ? String((row as any)[columns[0].key] ?? i) : `row-${i}`
+            const key = columns[0]?.key ? `${String((row as any)[columns[0].key] ?? i)}-${i}` : `row-${i}`
             return (
               <tr key={key}>
                 {columns.map(col => (
-                  <td key={col.key}>{col.render(row)}</td>
+                  <td key={`${col.key}-${i}`}>{col.render(row)}</td>
                 ))}
               </tr>
             )

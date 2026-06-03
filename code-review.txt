@@ -1,0 +1,114 @@
+CODE REVIEW — weather-health-ai
+================================
+Date: 2026-06-03
+
+---
+
+1.  CRITICAL BUG (FIXED)
+    --------------------
+    File: backend/src/services/weather/weather.service.ts (lines 140-167)
+    File: backend/src/services/health/analysis.service.ts (lines 19-30)
+    File: backend/src/controllers/recommendation.controller.ts (lines 19-37)
+
+    Symptom:  The /api/recommendations endpoint returned 404 for all
+    cities.  Clicking "AI Recommendations" in the frontend showed an
+    error instead of recommendations.
+
+    Root Cause:
+    The health_analysis.weather_record_id FK was always NULL because
+    the insert into weather_records silently failed.  The insert
+    included columns (country, latitude, longitude, feels_like, pm10,
+    weather_code, is_day) that do not exist in the Supabase table —
+    the database migrations that add them (004, 005) were never
+    applied.  Because Supabase JS returns column errors in the result,
+    not as thrown exceptions, the catch block never fired and
+    record.persisted remained true.  The subsequent SELECT for the
+    auto-generated id found zero rows, so weather_record_id stayed
+    NULL.  The recommendation controller's weather_records(*) join
+    returned NULL → 404.
+
+    Fix:
+    - Removed non-existent columns from the INSERT.
+    - Changed to a two-step approach: INSERT (no .select()), then a
+      separate SELECT to retrieve the id.
+
+    Verification:
+    /api/health/analyze now returns weather_record_id=21 (populated).
+    /api/recommendations returns HTTP 200 with activity/clothing/
+    hydration/menu/mood data.
+
+
+2.  ERROR HANDLER LEAKS UPSTREAM MESSAGES (Low)
+    ------------------------------------------
+    File: backend/src/middleware/errorHandler.ts (line 20)
+
+    For 4xx errors (client-safe), the raw upstream error message is
+    forwarded to the client.  Axios error messages from Open-Meteo or
+    Typhoon could leak internal API details.
+
+        const isClientSafe = status >= 400 && status < 500;
+        const message = isClientSafe ? rawMessage : SAFE_MESSAGE;
+
+    Consider sanitizing the message even for 4xx, or using a fixed
+    format that doesn't echo the upstream error verbatim.
+
+
+3.  FRONTEND TYPE MISMATCH (Low)
+    ----------------------------
+    File: frontend/src/types/index.ts (lines 45-57)
+
+    The HealthAnalysis interface declares a 'recommendations' field:
+
+        recommendations: {
+            activity: string
+            clothing: string
+            hydration: string
+        }
+
+    but the backend never returns this field.  The response from
+    /api/health/analyze only contains: id, user_id, weather_record_id,
+    health_score, respiratory_risk, migraine_risk, fatigue_risk,
+    ai_summary, created_at.  Recommendations are fetched separately
+    via /api/recommendations.
+
+    This field is unused in practice but should be removed from the
+    type to avoid confusion.
+
+
+4.  MISLEADING "AI SUMMARY" LABEL (Cosmetic)
+    -----------------------------------------
+    File: frontend/src/pages/Dashboard.tsx (lines 150-158)
+
+    The main dashboard card is titled "AI Summary" / "Today's Outlook"
+    but contains hardcoded text, not AI-generated content:
+
+        `Currently ${Math.round(weatherData.temperature)}°C with ...`
+
+    Either rename the heading to "Today's Overview" or wire it to a
+    real AI call.
+
+
+5.  DEAD CODE: chatWithSearch (Low)
+    --------------------------------
+    File: backend/src/services/ai/typhoon.service.ts (lines 125-189)
+
+    The function chatWithSearch() implements tool-calling-based web
+    search via Typhoon, but it is never imported or called anywhere.
+    The chat endpoint uses the simpler chat() function instead.
+
+    Recommend removing or documenting as intentionally unused.
+
+
+6.  WASTEFUL HOURLY FETCH (Trivial)
+    ---------------------------------
+    File: backend/src/services/weather/forecast.service.ts
+
+    The getForecast() function requests hourly data (temperature_2m,
+    relative_humidity_2m, weather_code, precipitation_probability)
+    from Open-Meteo, but the hourly data is never returned to the
+    client or used in calculations.  Only current and daily data are
+    consumed.  Removing the hourly params would reduce response size
+    and API latency slightly.
+
+
+--- END ---

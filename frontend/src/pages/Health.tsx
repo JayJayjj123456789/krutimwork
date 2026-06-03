@@ -16,8 +16,10 @@ export default function Health() {
   const { data: healthData, loading, error, analyze } = useHealth()
 
   useEffect(() => {
-    analyze(userId, city)
+    analyze(userId, city.split(',')[0].trim())
   }, [analyze, userId, city])
+
+  const retry = () => analyze(userId, city.split(',')[0].trim())
 
   if (loading && !healthData) {
     return <LoadingSpinner text="Analyzing health risks..." />
@@ -26,7 +28,7 @@ export default function Health() {
   return (
     <div className="section-gap page-enter">
       {error && (
-        <ErrorBanner message={error} onRetry={() => analyze(userId, city)} />
+        <ErrorBanner message={error} onRetry={retry} />
       )}
 
       <div className="grid-health-top">
@@ -61,7 +63,7 @@ export default function Health() {
 
         <div className="risk-cards-grid">
           {healthData ? Object.entries(riskConfig).map(([key, cfg]) => {
-            const level = (healthData as any)[cfg.field] || 'low'
+            const level = healthData[cfg.field as keyof typeof healthData] || 'low'
             const color = RISK_COLORS[level as RiskLevel] || 'var(--color-on-surface-variant)'
             const bg = level === 'high' || level === 'very_high' ? 'rgba(255,180,171,0.1)' : 'rgba(137,208,237,0.08)'
             return (

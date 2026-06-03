@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { withRetry } from '../../utils/retry';
 
 const FORECAST_URL = 'https://api.open-meteo.com/v1/forecast';
 
@@ -23,18 +24,9 @@ export interface DailyForecast {
   uv_index_max: number;
 }
 
-export interface HourlyForecast {
-  time: string[];
-  temperature: number[];
-  humidity: number[];
-  weather_code: number[];
-  precipitation_probability: number[];
-}
-
 export interface ForecastResult {
   current: CurrentWeather;
   daily: DailyForecast[];
-  hourly: HourlyForecast;
   timezone: string;
 }
 
@@ -43,7 +35,8 @@ export async function getForecast(
   lon: number,
   timezone = 'auto'
 ): Promise<ForecastResult> {
-  const res = await axios.get(FORECAST_URL, {
+  console.log(`[forecast.service] fetching forecast for lat=${lat} lon=${lon} tz=${timezone}`);
+  const res = await withRetry(() => axios.get(FORECAST_URL, {
     params: {
       latitude: lat,
       longitude: lon,
@@ -65,20 +58,25 @@ export async function getForecast(
         'precipitation_sum',
         'uv_index_max',
       ].join(','),
-      hourly: ['temperature_2m', 'relative_humidity_2m', 'weather_code', 'precipitation_probability'].join(','),
       forecast_days: 7,
       wind_speed_unit: 'kmh',
     },
     timeout: 10_000,
+  }), {
+    retries: 1,
+    baseDelay: 500,
+    onRetry: (err, a) => console.warn(`[forecast.service] retry ${a} after:`, (err as Error)?.message),
   });
 
   const c = res.data?.current;
   const d = res.data?.daily;
-  const h = res.data?.hourly;
 
-  if (!c || !d?.time || !h?.time) {
+  if (!c || !d?.time) {
+    console.error('[forecast.service] invalid response shape from Open-Meteo:', JSON.stringify(res.data).slice(0, 300));
     throw new Error('Open-Meteo: invalid response shape');
   }
+
+  console.log(`[forecast.service] forecast OK: current temp=${c.temperature_2m}, humidity=${c.relative_humidity_2m}, ${d.time.length} daily entries`);
 
   return {
     current: {
@@ -100,13 +98,6 @@ export async function getForecast(
       precipitation_sum: d.precipitation_sum[i],
       uv_index_max: d.uv_index_max[i],
     })),
-    hourly: {
-      time: h.time,
-      temperature: h.temperature_2m,
-      humidity: h.relative_humidity_2m,
-      weather_code: h.weather_code,
-      precipitation_probability: h.precipitation_probability,
-    },
-    timezone: res.data.timezone,
+    timezone: res.data.timezone ?? 'auto',
   };
 }

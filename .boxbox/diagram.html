@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>System Map · BoxBox</title>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape@3.30.2/dist/cytoscape.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dagre@0.8.5/dist/dagre.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/cytoscape-dagre@2.5.0/cytoscape-dagre.min.js"></script>
+<style>
+  :root {
+    --bg: #f8fafc; --fg: #0f172a; --muted: #64748b; --card: #ffffff;
+    --border: #e2e8f0; --shadow: 0 4px 16px rgba(15,23,42,.08);
+    --frontend:#3b82f6; --api:#8b5cf6; --backend:#10b981;
+    --database:#f59e0b; --external:#ec4899; --auth:#ef4444;
+    --infra:#6366f1;
+  }
+  [data-theme="dark"] {
+    --bg:#0f172a; --fg:#f1f5f9; --muted:#94a3b8; --card:#1e293b;
+    --border:#334155; --shadow:0 4px 16px rgba(0,0,0,.4);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; height:100%; background:var(--bg); color:var(--fg);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+  header { display:flex; align-items:center; justify-content:space-between;
+    padding:14px 24px; border-bottom:1px solid var(--border); background:var(--card); }
+  .brand { font-weight:700; font-size:18px; display:flex; align-items:center; gap:10px; }
+  .brand-dot { width:14px; height:14px; border-radius:4px;
+    background:linear-gradient(135deg,var(--frontend),var(--external)); }
+  .stack { display:flex; gap:8px; flex-wrap:wrap; }
+  .badge { padding:4px 10px; border-radius:999px; background:var(--bg);
+    border:1px solid var(--border); font-size:12px; color:var(--muted); }
+  .theme-btn { background:transparent; border:1px solid var(--border);
+    border-radius:8px; padding:6px 12px; cursor:pointer; color:var(--fg); }
+  .headline { padding:20px 24px 8px; font-size:20px; font-weight:600; max-width:900px; }
+  .subline { padding:0 24px 16px; color:var(--muted); font-size:14px; }
+  #cy { width:100%; height: calc(100vh - 220px); background:var(--bg); }
+  .legend { position:absolute; bottom:18px; left:18px; background:var(--card);
+    border:1px solid var(--border); border-radius:12px; padding:10px 14px;
+    box-shadow:var(--shadow); display:flex; gap:14px; flex-wrap:wrap; font-size:12px; z-index:5; }
+  .legend-item { display:flex; align-items:center; gap:6px; }
+  .legend-dot { width:12px; height:12px; border-radius:4px; }
+  .controls { position:absolute; top:172px; right:18px; display:flex; gap:8px; z-index:5; }
+  .ctrl-btn { background:var(--card); border:1px solid var(--border); border-radius:8px;
+    padding:6px 12px; cursor:pointer; color:var(--fg); box-shadow:var(--shadow); }
+  aside.panel {
+    position:fixed; top:0; right:0; height:100%; width:380px; max-width:90vw;
+    background:var(--card); border-left:1px solid var(--border); box-shadow:var(--shadow);
+    transform:translateX(110%); transition:transform .25s ease; z-index:20;
+    display:flex; flex-direction:column;
+  }
+  aside.panel.open { transform:translateX(0); }
+  .panel-head { padding:20px 24px; border-bottom:1px solid var(--border);
+    display:flex; align-items:center; justify-content:space-between; }
+  .panel-title { font-size:18px; font-weight:700; display:flex; align-items:center; gap:10px; }
+  .panel-chip { padding:3px 8px; border-radius:6px; font-size:11px; color:white;
+    text-transform:uppercase; letter-spacing:.5px; }
+  .panel-body { padding:20px 24px; overflow-y:auto; flex:1; }
+  .panel-body h4 { margin:18px 0 8px; font-size:13px; text-transform:uppercase;
+    letter-spacing:.5px; color:var(--muted); }
+  .panel-body p.explain { font-size:15px; line-height:1.5; }
+  .panel-body ul { padding-left:18px; margin:0; }
+  .panel-body li { margin:4px 0; font-size:13px; color:var(--muted); font-family: ui-monospace, SFMono-Regular, monospace; }
+  .conn { padding:8px 12px; background:var(--bg); border-radius:8px; margin:6px 0;
+    font-size:13px; border:1px solid var(--border); }
+  .close-btn { background:transparent; border:none; font-size:22px; cursor:pointer;
+    color:var(--muted); line-height:1; }
+  .credit { position:absolute; bottom:18px; right:18px; background:var(--card);
+    border:1px solid var(--border); border-radius:12px; padding:8px 14px;
+    box-shadow:var(--shadow); font-size:12px; color:var(--muted);
+    display:flex; align-items:center; gap:8px; z-index:5; }
+  .credit a { color:var(--fg); text-decoration:none; font-weight:600; }
+  .credit a:hover { text-decoration:underline; }
+  .credit-dot { width:10px; height:10px; border-radius:3px;
+    background:linear-gradient(135deg,var(--frontend),var(--external)); }
+  .credit-sep { color:var(--muted); }
+  .credit-fb { display:inline-flex; align-items:center; gap:4px; color:#1877F2 !important; }
+  .credit-fb:hover { color:#0d65d9 !important; }
+  @media (max-width: 640px) {
+    header { flex-wrap:wrap; gap:10px; }
+    .stack { order:3; width:100%; }
+    aside.panel { width:100%; }
+    .credit { bottom:auto; top:8px; right:8px; font-size:11px; padding:6px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span id="project-name">System Map</span>
+  </div>
+  <div class="stack" id="stack"></div>
+  <button class="theme-btn" id="theme-btn">Light mode</button>
+</header>
+
+<div class="headline" id="headline"></div>
+<div class="subline">Click any block to learn what it does. Drag to pan, scroll to zoom.</div>
+
+<div class="controls">
+  <button class="ctrl-btn" id="fit-btn">Fit to screen</button>
+  <button class="ctrl-btn" id="reset-btn">Reset view</button>
+</div>
+
+<div id="cy"></div>
+
+<div class="legend" id="legend"></div>
+
+<div class="credit">
+  <span class="credit-dot"></span>
+  Made with <a href="https://github.com/aiunlocked1412/boxbox" target="_blank" rel="noopener">BoxBox</a>
+  by <a href="https://github.com/aiunlocked1412" target="_blank" rel="noopener">AI UNLOCKED</a>
+  <span class="credit-sep">·</span>
+  <a href="https://www.facebook.com/aiunlockedvip" target="_blank" rel="noopener" class="credit-fb" aria-label="AI UNLOCKED on Facebook">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z"/></svg>
+    Facebook
+  </a>
+</div>
+
+<aside class="panel" id="panel" aria-hidden="true">
+  <div class="panel-head">
+    <div class="panel-title">
+      <span class="panel-chip" id="panel-chip">layer</span>
+      <span id="panel-name"></span>
+    </div>
+    <button class="close-btn" id="close-btn" aria-label="Close">×</button>
+  </div>
+  <div class="panel-body">
+    <p class="explain" id="panel-explain"></p>
+    <h4>Connections in</h4>
+    <div id="panel-in"></div>
+    <h4>Connections out</h4>
+    <div id="panel-out"></div>
+    <h4>Files</h4>
+    <ul id="panel-files"></ul>
+  </div>
+</aside>
+
+<script>
+const DATA = {
+  "project_name": "weather-health-ai",
+  "stack": [
+    {
+      "name": "React"
+    },
+    {
+      "name": "Vite"
+    },
+    {
+      "name": "TypeScript"
+    },
+    {
+      "name": "Express"
+    },
+    {
+      "name": "Firebase"
+    },
+    {
+      "name": "Firestore"
+    },
+    {
+      "name": "PostgreSQL"
+    },
+    {
+      "name": "Supabase"
+    },
+    {
+      "name": "Docker"
+    },
+    {
+      "name": "Vercel"
+    },
+    {
+      "name": "Render"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "login",
+      "name": "Login Page",
+      "plain_english": "Sign-in screen with email/password and Google OAuth",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/Login.tsx",
+        "frontend/src/context/AuthContext.tsx",
+        "frontend/src/config/firebase.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "signup",
+      "name": "Signup Page",
+      "plain_english": "Account creation screen with Firebase Auth",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/Signup.tsx",
+        "frontend/src/context/AuthContext.tsx"
+      ],
+      "external": false
+    },
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "plain_english": "Home screen with live weather, AQI, UV, humidity, wind, 7-day forecast, city search",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/Dashboard.tsx",
+        "frontend/src/hooks/useWeather.ts",
+        "frontend/src/utils/wmo.ts",
+        "frontend/src/utils/weather.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "health-analysis",
+      "name": "Health Analysis",
+      "plain_english": "Health risk screen with respiratory, migraine, fatigue risks and Thai AI summary",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/Health.tsx",
+        "frontend/src/hooks/useHealth.ts",
+        "frontend/src/utils/risk.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "ai-recommendations",
+      "name": "AI Recommendations",
+      "plain_english": "Personalized daily tips for clothing, food, hydration, activity, mood",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/AIRecommendations.tsx",
+        "frontend/src/components/ai/AIInsightCard.tsx",
+        "frontend/src/services/healthApi.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat",
+      "plain_english": "Chatbot for weather/health questions in Thai with web search",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/Chat/index.tsx",
+        "frontend/src/components/ai/ChatBox.tsx",
+        "frontend/src/components/ai/Message.tsx",
+        "frontend/src/hooks/useChat.ts",
+        "frontend/src/services/chatApi.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "reports",
+      "name": "Weekly Reports",
+      "plain_english": "Weekly health summaries with charts, trends, and data tables",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/pages/Reports/index.tsx",
+        "frontend/src/components/reports/WeeklyReport.tsx",
+        "frontend/src/components/reports/TrendChart.tsx",
+        "frontend/src/components/reports/ReportTable.tsx",
+        "frontend/src/services/reportApi.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "app-shell",
+      "name": "App Shell & Routing",
+      "plain_english": "Root component with React Router, RequireAuth, theme, sidebar, bottom nav",
+      "layer": "frontend",
+      "rank": 0,
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Sidebar.tsx",
+        "frontend/src/components/BottomNav.tsx",
+        "frontend/src/context/ThemeContext.tsx",
+        "frontend/src/context/UserContext.tsx",
+        "frontend/src/services/api.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "auth-api",
+      "name": "Auth API",
+      "plain_english": "Signup and login endpoints via Firebase REST API, returns JWT tokens",
+      "layer": "api",
+      "rank": 1,
+      "files": [
+        "backend/src/routes/auth.routes.ts",
+        "backend/src/controllers/auth.controller.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "weather-api",
+      "name": "Weather Data API",
+      "plain_english": "Geocodes city, fetches forecast + air quality + UV from Open-Meteo, saves to Firestore",
+      "layer": "api",
+      "rank": 1,
+      "files": [
+        "backend/src/controllers/weather.controller.ts",
+        "backend/src/controllers/geocode.controller.ts",
+        "backend/src/services/weather/weather.service.ts",
+        "backend/src/services/weather/forecast.service.ts",
+        "backend/src/services/weather/air-quality.service.ts",
+        "backend/src/services/weather/geocoding.service.ts",
+        "backend/src/routes/weather.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "health-backend",
+      "name": "Health Analysis Backend",
+      "plain_english": "Fetches weather + health profile, calculates risks, generates Thai AI summary, saves to Firestore",
+      "layer": "api",
+      "rank": 1,
+      "files": [
+        "backend/src/controllers/health.controller.ts",
+        "backend/src/services/health/analysis.service.ts",
+        "backend/src/services/health/risk.service.ts",
+        "backend/src/services/ai/summary.service.ts",
+        "backend/src/config/risk-thresholds.ts",
+        "backend/src/routes/health.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "recommendation-backend",
+      "name": "Recommendations Backend",
+      "plain_english": "Reads analysis + weather from Firestore, asks Typhoon AI for tips, saves recommendations",
+      "layer": "api",
+      "rank": 1,
+      "files": [
+        "backend/src/controllers/recommendation.controller.ts",
+        "backend/src/controllers/insights.controller.ts",
+        "backend/src/services/ai/recommendation.service.ts",
+        "backend/src/services/ai/insights.service.ts",
+        "backend/src/routes/recommendation.routes.ts",
+        "backend/src/routes/insights.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "chat-backend",
+      "name": "Chat Backend",
+      "plain_english": "Sanitizes input, searches web via Tavily, asks Typhoon AI in Thai, saves to Firestore",
+      "layer": "api",
+      "rank": 1,
+      "files": [
+        "backend/src/controllers/chat.controller.ts",
+        "backend/src/services/ai/typhoon.service.ts",
+        "backend/src/services/search/search.service.ts",
+        "backend/src/routes/chat.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "report-backend",
+      "name": "Reports Backend",
+      "plain_english": "Pulls 7 days of health data, computes averages, generates Thai AI weekly summary",
+      "layer": "api",
+      "rank": 1,
+      "files": [
+        "backend/src/controllers/report.controller.ts",
+        "backend/src/services/reports/report.service.ts",
+        "backend/src/routes/report.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "auth-middleware",
+      "name": "JWT Auth Middleware",
+      "plain_english": "Verifies Firebase JWT tokens, extracts userId, applied to all protected routes",
+      "layer": "auth",
+      "rank": 1,
+      "files": [
+        "backend/src/middleware/jwt-auth.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "server-infra",
+      "name": "Server & Infrastructure",
+      "plain_english": "Express server with Helmet, CORS, rate limiting, error handler, Docker/Render/Vercel configs",
+      "layer": "infra",
+      "rank": 2,
+      "files": [
+        "backend/src/server.ts",
+        "backend/src/middleware/errorHandler.ts",
+        "backend/src/utils/sanitize.ts",
+        "backend/src/utils/retry.ts",
+        "docker-compose.yml",
+        "vercel.json",
+        "render.yaml",
+        "backend/Dockerfile"
+      ],
+      "external": false
+    },
+    {
+      "id": "firestore",
+      "name": "Firestore Database",
+      "plain_english": "Firebase Firestore NoSQL with 7 collections for all persistent data",
+      "layer": "database",
+      "rank": 3,
+      "files": [
+        "backend/src/config/firebase.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "postgres-schema",
+      "name": "PostgreSQL Schema",
+      "plain_english": "Supabase-compatible PostgreSQL schema with 7 tables, soft delete, indexes, 5 migrations",
+      "layer": "database",
+      "rank": 3,
+      "files": [
+        "database/schema.sql",
+        "database/schema-enhanced.sql",
+        "database/seed.sql",
+        "database/migrations/001_initial_schema.sql",
+        "database/migrations/002_add_pm25_column.sql",
+        "database/migrations/003_add_indexes.sql",
+        "database/migrations/004_add_weather_code.sql",
+        "database/migrations/005_add_is_day.sql",
+        "database/api-contract.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "firebase-auth-ext",
+      "name": "Firebase Auth",
+      "plain_english": "Google Firebase Authentication for user creation, sign-in, Google OAuth, JWT",
+      "layer": "external",
+      "rank": 4,
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "open-meteo",
+      "name": "Open-Meteo",
+      "plain_english": "Free weather API for geocoding, forecasts, air quality, UV index",
+      "layer": "external",
+      "rank": 4,
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "typhoon-ai",
+      "name": "Typhoon AI",
+      "plain_english": "Thai-language AI model for health summaries, recommendations, chat, menu, mood",
+      "layer": "external",
+      "rank": 4,
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "tavily",
+      "name": "Tavily Search",
+      "plain_english": "Web search API for AI chat with up to 5 results",
+      "layer": "external",
+      "rank": 4,
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "plain_english": "Cloud PostgreSQL hosting, schema designed for Supabase compatibility",
+      "layer": "external",
+      "rank": 4,
+      "files": [],
+      "external": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "login",
+      "to": "auth-api",
+      "label": "POST /api/auth/login",
+      "kind": "api_call"
+    },
+    {
+      "from": "login",
+      "to": "firebase-auth-ext",
+      "label": "Firebase sign-in / Google popup",
+      "kind": "external_call"
+    },
+    {
+      "from": "signup",
+      "to": "auth-api",
+      "label": "POST /api/auth/signup",
+      "kind": "api_call"
+    },
+    {
+      "from": "signup",
+      "to": "firebase-auth-ext",
+      "label": "Firebase createUser",
+      "kind": "external_call"
+    },
+    {
+      "from": "app-shell",
+      "to": "dashboard",
+      "label": "default route /",
+      "kind": "event"
+    },
+    {
+      "from": "app-shell",
+      "to": "login",
+      "label": "redirect when not authenticated",
+      "kind": "event"
+    },
+    {
+      "from": "app-shell",
+      "to": "weather-api",
+      "label": "city search geocoding",
+      "kind": "api_call"
+    },
+    {
+      "from": "dashboard",
+      "to": "weather-api",
+      "label": "GET /api/weather?city=",
+      "kind": "api_call"
+    },
+    {
+      "from": "health-analysis",
+      "to": "health-backend",
+      "label": "POST /api/health/analyze",
+      "kind": "api_call"
+    },
+    {
+      "from": "ai-recommendations",
+      "to": "health-backend",
+      "label": "POST /api/health/analyze first",
+      "kind": "api_call"
+    },
+    {
+      "from": "ai-recommendations",
+      "to": "recommendation-backend",
+      "label": "GET /api/recommendations?analysisId=",
+      "kind": "api_call"
+    },
+    {
+      "from": "ai-chat",
+      "to": "chat-backend",
+      "label": "POST /api/chat",
+      "kind": "api_call"
+    },
+    {
+      "from": "reports",
+      "to": "report-backend",
+      "label": "GET /api/reports",
+      "kind": "api_call"
+    },
+    {
+      "from": "auth-api",
+      "to": "firebase-auth-ext",
+      "label": "Firebase REST API",
+      "kind": "external_call"
+    },
+    {
+      "from": "auth-api",
+      "to": "firestore",
+      "label": "stores user data",
+      "kind": "db_write"
+    },
+    {
+      "from": "auth-middleware",
+      "to": "firebase-auth-ext",
+      "label": "verifyIdToken()",
+      "kind": "external_call"
+    },
+    {
+      "from": "weather-api",
+      "to": "open-meteo",
+      "label": "geocoding, forecast, AQI, UV",
+      "kind": "external_call"
+    },
+    {
+      "from": "weather-api",
+      "to": "firestore",
+      "label": "saves weatherRecords",
+      "kind": "db_write"
+    },
+    {
+      "from": "health-backend",
+      "to": "firestore",
+      "label": "reads healthProfiles",
+      "kind": "db_read"
+    },
+    {
+      "from": "health-backend",
+      "to": "firestore",
+      "label": "saves healthAnalysis",
+      "kind": "db_write"
+    },
+    {
+      "from": "health-backend",
+      "to": "typhoon-ai",
+      "label": "generateHealthSummary()",
+      "kind": "external_call"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "firestore",
+      "label": "reads analysis + weather",
+      "kind": "db_read"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "firestore",
+      "label": "saves recommendations",
+      "kind": "db_write"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "typhoon-ai",
+      "label": "getRecommendations()",
+      "kind": "external_call"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "typhoon-ai",
+      "label": "getMenuSuggestions() + getMoodInsight()",
+      "kind": "external_call"
+    },
+    {
+      "from": "chat-backend",
+      "to": "tavily",
+      "label": "searchWeb()",
+      "kind": "external_call"
+    },
+    {
+      "from": "chat-backend",
+      "to": "typhoon-ai",
+      "label": "chat() in Thai",
+      "kind": "external_call"
+    },
+    {
+      "from": "chat-backend",
+      "to": "firestore",
+      "label": "saves chatHistory",
+      "kind": "db_write"
+    },
+    {
+      "from": "report-backend",
+      "to": "firestore",
+      "label": "reads 7 days healthAnalysis",
+      "kind": "db_read"
+    },
+    {
+      "from": "report-backend",
+      "to": "typhoon-ai",
+      "label": "generateReportSummary()",
+      "kind": "external_call"
+    },
+    {
+      "from": "server-infra",
+      "to": "auth-middleware",
+      "label": "applies JWT middleware",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "auth-api",
+      "label": "mounts /api/auth",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "weather-api",
+      "label": "mounts /api/weather",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "health-backend",
+      "label": "mounts /api/health",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "chat-backend",
+      "label": "mounts /api/chat",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "recommendation-backend",
+      "label": "mounts /api/recommendations+insights",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "report-backend",
+      "label": "mounts /api/reports",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "firestore",
+      "label": "initializes Firebase Admin SDK",
+      "kind": "import"
+    },
+    {
+      "from": "server-infra",
+      "to": "supabase",
+      "label": "Supabase client dependency",
+      "kind": "import"
+    }
+  ],
+  "summary": {
+    "feature_count": 24,
+    "connection_count": 38,
+    "headline": "A weather-health app that checks real-time conditions via Open-Meteo, analyzes how they affect your body with threshold-based risk scoring, gives Thai-language AI advice via Typhoon AI, tracks weekly trends, and lets you chat with an AI backed by web search - all secured by Firebase Auth JWT tokens, stored in Firestore, with a PostgreSQL schema for Supabase."
+  }
+};
+
+const LAYER_COLORS = {
+  frontend: "#3b82f6", api: "#8b5cf6", backend: "#10b981",
+  database: "#f59e0b", external: "#ec4899", auth: "#ef4444",
+  infra: "#6366f1"
+};
+const LAYER_LABEL = {
+  frontend: "User interface", api: "Server endpoints",
+  backend: "Business logic", database: "Data storage",
+  external: "Outside services", auth: "Authentication",
+  infra: "Infrastructure"
+};
+
+document.getElementById("project-name").textContent = DATA.project_name || "System Map";
+document.getElementById("headline").textContent = DATA.summary?.headline || "";
+
+const stackEl = document.getElementById("stack");
+(DATA.stack || []).forEach(s => {
+  const b = document.createElement("span");
+  b.className = "badge"; b.textContent = s.name;
+  stackEl.appendChild(b);
+});
+
+const legendEl = document.getElementById("legend");
+Object.entries(LAYER_LABEL).forEach(([k,v]) => {
+  const item = document.createElement("div");
+  item.className = "legend-item";
+  item.innerHTML = `<span class="legend-dot" style="background:${LAYER_COLORS[k]}"></span>${v}`;
+  legendEl.appendChild(item);
+});
+
+cytoscape.use(cytoscapeDagre);
+
+const elements = [
+  ...DATA.nodes.map(n => ({
+    data: { id: n.id, label: n.name, plain: n.plain_english,
+            layer: n.layer, files: n.files || [], external: !!n.external },
+    classes: n.layer
+  })),
+  ...DATA.edges.map(e => ({
+    data: { source: e.from, target: e.to, label: e.label || "", kind: e.kind }
+  }))
+];
+
+const cy = cytoscape({
+  container: document.getElementById("cy"),
+  elements,
+  style: [
+    { selector: "node", style: {
+      "shape": "round-rectangle",
+      "background-color": "data(color)",
+      "background-color": ele => LAYER_COLORS[ele.data("layer")] || "#64748b",
+      "label": "data(label)", "color": "#ffffff",
+      "text-valign": "center", "text-halign": "center",
+      "text-wrap": "wrap", "text-max-width": "140px",
+      "font-size": 14, "font-weight": 600,
+      "width": 180, "height": 70,
+      "border-width": 0,
+      "padding": 12,
+      "text-outline-width": 0
+    }},
+    { selector: "node:selected", style: { "border-width": 4, "border-color": "#f8fafc" }},
+    { selector: "edge", style: {
+      "width": 2,
+      "line-color": "#94a3b8",
+      "target-arrow-color": "#94a3b8",
+      "target-arrow-shape": "triangle",
+      "arrow-scale": 1.4,
+      "curve-style": "bezier",
+      "label": "data(label)",
+      "font-size": 11,
+      "font-weight": 500,
+      "color": "#0f172a",
+      "text-background-color": "#ffffff",
+      "text-background-opacity": 1,
+      "text-background-padding": 5,
+      "text-background-shape": "round-rectangle",
+      "text-border-color": "#e2e8f0",
+      "text-border-width": 1,
+      "text-border-opacity": 1,
+      "text-margin-y": -4,
+      "text-wrap": "wrap",
+      "text-max-width": "140px"
+    }},
+    { selector: "edge:hover", style: { "line-color": "#0f172a", "target-arrow-color": "#0f172a", "width": 3 }}
+  ],
+  layout: {
+    name: "dagre", rankDir: "TB", nodeSep: 80, rankSep: 140, padding: 40, edgeSep: 30
+  },
+  wheelSensitivity: 0.2
+});
+
+cy.on("tap", "node", (evt) => {
+  const n = evt.target;
+  const d = n.data();
+  document.getElementById("panel-name").textContent = d.label;
+  const chip = document.getElementById("panel-chip");
+  chip.textContent = LAYER_LABEL[d.layer] || d.layer;
+  chip.style.background = LAYER_COLORS[d.layer] || "#64748b";
+  document.getElementById("panel-explain").textContent = d.plain || "";
+
+  const inDiv = document.getElementById("panel-in"); inDiv.innerHTML = "";
+  const outDiv = document.getElementById("panel-out"); outDiv.innerHTML = "";
+  n.incomers("edge").forEach(e => {
+    const src = e.source().data("label");
+    const div = document.createElement("div");
+    div.className = "conn"; div.textContent = `${src} → ${e.data("label") || "connects here"}`;
+    inDiv.appendChild(div);
+  });
+  n.outgoers("edge").forEach(e => {
+    const tgt = e.target().data("label");
+    const div = document.createElement("div");
+    div.className = "conn"; div.textContent = `${e.data("label") || "sends to"} → ${tgt}`;
+    outDiv.appendChild(div);
+  });
+  if (!inDiv.children.length) inDiv.innerHTML = '<div class="conn" style="color:var(--muted)">Nothing comes in.</div>';
+  if (!outDiv.children.length) outDiv.innerHTML = '<div class="conn" style="color:var(--muted)">Nothing goes out.</div>';
+
+  const ul = document.getElementById("panel-files"); ul.innerHTML = "";
+  (d.files || []).forEach(f => { const li = document.createElement("li"); li.textContent = f; ul.appendChild(li); });
+  if (!ul.children.length) { const li = document.createElement("li"); li.textContent = "(no files associated)"; ul.appendChild(li); }
+
+  document.getElementById("panel").classList.add("open");
+});
+
+document.getElementById("close-btn").onclick = () => document.getElementById("panel").classList.remove("open");
+document.getElementById("fit-btn").onclick = () => cy.fit(null, 40);
+document.getElementById("reset-btn").onclick = () => { cy.fit(null, 40); cy.zoom({ level: 1 }); };
+
+const themeBtn = document.getElementById("theme-btn");
+function applyEdgeTheme(mode) {
+  const dark = mode === "dark";
+  cy.style()
+    .selector("edge").style({
+      "color": dark ? "#f1f5f9" : "#0f172a",
+      "text-background-color": dark ? "#1e293b" : "#ffffff",
+      "text-border-color": dark ? "#334155" : "#e2e8f0",
+      "line-color": dark ? "#64748b" : "#94a3b8",
+      "target-arrow-color": dark ? "#64748b" : "#94a3b8"
+    })
+    .selector("node:selected").style({
+      "border-color": dark ? "#f8fafc" : "#0f172a"
+    }).update();
+}
+themeBtn.onclick = () => {
+  const html = document.documentElement;
+  const next = html.dataset.theme === "dark" ? "light" : "dark";
+  html.dataset.theme = next;
+  themeBtn.textContent = next === "dark" ? "Light mode" : "Dark mode";
+  applyEdgeTheme(next);
+};
+
+applyEdgeTheme(document.documentElement.dataset.theme);
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") document.getElementById("panel").classList.remove("open");
+});
+</script>
+</body>
+</html>

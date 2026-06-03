@@ -1,0 +1,435 @@
+{
+  "project_name": "weather-health-ai",
+  "stack": [
+    {
+      "name": "React",
+      "category": "frontend",
+      "icon": "react"
+    },
+    {
+      "name": "Vite",
+      "category": "frontend",
+      "icon": "node"
+    },
+    {
+      "name": "TypeScript",
+      "category": "frontend",
+      "icon": "node"
+    },
+    {
+      "name": "Express",
+      "category": "backend",
+      "icon": "node"
+    },
+    {
+      "name": "PostgreSQL",
+      "category": "database",
+      "icon": "postgres"
+    },
+    {
+      "name": "Supabase",
+      "category": "database",
+      "icon": "supabase"
+    },
+    {
+      "name": "Docker",
+      "category": "infrastructure",
+      "icon": "box"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "dashboard",
+      "name": "Dashboard",
+      "plain_english": "Home screen showing live weather, AQI, UV, humidity, and a 7-day forecast with an AI summary.",
+      "layer": "frontend",
+      "rank": 0,
+      "icon": "dashboard",
+      "files": [
+        "frontend/src/pages/Dashboard.tsx",
+        "frontend/src/hooks/useWeather.ts",
+        "frontend/src/components/weather/WeatherCard.tsx",
+        "frontend/src/components/weather/ForecastCard.tsx",
+        "frontend/src/components/weather/AQICard.tsx",
+        "frontend/src/components/weather/UVCard.tsx"
+      ],
+      "external": false
+    },
+    {
+      "id": "health-analysis",
+      "name": "Health Analysis",
+      "plain_english": "Screen that checks weather impact on your health — breathing, headache, and fatigue risks with an AI-written summary.",
+      "layer": "frontend",
+      "rank": 0,
+      "icon": "box",
+      "files": [
+        "frontend/src/pages/Health.tsx",
+        "frontend/src/hooks/useHealth.ts",
+        "frontend/src/components/health/HealthScore.tsx",
+        "frontend/src/components/health/RiskGauge.tsx",
+        "frontend/src/components/health/RiskChart.tsx",
+        "frontend/src/components/health/HealthInsight.tsx"
+      ],
+      "external": false
+    },
+    {
+      "id": "ai-recommendations",
+      "name": "AI Recommendations",
+      "plain_english": "Screen with personalized daily tips on what to wear, eat, drink, and do — all based on the weather and your health.",
+      "layer": "frontend",
+      "rank": 0,
+      "icon": "ai",
+      "files": [
+        "frontend/src/pages/AIRecommendations.tsx",
+        "frontend/src/components/ai/AIInsightCard.tsx"
+      ],
+      "external": false
+    },
+    {
+      "id": "ai-chat",
+      "name": "AI Chat",
+      "plain_english": "A chatbot where you ask weather and health questions and get answers in Thai, backed by web search.",
+      "layer": "frontend",
+      "rank": 0,
+      "icon": "ai",
+      "files": [
+        "frontend/src/pages/Chat/index.tsx",
+        "frontend/src/components/ai/ChatBox.tsx",
+        "frontend/src/components/ai/Message.tsx",
+        "frontend/src/hooks/useChat.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "reports",
+      "name": "Weekly Reports",
+      "plain_english": "Screen showing weekly health summaries with bar charts, trend lines, and a data table to track changes over time.",
+      "layer": "frontend",
+      "rank": 0,
+      "icon": "chart",
+      "files": [
+        "frontend/src/pages/Reports/index.tsx",
+        "frontend/src/components/reports/WeeklyReport.tsx",
+        "frontend/src/components/reports/TrendChart.tsx",
+        "frontend/src/components/reports/ReportTable.tsx"
+      ],
+      "external": false
+    },
+    {
+      "id": "city-search",
+      "name": "City Search",
+      "plain_english": "A search bar that looks up any city by name, shows matching results, and switches the whole app to that city.",
+      "layer": "frontend",
+      "rank": 0,
+      "icon": "globe",
+      "files": [
+        "frontend/src/App.tsx",
+        "frontend/src/components/Sidebar.tsx"
+      ],
+      "external": false
+    },
+    {
+      "id": "weather-api",
+      "name": "Weather Data API",
+      "plain_english": "Backend that gets real-time weather, forecasts, air quality, and UV data from Open-Meteo and saves it to the database.",
+      "layer": "api",
+      "rank": 1,
+      "icon": "globe",
+      "files": [
+        "backend/src/controllers/weather.controller.ts",
+        "backend/src/controllers/geocode.controller.ts",
+        "backend/src/services/weather/weather.service.ts",
+        "backend/src/services/weather/forecast.service.ts",
+        "backend/src/services/weather/air-quality.service.ts",
+        "backend/src/services/weather/geocoding.service.ts",
+        "backend/src/routes/weather.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "health-backend",
+      "name": "Health Analysis Backend",
+      "plain_english": "Backend that reads weather data and user health profiles, calculates risks, and generates Thai-language AI health summaries.",
+      "layer": "api",
+      "rank": 1,
+      "icon": "box",
+      "files": [
+        "backend/src/controllers/health.controller.ts",
+        "backend/src/services/health/analysis.service.ts",
+        "backend/src/services/health/risk.service.ts",
+        "backend/src/routes/health.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "recommendation-backend",
+      "name": "Recommendations Backend",
+      "plain_english": "Backend that creates personalized activity, clothing, hydration, food menu, and mood suggestions using AI.",
+      "layer": "api",
+      "rank": 1,
+      "icon": "ai",
+      "files": [
+        "backend/src/controllers/recommendation.controller.ts",
+        "backend/src/controllers/insights.controller.ts",
+        "backend/src/services/ai/recommendation.service.ts",
+        "backend/src/services/ai/insights.service.ts",
+        "backend/src/routes/recommendation.routes.ts",
+        "backend/src/routes/insights.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "chat-backend",
+      "name": "Chat Backend",
+      "plain_english": "Backend that handles chat — searches the web for current info, asks Typhoon AI to answer in Thai, and saves the conversation.",
+      "layer": "api",
+      "rank": 1,
+      "icon": "ai",
+      "files": [
+        "backend/src/controllers/chat.controller.ts",
+        "backend/src/services/ai/typhoon.service.ts",
+        "backend/src/services/ai/summary.service.ts",
+        "backend/src/services/search/search.service.ts",
+        "backend/src/routes/chat.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "report-backend",
+      "name": "Reports Backend",
+      "plain_english": "Backend that pulls 7 days of health data, computes averages, and generates an AI weekly summary.",
+      "layer": "api",
+      "rank": 1,
+      "icon": "chart",
+      "files": [
+        "backend/src/controllers/report.controller.ts",
+        "backend/src/services/reports/report.service.ts",
+        "backend/src/routes/report.routes.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "infrastructure",
+      "name": "Infrastructure",
+      "plain_english": "Docker setup, Vercel and Render deployment configs, plus auth middleware, error handling, and text sanitization utilities.",
+      "layer": "backend",
+      "rank": 2,
+      "icon": "box",
+      "files": [
+        "docker-compose.yml",
+        "vercel.json",
+        "render.yaml",
+        "backend/Dockerfile",
+        "backend/src/middleware/auth.ts",
+        "backend/src/middleware/errorHandler.ts",
+        "backend/src/utils/sanitize.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "database",
+      "name": "Database",
+      "plain_english": "PostgreSQL database with 7 tables — stores users, health profiles, weather records, health analysis results, recommendations, chat history, and weekly reports.",
+      "layer": "database",
+      "rank": 3,
+      "icon": "postgres",
+      "files": [
+        "database/schema.sql",
+        "database/seed.sql",
+        "backend/src/config/supabase.ts"
+      ],
+      "external": false
+    },
+    {
+      "id": "open-meteo",
+      "name": "Open-Meteo",
+      "plain_english": "Free weather service that provides forecasts, air quality data, UV index, and city name lookups.",
+      "layer": "external",
+      "rank": 4,
+      "icon": "globe",
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "typhoon-ai",
+      "name": "Typhoon AI",
+      "plain_english": "Thai-language AI model that powers health summaries, personalized recommendations, chat answers, food ideas, and mood insights.",
+      "layer": "external",
+      "rank": 4,
+      "icon": "ai",
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "supabase",
+      "name": "Supabase",
+      "plain_english": "Cloud PostgreSQL service that hosts the database, with client libraries used by the backend.",
+      "layer": "external",
+      "rank": 4,
+      "icon": "supabase",
+      "files": [],
+      "external": true
+    },
+    {
+      "id": "duckduckgo",
+      "name": "DuckDuckGo",
+      "plain_english": "Web search engine that the AI Chat uses to find current information before answering your questions.",
+      "layer": "external",
+      "rank": 4,
+      "icon": "globe",
+      "files": [],
+      "external": true
+    }
+  ],
+  "edges": [
+    {
+      "from": "city-search",
+      "to": "weather-api",
+      "label": "searches for city names via geocoding",
+      "kind": "api_call"
+    },
+    {
+      "from": "city-search",
+      "to": "dashboard",
+      "label": "sets the selected city so weather data updates",
+      "kind": "event"
+    },
+    {
+      "from": "dashboard",
+      "to": "weather-api",
+      "label": "asks for current weather, forecast, AQI, and UV data",
+      "kind": "api_call"
+    },
+    {
+      "from": "health-analysis",
+      "to": "health-backend",
+      "label": "sends city name and user ID to start health analysis",
+      "kind": "api_call"
+    },
+    {
+      "from": "ai-recommendations",
+      "to": "health-backend",
+      "label": "gets health analysis result first",
+      "kind": "api_call"
+    },
+    {
+      "from": "ai-recommendations",
+      "to": "recommendation-backend",
+      "label": "requests personalized tips using the analysis ID",
+      "kind": "api_call"
+    },
+    {
+      "from": "ai-chat",
+      "to": "chat-backend",
+      "label": "sends user question, gets AI answer in Thai",
+      "kind": "api_call"
+    },
+    {
+      "from": "reports",
+      "to": "report-backend",
+      "label": "requests weekly health summary data",
+      "kind": "api_call"
+    },
+    {
+      "from": "weather-api",
+      "to": "open-meteo",
+      "label": "fetches forecasts, air quality, UV, and geocoding data",
+      "kind": "external_call"
+    },
+    {
+      "from": "weather-api",
+      "to": "database",
+      "label": "saves weather records for health analysis",
+      "kind": "db_write"
+    },
+    {
+      "from": "health-backend",
+      "to": "database",
+      "label": "reads weather records and user health profiles",
+      "kind": "db_read"
+    },
+    {
+      "from": "health-backend",
+      "to": "database",
+      "label": "saves health analysis results",
+      "kind": "db_write"
+    },
+    {
+      "from": "health-backend",
+      "to": "typhoon-ai",
+      "label": "asks AI to write a health summary in Thai",
+      "kind": "external_call"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "database",
+      "label": "reads health analysis and weather data",
+      "kind": "db_read"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "database",
+      "label": "saves generated recommendations",
+      "kind": "db_write"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "typhoon-ai",
+      "label": "asks AI for activity, clothing, hydration tips, food menu, and mood",
+      "kind": "external_call"
+    },
+    {
+      "from": "chat-backend",
+      "to": "duckduckgo",
+      "label": "searches the web for current information",
+      "kind": "external_call"
+    },
+    {
+      "from": "chat-backend",
+      "to": "typhoon-ai",
+      "label": "asks AI to answer the question in Thai",
+      "kind": "external_call"
+    },
+    {
+      "from": "chat-backend",
+      "to": "database",
+      "label": "saves question and answer to chat history",
+      "kind": "db_write"
+    },
+    {
+      "from": "report-backend",
+      "to": "database",
+      "label": "reads 7 days of health analyses",
+      "kind": "db_read"
+    },
+    {
+      "from": "report-backend",
+      "to": "database",
+      "label": "saves weekly report",
+      "kind": "db_write"
+    },
+    {
+      "from": "report-backend",
+      "to": "typhoon-ai",
+      "label": "asks AI to write a weekly summary in Thai",
+      "kind": "external_call"
+    },
+    {
+      "from": "database",
+      "to": "supabase",
+      "label": "uses Supabase client to connect to cloud PostgreSQL",
+      "kind": "external_call"
+    },
+    {
+      "from": "recommendation-backend",
+      "to": "health-backend",
+      "label": "uses the same health analysis data to generate tips",
+      "kind": "import"
+    }
+  ],
+  "summary": {
+    "feature_count": 17,
+    "connection_count": 24,
+    "headline": "A weather-health app that checks real-time conditions, analyzes how they affect your body, gives Thai-language AI advice on what to do, and tracks your weekly health trends — all powered by Open-Meteo, Typhoon AI, and Supabase."
+  }
+}

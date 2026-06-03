@@ -3,6 +3,7 @@ import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import authRoutes from './routes/auth.routes';
 import weatherRoutes from './routes/weather.routes';
 import healthRoutes from './routes/health.routes';
 import chatRoutes from './routes/chat.routes';
@@ -11,10 +12,19 @@ import reportRoutes from './routes/report.routes';
 import insightsRoutes from './routes/insights.routes';
 import { errorHandler } from './middleware/errorHandler';
 
+function logRequest(req: express.Request, res: express.Response, next: express.NextFunction) {
+  const start = Date.now();
+  res.on('finish', () => {
+    const ms = Date.now() - start;
+    console.log(`[REQ] ${req.method} ${req.originalUrl} → ${res.statusCode} (${ms}ms)`);
+  });
+  next();
+}
+
 dotenv.config();
 
 const app = express();
-const PORT = Number(process.env.PORT) || 3000;
+const PORT = process.env.PORT ? Number(process.env.PORT) : 3000;
 
 const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173')
   .split(',')
@@ -22,14 +32,20 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173')
   .filter(Boolean);
 
 app.use(helmet());
+app.use(logRequest);
+
+const isDev = process.env.NODE_ENV !== 'production';
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('CORS: origin not allowed'));
+      if (!origin) return callback(null, true);
+      // Allow any localhost / 127.0.0.1 port in development
+      if (isDev && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
+        return callback(null, true);
       }
+      if (allowedOrigins.includes(origin)) return callback(null, true);
+      callback(new Error('CORS: origin not allowed'));
     },
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     credentials: true,
@@ -58,6 +74,11 @@ app.get('/', (_req, res) => {
   res.json({ status: 'ok', message: 'Aether AI Backend Running' });
 });
 
+app.get('/health', (_req, res) => {
+  res.json({ status: 'healthy', uptime: process.uptime(), timestamp: new Date().toISOString() });
+});
+
+app.use('/api/auth', authRoutes);
 app.use('/api', apiLimiter);
 app.use('/api/weather', weatherRoutes);
 app.use('/api/health', healthRoutes);
@@ -89,6 +110,7 @@ function shutdown(signal: string) {
 
 process.on('unhandledRejection', (reason) => {
   console.error('[unhandledRejection]', reason);
+  shutdown('unhandledRejection');
 });
 process.on('uncaughtException', (err) => {
   console.error('[uncaughtException]', err);

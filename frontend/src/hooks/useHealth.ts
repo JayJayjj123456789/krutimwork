@@ -17,18 +17,26 @@ export function useHealth() {
     }
   }, [])
 
-  const analyze = useCallback(async (userId: number, city: string) => {
+  const analyze = useCallback(async (userId: string, city: string) => {
     abortRef.current?.abort()
     const controller = new AbortController()
     abortRef.current = controller
     setLoading(true)
     setError(null)
+    console.log(`[useHealth] analyzing userId=${userId} city="${city}"`)
     try {
       const d = await analyzeHealth(userId, city, controller.signal)
-      if (mountedRef.current && !controller.signal.aborted) setData(d)
+      if (mountedRef.current && !controller.signal.aborted) {
+        console.log(`[useHealth] result: healthScore=${d.health_score} summaryLength=${d.ai_summary?.length}`)
+        setData(d)
+      }
     } catch (e) {
       if (mountedRef.current && !controller.signal.aborted) {
-        if (e instanceof Error && e.name === 'AbortError') return
+        if (e instanceof Error && e.name === 'AbortError') {
+          console.log('[useHealth] aborted')
+          return
+        }
+        console.error(`[useHealth] error:`, e instanceof Error ? e.message : e)
         setError(e instanceof Error ? e.message : 'An error occurred')
       }
     } finally {

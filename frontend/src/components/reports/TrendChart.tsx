@@ -43,11 +43,11 @@ export default function TrendChart({
         </div>
       </div>
       <div className={styles.chart}>
-        {data.map(d => {
+        {data.map((d, index) => {
           const primaryH = (d.primary / maxVal) * 100
           const secondaryH = d.secondary ? (d.secondary / maxVal) * 100 : 0
           return (
-            <div key={d.label} className={styles.barCol}>
+            <div key={`${d.label}-${index}`} className={styles.barCol}>
               <div className={styles.bars}>
                 {d.secondary !== undefined && (
                   <div className={styles.bar} style={{ height: `${secondaryH}%`, background: secondaryColor }} />

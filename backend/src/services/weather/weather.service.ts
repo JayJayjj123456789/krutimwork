@@ -1,4 +1,4 @@
-import { requireSupabase } from '../../config/supabase';
+import { getFirestore } from '../../config/firebase';
 import { geocode, GeoLocation } from './geocoding.service';
 import { getForecast, ForecastResult, DailyForecast } from './forecast.service';
 import { getAirQuality, AirQualityResult } from './air-quality.service';
@@ -22,6 +22,7 @@ function sanitizeCity(city: string): string {
 }
 
 export interface WeatherRecord {
+  id?: string;
   city: string;
   country: string | null;
   latitude: number;
@@ -34,17 +35,18 @@ export interface WeatherRecord {
   weather_code: number;
   is_day: number;
   aqi: number | null;
-  pm25: number;
-  pm10: number;
-  o3: number;
-  no2: number;
-  uv: number;
+  pm25: number | null;
+  pm10: number | null;
+  o3: number | null;
+  no2: number | null;
+  uv: number | null;
   timestamp: string;
   daily: DailyForecast[];
   dataAvailability?: {
     aqi: boolean;
     uv: boolean;
   };
+  persisted?: boolean;
 }
 
 function mapAqiCategory(aqi: number): { label: string; chip: string; chipClass: string } {
@@ -66,23 +68,42 @@ function mapUvCategory(uv: number): { label: string; chip: string; chipClass: st
 
 export async function getWeatherByCity(city: string): Promise<WeatherRecord> {
   const cleanCity = sanitizeCity(city);
+  console.log(`[weather.service] geocoding "${cleanCity}"...`);
   const locations = await geocode(cleanCity, 1);
   const location: GeoLocation | null = locations?.[0] ?? null;
   if (!location) {
+    console.warn(`[weather.service] city not found: "${cleanCity}"`);
     throw Object.assign(new Error(`City not found: ${cleanCity}`), { status: 404 });
   }
+  console.log(`[weather.service] geocoded "${cleanCity}" → ${location.name}, ${location.country} (${location.latitude}, ${location.longitude})`);
 
+  console.log(`[weather.service] fetching forecast + air quality for ${location.latitude}, ${location.longitude}...`);
   const [forecast, air] = await Promise.all([
     getForecast(location.latitude, location.longitude, location.timezone),
     getAirQuality(location.latitude, location.longitude).catch((err) => {
-      console.error('Air quality lookup failed:', err);
+      console.error('[weather.service] Air quality lookup failed:', (err as Error).message);
       return null;
     }),
   ]);
+  console.log(`[weather.service] forecast received, daily=${forecast.daily?.length ?? 0} days`);
+  console.log(`[weather.service] air quality data: ${air !== null ? 'available' : 'UNAVAILABLE'}`);
 
-  const uvToday = forecast.daily[0]?.uv_index_max ?? null;
+  if (!forecast.current) {
+    console.warn(`[weather.service] NO current weather data in forecast response for "${cleanCity}"`);
+    throw Object.assign(new Error(`Weather data unavailable for ${cleanCity}`), { status: 502 });
+  }
+
+  const temp = forecast.current.temperature;
+  const feels_like = forecast.current.apparent_temperature;
+  const humidity = forecast.current.humidity;
+  const wind_speed = forecast.current.wind_speed;
+  const precipitation = forecast.current.precipitation;
+  const weather_code = forecast.current.weather_code;
+  const is_day = forecast.current.is_day;
+
+  const uvToday = forecast.daily?.length ? (forecast.daily[0]?.uv_index_max ?? null) : null;
   if (uvToday === null) {
-    console.warn('UV index data unavailable for', cleanCity);
+    console.warn('[weather.service] UV index data unavailable for', cleanCity);
   }
 
   const record: WeatherRecord = {
@@ -90,51 +111,49 @@ export async function getWeatherByCity(city: string): Promise<WeatherRecord> {
     country: location.country,
     latitude: location.latitude,
     longitude: location.longitude,
-    temperature: forecast.current.temperature,
-    feels_like: forecast.current.apparent_temperature,
-    humidity: forecast.current.humidity,
-    wind_speed: forecast.current.wind_speed,
-    precipitation: forecast.current.precipitation,
-    weather_code: forecast.current.weather_code,
-    is_day: forecast.current.is_day,
+    temperature: temp,
+    feels_like: feels_like,
+    humidity: humidity,
+    wind_speed: wind_speed,
+    precipitation: precipitation,
+    weather_code: weather_code,
+    is_day: is_day,
     aqi: air?.aqi ?? null,
-    pm25: air?.pm25 ?? 0,
-    pm10: air?.pm10 ?? 0,
-    o3: air?.o3 ?? 0,
-    no2: air?.no2 ?? 0,
-    uv: uvToday ?? 0,
+    pm25: air?.pm25 ?? null,
+    pm10: air?.pm10 ?? null,
+    o3: air?.o3 ?? null,
+    no2: air?.no2 ?? null,
+    uv: uvToday,
     timestamp: new Date().toISOString(),
     daily: forecast.daily,
     dataAvailability: {
       aqi: air !== null,
       uv: uvToday !== null,
     },
+    persisted: true,
   };
 
   if (air === null) {
-    console.warn('Air quality data unavailable for', cleanCity, '- showing warning to user');
+    console.warn('[weather.service] Air quality data unavailable for', cleanCity, '- showing warning to user');
   }
 
   try {
-    await requireSupabase().from('weather_records').insert({
+    const db = getFirestore();
+    const docRef = await db.collection('weatherRecords').add({
       city: record.city,
-      country: record.country,
-      latitude: record.latitude,
-      longitude: record.longitude,
       temperature: record.temperature,
-      feels_like: record.feels_like,
       humidity: record.humidity,
       aqi: record.aqi,
       uv: record.uv,
       wind_speed: record.wind_speed,
       pm25: record.pm25,
-      pm10: record.pm10,
-      weather_code: record.weather_code,
-      is_day: record.is_day,
       timestamp: record.timestamp,
     });
+    record.id = docRef.id;
+    console.log(`[weather.service] persisted weather for "${record.city}" id=${record.id}`);
   } catch (err) {
-    console.error('Failed to persist weather data:', err);
+    console.error('[weather.service] Failed to persist weather data:', (err as Error).message);
+    record.persisted = false;
   }
 
   return record;

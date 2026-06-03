@@ -1,5 +1,6 @@
 import { WeatherData } from '../../types'
 import { formatTemperature } from '../../utils/weather'
+import { getWmoInfo } from '../../utils/wmo'
 import styles from './WeatherCard.module.css'
 
 interface WeatherCardProps {
@@ -15,9 +16,9 @@ export default function WeatherCard({ data }: WeatherCardProps) {
       </div>
       <div className={styles.main}>
         <span className={styles.temp}>{formatTemperature(data.temperature)}</span>
-        <span className="material-symbols-outlined icon-fill" style={{ fontSize: 44, color: 'var(--color-secondary)' }}>partly_cloudy_day</span>
+        <span className="material-symbols-outlined icon-fill" style={{ fontSize: 44, color: 'var(--color-secondary)' }}>{getWmoInfo(data.weather_code).icon}</span>
       </div>
-      <p className={styles.feels}>Feels like {formatTemperature(data.temperature + 2)}</p>
+      <p className={styles.feels}>Feels like {formatTemperature(data.feels_like)}</p>
       <div className={styles.meta}>
         <div className={styles.metaItem}>
           <span className="material-symbols-outlined" style={{ fontSize: 14 }}>water_drop</span>
@@ -25,7 +26,7 @@ export default function WeatherCard({ data }: WeatherCardProps) {
         </div>
         <div className={styles.metaItem}>
           <span className="material-symbols-outlined" style={{ fontSize: 14 }}>air</span>
-          <span>{Math.round(data.wind_speed * 3.6)} km/h</span>
+          <span>{Math.round(data.wind_speed)} km/h</span>
         </div>
       </div>
     </div>

@@ -17,7 +17,7 @@ export default function AQICard({ aqi, pm25 }: AQICardProps) {
         <div className="stat-card-icon" style={{ background: 'rgba(137,208,237,0.12)' }}>
           <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-secondary)', fontSize: 22 }}>air</span>
         </div>
-        <span className={`chip chip-${level === 'low' ? 'good' : level === 'moderate' ? 'yellow' : 'warning'}`}>
+        <span className={`chip chip-${{ low: 'good', moderate: 'yellow', high: 'warning', very_high: 'error' }[level] || 'neutral'}`}>
           {aqiText(aqi)}
         </span>
       </div>

@@ -1,7 +1,8 @@
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
 import { UserProvider, useUser } from './context/UserContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import Sidebar from './components/Sidebar'
 import BottomNav from './components/BottomNav'
@@ -10,6 +11,8 @@ import Health from './pages/Health'
 import AIRecommendations from './pages/AIRecommendations'
 import Chat from './pages/Chat'
 import Reports from './pages/Reports'
+import Login from './pages/Login'
+import Signup from './pages/Signup'
 import API from './services/api'
 
 const pageTitles: Record<string, { title: string; sub: string }> = {
@@ -20,11 +23,12 @@ const pageTitles: Record<string, { title: string; sub: string }> = {
   '/reports': { title: 'Weekly Reports',    sub: 'Historical data & trend analysis'        },
 }
 
-function AppContent() {
+function Layout() {
   const location = useLocation()
   const page = pageTitles[location.pathname] ?? pageTitles['/']
   const { city, setCity } = useUser()
   const navigate = useNavigate()
+  console.log(`[App] route: ${location.pathname} city="${city}"`)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<{ name: string; country: string | null; admin1: string | null }[]>([])
   const [open, setOpen] = useState(false)
@@ -119,11 +123,11 @@ function AppContent() {
 
           <ErrorBoundary>
             <Routes>
-              <Route path="/"        element={<Dashboard />} />
-              <Route path="/health"  element={<Health />} />
-              <Route path="/ai"      element={<AIRecommendations />} />
-              <Route path="/chat"    element={<Chat />} />
-              <Route path="/reports" element={<Reports />} />
+              <Route index        element={<Dashboard />} />
+              <Route path="health"  element={<Health />} />
+              <Route path="ai"      element={<AIRecommendations />} />
+              <Route path="chat"    element={<Chat />} />
+              <Route path="reports" element={<Reports />} />
             </Routes>
           </ErrorBoundary>
         </div>
@@ -132,12 +136,25 @@ function AppContent() {
   )
 }
 
+function RequireAuth({ children }: { children: React.ReactNode }) {
+  const { user, loading } = useAuth()
+  if (loading) return <div className="loading-screen"><span className="spinner" /></div>
+  if (!user) return <Navigate to="/login" replace />
+  return <>{children}</>
+}
+
 export default function App() {
   return (
     <ThemeProvider>
-      <UserProvider>
-        <AppContent />
-      </UserProvider>
+      <AuthProvider>
+        <UserProvider>
+          <Routes>
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/*" element={<RequireAuth><Layout /></RequireAuth>} />
+          </Routes>
+        </UserProvider>
+      </AuthProvider>
     </ThemeProvider>
   )
 }

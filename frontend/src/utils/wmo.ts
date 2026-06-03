@@ -30,15 +30,16 @@ export interface WmoInfo {
   en: string
   icon: string
   gradient: WmoGradient
+  isKnown: boolean
 }
 
 export function getWmoInfo(code: number | null | undefined): WmoInfo {
   if (code === null || code === undefined) {
-    return { code: -1, th: 'ไม่ทราบ', en: 'Unknown', icon: 'help', gradient: 'cloudy' }
+    return { code: -1, th: 'ไม่ทราบ', en: 'Unknown', icon: 'help', gradient: 'cloudy', isKnown: false }
   }
   const info = WMO[code]
   if (!info) {
-    return { code, th: 'ไม่ทราบ', en: 'Unknown', icon: 'help', gradient: 'cloudy' }
+    return { code, th: 'ไม่ทราบ', en: 'Unknown', icon: 'help', gradient: 'cloudy', isKnown: false }
   }
-  return { code, ...info }
+  return { code, ...info, isKnown: true }
 }

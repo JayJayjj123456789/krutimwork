@@ -28,14 +28,18 @@ export default function Reports() {
     abortRef.current = controller
     setLoading(true)
     setError(null)
+    console.log(`[Reports] fetching for userId=${userId}`)
     getReports(userId, controller.signal)
       .then((r) => {
-        if (mountedRef.current && !controller.signal.aborted) setReport(r)
+        if (mountedRef.current && !controller.signal.aborted) {
+          console.log(`[Reports] data: ${r.analyses_count} analyses, avg=${r.avg_health_score}`)
+          setReport(r)
+        }
       })
       .catch((e) => {
         if (mountedRef.current && !controller.signal.aborted) {
           if (e instanceof Error && e.name === 'AbortError') return
-          console.error('Failed to load reports:', e)
+          console.error('[Reports] Failed to load reports:', e)
           setError(e instanceof Error ? e.message : 'Could not load reports')
         }
       })
@@ -65,14 +69,42 @@ export default function Reports() {
   }
 
   const analyses = report?.data ?? []
-  const trendData = analyses.slice(0, 7).reverse().map((a) => {
-    const d = new Date(a.created_at)
-    return {
-      label: d.toLocaleDateString('en-US', { weekday: 'short' }),
-      primary: a.health_score,
-      secondary: a.respiratory_risk === 'very_high' ? 200 : a.respiratory_risk === 'high' ? 150 : a.respiratory_risk === 'moderate' ? 100 : 50,
+
+  // Generate all 7 days of the week
+  const generateWeekData = () => {
+    const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+    const today = new Date()
+    const result = []
+
+    // Get the last 7 days
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date(today)
+      date.setDate(date.getDate() - i)
+      const dayName = days[date.getDay()]
+      const dateStr = date.toISOString().split('T')[0]
+
+      // Find analysis for this day
+      const analysis = analyses.find(a => {
+        const aDate = new Date(a.created_at).toISOString().split('T')[0]
+        return aDate === dateStr
+      })
+
+      result.push({
+        label: dayName,
+        date: dateStr,
+        primary: analysis?.health_score ?? 0,
+        secondary: analysis?.respiratory_risk === 'very_high' ? 200 :
+                   analysis?.respiratory_risk === 'high' ? 150 :
+                   analysis?.respiratory_risk === 'moderate' ? 100 :
+                   analysis?.respiratory_risk === 'low' ? 50 : 0,
+        hasData: !!analysis,
+      })
     }
-  })
+
+    return result
+  }
+
+  const trendData = generateWeekData()
 
   const tableColumns = [
     { key: 'label', label: 'Day', render: (r: { label: string; primary: number }) => r.label },

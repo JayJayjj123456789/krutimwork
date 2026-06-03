@@ -7,7 +7,7 @@ interface UVCardProps {
 
 export default function UVCard({ uv }: UVCardProps) {
   const text = uvText(uv)
-  const isHigh = uv > 7
+  const isHigh = uv >= 6
 
   return (
     <div className={`glass-card stat-card ${styles.card}`}>
