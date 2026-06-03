@@ -16,7 +16,3 @@ services:
         value: https://api.opentyphoon.ai/v1/chat/completions
       - key: TYPHOON_API_KEY
         sync: false
-      - key: SUPABASE_URL
-        sync: false
-      - key: SUPABASE_KEY
-        sync: false

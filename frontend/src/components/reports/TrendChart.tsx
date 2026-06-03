@@ -12,6 +12,7 @@ interface TrendChartProps {
   secondaryColor?: string
   primaryLabel?: string
   secondaryLabel?: string
+  title?: string
 }
 
 export default function TrendChart({
@@ -20,13 +21,14 @@ export default function TrendChart({
   secondaryColor = 'rgba(198,198,199,0.6)',
   primaryLabel,
   secondaryLabel,
+  title = '7-Day Trend',
 }: TrendChartProps) {
   const maxVal = Math.max(...data.flatMap(d => [d.primary, d.secondary ?? 0]), 100)
 
   return (
     <div className="glass-card">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
-        <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 700, color: 'var(--color-primary)' }}>7-Day Trend</span>
+        <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 700, color: 'var(--color-primary)' }}>{title}</span>
         <div style={{ display: 'flex', gap: 16 }}>
           {primaryLabel && (
             <span style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--color-on-surface-variant)' }}>
