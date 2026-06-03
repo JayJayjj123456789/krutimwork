@@ -141,598 +141,99 @@
 const DATA = {
   "project_name": "weather-health-ai",
   "stack": [
-    {
-      "name": "React"
-    },
-    {
-      "name": "Vite"
-    },
-    {
-      "name": "TypeScript"
-    },
-    {
-      "name": "Express"
-    },
-    {
-      "name": "Firebase"
-    },
-    {
-      "name": "Firestore"
-    },
-    {
-      "name": "PostgreSQL"
-    },
-    {
-      "name": "Supabase"
-    },
-    {
-      "name": "Docker"
-    },
-    {
-      "name": "Vercel"
-    },
-    {
-      "name": "Render"
-    }
+    {"name": "React"}, {"name": "Vite"}, {"name": "TypeScript"},
+    {"name": "Express"}, {"name": "Firebase"}, {"name": "Firestore"},
+    {"name": "PostgreSQL"}, {"name": "Supabase"}, {"name": "Docker"},
+    {"name": "Vercel"}, {"name": "Render"}, {"name": "Tavily"}
   ],
   "nodes": [
-    {
-      "id": "login",
-      "name": "Login Page",
-      "plain_english": "Sign-in screen with email/password and Google OAuth",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/Login.tsx",
-        "frontend/src/context/AuthContext.tsx",
-        "frontend/src/config/firebase.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "signup",
-      "name": "Signup Page",
-      "plain_english": "Account creation screen with Firebase Auth",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/Signup.tsx",
-        "frontend/src/context/AuthContext.tsx"
-      ],
-      "external": false
-    },
-    {
-      "id": "dashboard",
-      "name": "Dashboard",
-      "plain_english": "Home screen with live weather, AQI, UV, humidity, wind, 7-day forecast, city search",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/Dashboard.tsx",
-        "frontend/src/hooks/useWeather.ts",
-        "frontend/src/utils/wmo.ts",
-        "frontend/src/utils/weather.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "health-analysis",
-      "name": "Health Analysis",
-      "plain_english": "Health risk screen with respiratory, migraine, fatigue risks and Thai AI summary",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/Health.tsx",
-        "frontend/src/hooks/useHealth.ts",
-        "frontend/src/utils/risk.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "ai-recommendations",
-      "name": "AI Recommendations",
-      "plain_english": "Personalized daily tips for clothing, food, hydration, activity, mood",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/AIRecommendations.tsx",
-        "frontend/src/components/ai/AIInsightCard.tsx",
-        "frontend/src/services/healthApi.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "ai-chat",
-      "name": "AI Chat",
-      "plain_english": "Chatbot for weather/health questions in Thai with web search",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/Chat/index.tsx",
-        "frontend/src/components/ai/ChatBox.tsx",
-        "frontend/src/components/ai/Message.tsx",
-        "frontend/src/hooks/useChat.ts",
-        "frontend/src/services/chatApi.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "reports",
-      "name": "Weekly Reports",
-      "plain_english": "Weekly health summaries with charts, trends, and data tables",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/pages/Reports/index.tsx",
-        "frontend/src/components/reports/WeeklyReport.tsx",
-        "frontend/src/components/reports/TrendChart.tsx",
-        "frontend/src/components/reports/ReportTable.tsx",
-        "frontend/src/services/reportApi.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "app-shell",
-      "name": "App Shell & Routing",
-      "plain_english": "Root component with React Router, RequireAuth, theme, sidebar, bottom nav",
-      "layer": "frontend",
-      "rank": 0,
-      "files": [
-        "frontend/src/App.tsx",
-        "frontend/src/components/Sidebar.tsx",
-        "frontend/src/components/BottomNav.tsx",
-        "frontend/src/context/ThemeContext.tsx",
-        "frontend/src/context/UserContext.tsx",
-        "frontend/src/services/api.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "auth-api",
-      "name": "Auth API",
-      "plain_english": "Signup and login endpoints via Firebase REST API, returns JWT tokens",
-      "layer": "api",
-      "rank": 1,
-      "files": [
-        "backend/src/routes/auth.routes.ts",
-        "backend/src/controllers/auth.controller.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "weather-api",
-      "name": "Weather Data API",
-      "plain_english": "Geocodes city, fetches forecast + air quality + UV from Open-Meteo, saves to Firestore",
-      "layer": "api",
-      "rank": 1,
-      "files": [
-        "backend/src/controllers/weather.controller.ts",
-        "backend/src/controllers/geocode.controller.ts",
-        "backend/src/services/weather/weather.service.ts",
-        "backend/src/services/weather/forecast.service.ts",
-        "backend/src/services/weather/air-quality.service.ts",
-        "backend/src/services/weather/geocoding.service.ts",
-        "backend/src/routes/weather.routes.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "health-backend",
-      "name": "Health Analysis Backend",
-      "plain_english": "Fetches weather + health profile, calculates risks, generates Thai AI summary, saves to Firestore",
-      "layer": "api",
-      "rank": 1,
-      "files": [
-        "backend/src/controllers/health.controller.ts",
-        "backend/src/services/health/analysis.service.ts",
-        "backend/src/services/health/risk.service.ts",
-        "backend/src/services/ai/summary.service.ts",
-        "backend/src/config/risk-thresholds.ts",
-        "backend/src/routes/health.routes.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "recommendation-backend",
-      "name": "Recommendations Backend",
-      "plain_english": "Reads analysis + weather from Firestore, asks Typhoon AI for tips, saves recommendations",
-      "layer": "api",
-      "rank": 1,
-      "files": [
-        "backend/src/controllers/recommendation.controller.ts",
-        "backend/src/controllers/insights.controller.ts",
-        "backend/src/services/ai/recommendation.service.ts",
-        "backend/src/services/ai/insights.service.ts",
-        "backend/src/routes/recommendation.routes.ts",
-        "backend/src/routes/insights.routes.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "chat-backend",
-      "name": "Chat Backend",
-      "plain_english": "Sanitizes input, searches web via Tavily, asks Typhoon AI in Thai, saves to Firestore",
-      "layer": "api",
-      "rank": 1,
-      "files": [
-        "backend/src/controllers/chat.controller.ts",
-        "backend/src/services/ai/typhoon.service.ts",
-        "backend/src/services/search/search.service.ts",
-        "backend/src/routes/chat.routes.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "report-backend",
-      "name": "Reports Backend",
-      "plain_english": "Pulls 7 days of health data, computes averages, generates Thai AI weekly summary",
-      "layer": "api",
-      "rank": 1,
-      "files": [
-        "backend/src/controllers/report.controller.ts",
-        "backend/src/services/reports/report.service.ts",
-        "backend/src/routes/report.routes.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "auth-middleware",
-      "name": "JWT Auth Middleware",
-      "plain_english": "Verifies Firebase JWT tokens, extracts userId, applied to all protected routes",
-      "layer": "auth",
-      "rank": 1,
-      "files": [
-        "backend/src/middleware/jwt-auth.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "server-infra",
-      "name": "Server & Infrastructure",
-      "plain_english": "Express server with Helmet, CORS, rate limiting, error handler, Docker/Render/Vercel configs",
-      "layer": "infra",
-      "rank": 2,
-      "files": [
-        "backend/src/server.ts",
-        "backend/src/middleware/errorHandler.ts",
-        "backend/src/utils/sanitize.ts",
-        "backend/src/utils/retry.ts",
-        "docker-compose.yml",
-        "vercel.json",
-        "render.yaml",
-        "backend/Dockerfile"
-      ],
-      "external": false
-    },
-    {
-      "id": "firestore",
-      "name": "Firestore Database",
-      "plain_english": "Firebase Firestore NoSQL with 7 collections for all persistent data",
-      "layer": "database",
-      "rank": 3,
-      "files": [
-        "backend/src/config/firebase.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "postgres-schema",
-      "name": "PostgreSQL Schema",
-      "plain_english": "Supabase-compatible PostgreSQL schema with 7 tables, soft delete, indexes, 5 migrations",
-      "layer": "database",
-      "rank": 3,
-      "files": [
-        "database/schema.sql",
-        "database/schema-enhanced.sql",
-        "database/seed.sql",
-        "database/migrations/001_initial_schema.sql",
-        "database/migrations/002_add_pm25_column.sql",
-        "database/migrations/003_add_indexes.sql",
-        "database/migrations/004_add_weather_code.sql",
-        "database/migrations/005_add_is_day.sql",
-        "database/api-contract.ts"
-      ],
-      "external": false
-    },
-    {
-      "id": "firebase-auth-ext",
-      "name": "Firebase Auth",
-      "plain_english": "Google Firebase Authentication for user creation, sign-in, Google OAuth, JWT",
-      "layer": "external",
-      "rank": 4,
-      "files": [],
-      "external": true
-    },
-    {
-      "id": "open-meteo",
-      "name": "Open-Meteo",
-      "plain_english": "Free weather API for geocoding, forecasts, air quality, UV index",
-      "layer": "external",
-      "rank": 4,
-      "files": [],
-      "external": true
-    },
-    {
-      "id": "typhoon-ai",
-      "name": "Typhoon AI",
-      "plain_english": "Thai-language AI model for health summaries, recommendations, chat, menu, mood",
-      "layer": "external",
-      "rank": 4,
-      "files": [],
-      "external": true
-    },
-    {
-      "id": "tavily",
-      "name": "Tavily Search",
-      "plain_english": "Web search API for AI chat with up to 5 results",
-      "layer": "external",
-      "rank": 4,
-      "files": [],
-      "external": true
-    },
-    {
-      "id": "supabase",
-      "name": "Supabase",
-      "plain_english": "Cloud PostgreSQL hosting, schema designed for Supabase compatibility",
-      "layer": "external",
-      "rank": 4,
-      "files": [],
-      "external": true
-    }
+    {"id": "login", "name": "Login Page", "plain_english": "Sign-in screen with email/password and Google OAuth. Uses Firebase client SDK to authenticate and obtain JWT tokens. Supports Google popup sign-in.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/Login.tsx", "frontend/src/context/AuthContext.tsx", "frontend/src/config/firebase.ts"], "external": false},
+    {"id": "signup", "name": "Signup Page", "plain_english": "Account creation screen. Creates a Firebase Auth user via client SDK and signs them in with a JWT token immediately.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/Signup.tsx", "frontend/src/context/AuthContext.tsx"], "external": false},
+    {"id": "dashboard", "name": "Dashboard", "plain_english": "Home screen with live weather, AQI, UV, humidity, feels-like temp, wind, 7-day forecast, and inline AI weather overview. City search with debounced geocoding in header and sidebar.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/Dashboard.tsx", "frontend/src/hooks/useWeather.ts", "frontend/src/utils/wmo.ts", "frontend/src/utils/weather.ts", "frontend/src/components/weather/WeatherCard.tsx", "frontend/src/components/weather/ForecastCard.tsx", "frontend/src/components/weather/AQICard.tsx", "frontend/src/components/weather/UVCard.tsx"], "external": false},
+    {"id": "health-analysis", "name": "Health Analysis", "plain_english": "Health risk screen showing respiratory, migraine, and fatigue risk levels with a circular SVG health score gauge and an AI-written Thai health summary from Typhoon.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/Health.tsx", "frontend/src/hooks/useHealth.ts", "frontend/src/utils/risk.ts", "frontend/src/components/health/HealthScore.tsx", "frontend/src/components/health/RiskGauge.tsx", "frontend/src/components/health/RiskChart.tsx", "frontend/src/components/health/HealthInsight.tsx"], "external": false},
+    {"id": "ai-recommendations", "name": "AI Recommendations", "plain_english": "Personalized daily tips for clothing, food, hydration, activity, and mood. First calls health analysis, then fetches recommendations. Shows parsed Thai menu items and mood forecast.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/AIRecommendations.tsx", "frontend/src/components/ai/AIInsightCard.tsx", "frontend/src/services/healthApi.ts"], "external": false},
+    {"id": "ai-chat", "name": "AI Chat", "plain_english": "Chatbot for weather/health questions in Thai. Sends messages to backend which searches web via Tavily and asks Typhoon AI. Shows typing indicator and chat history.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/Chat/index.tsx", "frontend/src/components/ai/ChatBox.tsx", "frontend/src/components/ai/Message.tsx", "frontend/src/hooks/useChat.ts", "frontend/src/services/chatApi.ts"], "external": false},
+    {"id": "reports", "name": "Weekly Reports", "plain_english": "7-day forecast-based health predictions with bar charts, trend lines, and data tables. Shows predicted health scores for the next week using weather forecast data.", "layer": "frontend", "rank": 0, "files": ["frontend/src/pages/Reports/index.tsx", "frontend/src/components/reports/WeeklyReport.tsx", "frontend/src/components/reports/TrendChart.tsx", "frontend/src/components/reports/ReportTable.tsx", "frontend/src/services/reportApi.ts"], "external": false},
+    {"id": "app-shell", "name": "App Shell & Routing", "plain_english": "Root component with React Router, RequireAuth guard, ThemeProvider, UserProvider, AuthProvider. Sidebar nav, bottom nav for mobile, city search with debounce.", "layer": "frontend", "rank": 0, "files": ["frontend/src/App.tsx", "frontend/src/components/Sidebar.tsx", "frontend/src/components/BottomNav.tsx", "frontend/src/context/ThemeContext.tsx", "frontend/src/context/UserContext.tsx", "frontend/src/services/api.ts", "frontend/vite.config.ts"], "external": false},
+    {"id": "auth-api", "name": "Auth API", "plain_english": "Signup and login endpoints. Creates users via Firebase Admin SDK, then signs in via Firebase REST API to return JWT tokens. Public route with no JWT middleware.", "layer": "api", "rank": 1, "files": ["backend/src/routes/auth.routes.ts", "backend/src/controllers/auth.controller.ts"], "external": false},
+    {"id": "weather-api", "name": "Weather Data API", "plain_english": "Geocodes city name via Open-Meteo, fetches 7-day forecast + air quality + UV index. Persists weather records to Firestore. Returns everything Dashboard needs in one call.", "layer": "api", "rank": 1, "files": ["backend/src/controllers/weather.controller.ts", "backend/src/controllers/geocode.controller.ts", "backend/src/services/weather/weather.service.ts", "backend/src/services/weather/forecast.service.ts", "backend/src/services/weather/air-quality.service.ts", "backend/src/services/weather/geocoding.service.ts", "backend/src/routes/weather.routes.ts"], "external": false},
+    {"id": "health-backend", "name": "Health Analysis Backend", "plain_english": "Fetches live weather + user health profile from Firestore, calculates respiratory/migraine/fatigue risks using threshold scoring, generates Thai AI summary via Typhoon, saves analysis to Firestore.", "layer": "api", "rank": 1, "files": ["backend/src/controllers/health.controller.ts", "backend/src/services/health/analysis.service.ts", "backend/src/services/health/risk.service.ts", "backend/src/services/ai/summary.service.ts", "backend/src/config/risk-thresholds.ts", "backend/src/routes/health.routes.ts"], "external": false},
+    {"id": "recommendation-backend", "name": "Recommendations Backend", "plain_english": "Reads health analysis + weather data from Firestore, asks Typhoon AI for activity/clothing/hydration tips, Thai menu suggestions, and mood insights. Saves to Firestore.", "layer": "api", "rank": 1, "files": ["backend/src/controllers/recommendation.controller.ts", "backend/src/controllers/insights.controller.ts", "backend/src/services/ai/recommendation.service.ts", "backend/src/services/ai/insights.service.ts", "backend/src/routes/recommendation.routes.ts", "backend/src/routes/insights.routes.ts"], "external": false},
+    {"id": "chat-backend", "name": "Chat Backend", "plain_english": "Sanitizes input, searches web via Tavily with retry, asks Typhoon AI to answer in Thai with search context, saves Q&A to Firestore chatHistory collection.", "layer": "api", "rank": 1, "files": ["backend/src/controllers/chat.controller.ts", "backend/src/services/ai/typhoon.service.ts", "backend/src/services/search/search.service.ts", "backend/src/routes/chat.routes.ts"], "external": false},
+    {"id": "report-backend", "name": "Reports Backend", "plain_english": "Fetches latest weather location, gets 7-day forecast from Open-Meteo, calculates predicted health scores for each day using risk service, generates Thai AI weekly summary via Typhoon.", "layer": "api", "rank": 1, "files": ["backend/src/controllers/report.controller.ts", "backend/src/services/reports/report.service.ts", "backend/src/routes/report.routes.ts"], "external": false},
+    {"id": "auth-middleware", "name": "JWT Auth Middleware", "plain_english": "Verifies Firebase JWT tokens on all protected routes. Extracts userId from decoded token, attaches to req.userId. Returns 401 on invalid/missing tokens.", "layer": "auth", "rank": 1, "files": ["backend/src/middleware/jwt-auth.ts"], "external": false},
+    {"id": "server-infra", "name": "Server & Infrastructure", "plain_english": "Express server with Helmet, CORS, rate limiting (100/15min general, 10/min chat), request logging, sanitized error handler, graceful shutdown. Docker, Render, Vercel configs.", "layer": "infra", "rank": 2, "files": ["backend/src/server.ts", "backend/src/middleware/errorHandler.ts", "backend/src/utils/sanitize.ts", "backend/src/utils/retry.ts", "docker-compose.yml", "vercel.json", "render.yaml", "backend/Dockerfile"], "external": false},
+    {"id": "firestore-db", "name": "Firestore Database", "plain_english": "Firebase Firestore NoSQL with 7 collections: users, healthProfiles, weatherRecords, healthAnalysis, recommendations, chatHistory, reports. Runtime database for all persistent data.", "layer": "database", "rank": 3, "files": ["backend/src/config/firebase.ts"], "external": false},
+    {"id": "firestore-rules", "name": "Firestore Rules & Indexes", "plain_english": "Firestore security rules: weatherRecords readable by all, healthProfiles/healthAnalysis/chatHistory accessible by owning user, recommendations read-only, writes backend-only. Composite indexes for queries.", "layer": "hosting", "rank": 3, "files": ["firestore.rules", "firestore.indexes.json"], "external": false},
+    {"id": "firebase-hosting", "name": "Firebase Hosting", "plain_english": "Firebase Hosting config for the frontend SPA. Serves frontend/dist with SPA rewrite rules. Tied to Firestore rules and indexes.", "layer": "hosting", "rank": 3, "files": ["firebase.json"], "external": false},
+    {"id": "postgres-schema", "name": "PostgreSQL Schema", "plain_english": "Supabase-compatible PostgreSQL schema with 7 tables, soft delete, CHECK constraints, indexes, and 5 migration files. Designed as alternative/supplement to Firestore.", "layer": "database", "rank": 3, "files": ["database/schema.sql", "database/schema-enhanced.sql", "database/seed.sql", "database/migrations/001_initial_schema.sql", "database/migrations/002_add_pm25_column.sql", "database/migrations/003_add_indexes.sql", "database/migrations/004_add_weather_code.sql", "database/migrations/005_add_is_day.sql", "database/api-contract.ts"], "external": false},
+    {"id": "firebase-auth-ext", "name": "Firebase Auth", "plain_english": "Google Firebase Authentication for user creation, email/password sign-in, Google OAuth popup, JWT issuance and verification. Admin SDK on backend, client SDK on frontend.", "layer": "external", "rank": 4, "files": [], "external": true},
+    {"id": "open-meteo", "name": "Open-Meteo", "plain_english": "Free weather API for geocoding, 7-day forecasts, air quality (AQI, PM2.5, PM10, O3, NO2), UV index. Used by weather API and report forecast.", "layer": "external", "rank": 4, "files": [], "external": true},
+    {"id": "typhoon-ai", "name": "Typhoon AI", "plain_english": "Thai-language AI model (typhoon-v2.5-30b-a3b-instruct) for health summaries, personalized recommendations, chat answers, Thai menu suggestions, and mood insights.", "layer": "external", "rank": 4, "files": [], "external": true},
+    {"id": "tavily", "name": "Tavily Search", "plain_english": "Web search API with retry for AI chat. Provides up to 5 results with titles, content snippets, and URLs. Input validated and truncated to 500 chars.", "layer": "external", "rank": 4, "files": [], "external": true},
+    {"id": "supabase", "name": "Supabase", "plain_english": "Cloud PostgreSQL hosting. Schema designed for Supabase compatibility. Client library is a backend dependency.", "layer": "external", "rank": 4, "files": [], "external": true}
   ],
   "edges": [
-    {
-      "from": "login",
-      "to": "auth-api",
-      "label": "POST /api/auth/login",
-      "kind": "api_call"
-    },
-    {
-      "from": "login",
-      "to": "firebase-auth-ext",
-      "label": "Firebase sign-in / Google popup",
-      "kind": "external_call"
-    },
-    {
-      "from": "signup",
-      "to": "auth-api",
-      "label": "POST /api/auth/signup",
-      "kind": "api_call"
-    },
-    {
-      "from": "signup",
-      "to": "firebase-auth-ext",
-      "label": "Firebase createUser",
-      "kind": "external_call"
-    },
-    {
-      "from": "app-shell",
-      "to": "dashboard",
-      "label": "default route /",
-      "kind": "event"
-    },
-    {
-      "from": "app-shell",
-      "to": "login",
-      "label": "redirect when not authenticated",
-      "kind": "event"
-    },
-    {
-      "from": "app-shell",
-      "to": "weather-api",
-      "label": "city search geocoding",
-      "kind": "api_call"
-    },
-    {
-      "from": "dashboard",
-      "to": "weather-api",
-      "label": "GET /api/weather?city=",
-      "kind": "api_call"
-    },
-    {
-      "from": "health-analysis",
-      "to": "health-backend",
-      "label": "POST /api/health/analyze",
-      "kind": "api_call"
-    },
-    {
-      "from": "ai-recommendations",
-      "to": "health-backend",
-      "label": "POST /api/health/analyze first",
-      "kind": "api_call"
-    },
-    {
-      "from": "ai-recommendations",
-      "to": "recommendation-backend",
-      "label": "GET /api/recommendations?analysisId=",
-      "kind": "api_call"
-    },
-    {
-      "from": "ai-chat",
-      "to": "chat-backend",
-      "label": "POST /api/chat",
-      "kind": "api_call"
-    },
-    {
-      "from": "reports",
-      "to": "report-backend",
-      "label": "GET /api/reports",
-      "kind": "api_call"
-    },
-    {
-      "from": "auth-api",
-      "to": "firebase-auth-ext",
-      "label": "Firebase REST API",
-      "kind": "external_call"
-    },
-    {
-      "from": "auth-api",
-      "to": "firestore",
-      "label": "stores user data",
-      "kind": "db_write"
-    },
-    {
-      "from": "auth-middleware",
-      "to": "firebase-auth-ext",
-      "label": "verifyIdToken()",
-      "kind": "external_call"
-    },
-    {
-      "from": "weather-api",
-      "to": "open-meteo",
-      "label": "geocoding, forecast, AQI, UV",
-      "kind": "external_call"
-    },
-    {
-      "from": "weather-api",
-      "to": "firestore",
-      "label": "saves weatherRecords",
-      "kind": "db_write"
-    },
-    {
-      "from": "health-backend",
-      "to": "firestore",
-      "label": "reads healthProfiles",
-      "kind": "db_read"
-    },
-    {
-      "from": "health-backend",
-      "to": "firestore",
-      "label": "saves healthAnalysis",
-      "kind": "db_write"
-    },
-    {
-      "from": "health-backend",
-      "to": "typhoon-ai",
-      "label": "generateHealthSummary()",
-      "kind": "external_call"
-    },
-    {
-      "from": "recommendation-backend",
-      "to": "firestore",
-      "label": "reads analysis + weather",
-      "kind": "db_read"
-    },
-    {
-      "from": "recommendation-backend",
-      "to": "firestore",
-      "label": "saves recommendations",
-      "kind": "db_write"
-    },
-    {
-      "from": "recommendation-backend",
-      "to": "typhoon-ai",
-      "label": "getRecommendations()",
-      "kind": "external_call"
-    },
-    {
-      "from": "recommendation-backend",
-      "to": "typhoon-ai",
-      "label": "getMenuSuggestions() + getMoodInsight()",
-      "kind": "external_call"
-    },
-    {
-      "from": "chat-backend",
-      "to": "tavily",
-      "label": "searchWeb()",
-      "kind": "external_call"
-    },
-    {
-      "from": "chat-backend",
-      "to": "typhoon-ai",
-      "label": "chat() in Thai",
-      "kind": "external_call"
-    },
-    {
-      "from": "chat-backend",
-      "to": "firestore",
-      "label": "saves chatHistory",
-      "kind": "db_write"
-    },
-    {
-      "from": "report-backend",
-      "to": "firestore",
-      "label": "reads 7 days healthAnalysis",
-      "kind": "db_read"
-    },
-    {
-      "from": "report-backend",
-      "to": "typhoon-ai",
-      "label": "generateReportSummary()",
-      "kind": "external_call"
-    },
-    {
-      "from": "server-infra",
-      "to": "auth-middleware",
-      "label": "applies JWT middleware",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "auth-api",
-      "label": "mounts /api/auth",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "weather-api",
-      "label": "mounts /api/weather",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "health-backend",
-      "label": "mounts /api/health",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "chat-backend",
-      "label": "mounts /api/chat",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "recommendation-backend",
-      "label": "mounts /api/recommendations+insights",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "report-backend",
-      "label": "mounts /api/reports",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "firestore",
-      "label": "initializes Firebase Admin SDK",
-      "kind": "import"
-    },
-    {
-      "from": "server-infra",
-      "to": "supabase",
-      "label": "Supabase client dependency",
-      "kind": "import"
-    }
+    {"from": "login", "to": "auth-api", "label": "POST /api/auth/login - email/password to JWT", "kind": "api_call"},
+    {"from": "login", "to": "firebase-auth-ext", "label": "Firebase sign-in / Google popup (client SDK)", "kind": "external_call"},
+    {"from": "signup", "to": "auth-api", "label": "POST /api/auth/signup - creates user to JWT", "kind": "api_call"},
+    {"from": "signup", "to": "firebase-auth-ext", "label": "Firebase createUser (client SDK)", "kind": "external_call"},
+    {"from": "app-shell", "to": "dashboard", "label": "default route /", "kind": "event"},
+    {"from": "app-shell", "to": "login", "label": "redirects to /login when not authenticated", "kind": "event"},
+    {"from": "app-shell", "to": "weather-api", "label": "city search geocoding via /api/weather/geocode", "kind": "api_call"},
+    {"from": "dashboard", "to": "weather-api", "label": "GET /api/weather?city= - full weather + AQI + UV", "kind": "api_call"},
+    {"from": "health-analysis", "to": "health-backend", "label": "POST /api/health/analyze - triggers risk analysis", "kind": "api_call"},
+    {"from": "ai-recommendations", "to": "health-backend", "label": "POST /api/health/analyze - gets analysis first", "kind": "api_call"},
+    {"from": "ai-recommendations", "to": "recommendation-backend", "label": "GET /api/recommendations?analysisId= - tips", "kind": "api_call"},
+    {"from": "ai-chat", "to": "chat-backend", "label": "POST /api/chat - question to AI answer in Thai", "kind": "api_call"},
+    {"from": "reports", "to": "report-backend", "label": "GET /api/reports - 7-day forecast predictions", "kind": "api_call"},
+    {"from": "auth-api", "to": "firebase-auth-ext", "label": "creates users via Firebase REST API", "kind": "external_call"},
+    {"from": "auth-api", "to": "firestore-db", "label": "stores user data in Firestore", "kind": "db_write"},
+    {"from": "auth-middleware", "to": "firebase-auth-ext", "label": "verifyIdToken() - validates JWT (Admin SDK)", "kind": "external_call"},
+    {"from": "weather-api", "to": "open-meteo", "label": "geocoding, forecast, air quality, UV", "kind": "external_call"},
+    {"from": "weather-api", "to": "firestore-db", "label": "saves weatherRecords collection", "kind": "db_write"},
+    {"from": "health-backend", "to": "firestore-db", "label": "reads healthProfiles collection", "kind": "db_read"},
+    {"from": "health-backend", "to": "firestore-db", "label": "saves healthAnalysis collection", "kind": "db_write"},
+    {"from": "health-backend", "to": "typhoon-ai", "label": "generateHealthSummary() - Thai health summary", "kind": "external_call"},
+    {"from": "recommendation-backend", "to": "firestore-db", "label": "reads healthAnalysis + weatherRecords", "kind": "db_read"},
+    {"from": "recommendation-backend", "to": "firestore-db", "label": "saves recommendations collection", "kind": "db_write"},
+    {"from": "recommendation-backend", "to": "typhoon-ai", "label": "getRecommendations() - activity, clothing, hydration", "kind": "external_call"},
+    {"from": "recommendation-backend", "to": "typhoon-ai", "label": "getMenuSuggestions() + getMoodInsight()", "kind": "external_call"},
+    {"from": "chat-backend", "to": "tavily", "label": "searchWeb() with retry - web search", "kind": "external_call"},
+    {"from": "chat-backend", "to": "typhoon-ai", "label": "chat() - answer in Thai with search context", "kind": "external_call"},
+    {"from": "chat-backend", "to": "firestore-db", "label": "saves Q&A to chatHistory collection", "kind": "db_write"},
+    {"from": "report-backend", "to": "firestore-db", "label": "reads latest weatherRecords for location", "kind": "db_read"},
+    {"from": "report-backend", "to": "open-meteo", "label": "getForecast() - 7-day weather prediction", "kind": "external_call"},
+    {"from": "report-backend", "to": "typhoon-ai", "label": "generateReportSummary() - Thai weekly summary", "kind": "external_call"},
+    {"from": "server-infra", "to": "auth-middleware", "label": "applies JWT middleware to protected routes", "kind": "import"},
+    {"from": "server-infra", "to": "auth-api", "label": "mounts /api/auth (public)", "kind": "import"},
+    {"from": "server-infra", "to": "weather-api", "label": "mounts /api/weather (rate-limited)", "kind": "import"},
+    {"from": "server-infra", "to": "health-backend", "label": "mounts /api/health (JWT-protected)", "kind": "import"},
+    {"from": "server-infra", "to": "chat-backend", "label": "mounts /api/chat (JWT + stricter rate)", "kind": "import"},
+    {"from": "server-infra", "to": "recommendation-backend", "label": "mounts /api/recommendations + /api/insights", "kind": "import"},
+    {"from": "server-infra", "to": "report-backend", "label": "mounts /api/reports (JWT-protected)", "kind": "import"},
+    {"from": "server-infra", "to": "firestore-db", "label": "initializes Firebase Admin SDK on startup", "kind": "import"},
+    {"from": "server-infra", "to": "supabase", "label": "Supabase client dependency", "kind": "import"},
+    {"from": "firebase-hosting", "to": "firestore-rules", "label": "linked via firebase.json config", "kind": "import"},
+    {"from": "firestore-rules", "to": "firestore-db", "label": "enforces read/write access control", "kind": "import"}
   ],
   "summary": {
-    "feature_count": 24,
-    "connection_count": 38,
-    "headline": "A weather-health app that checks real-time conditions via Open-Meteo, analyzes how they affect your body with threshold-based risk scoring, gives Thai-language AI advice via Typhoon AI, tracks weekly trends, and lets you chat with an AI backed by web search - all secured by Firebase Auth JWT tokens, stored in Firestore, with a PostgreSQL schema for Supabase."
+    "feature_count": 26,
+    "connection_count": 41,
+    "headline": "A weather-health app that checks real-time conditions via Open-Meteo, analyzes health risks with threshold scoring, gives Thai AI advice via Typhoon AI, shows 7-day forecast-based health predictions, and chats with AI backed by Tavily web search - secured by Firebase Auth JWT, stored in Firestore with security rules, hosted on Firebase/Vercel/Render, with a PostgreSQL schema for Supabase."
   }
 };
 
 const LAYER_COLORS = {
   frontend: "#3b82f6", api: "#8b5cf6", backend: "#10b981",
   database: "#f59e0b", external: "#ec4899", auth: "#ef4444",
-  infra: "#6366f1"
+  infra: "#6366f1", hosting: "#f97316"
 };
 const LAYER_LABEL = {
   frontend: "User interface", api: "Server endpoints",
   backend: "Business logic", database: "Data storage",
   external: "Outside services", auth: "Authentication",
-  infra: "Infrastructure"
+  infra: "Infrastructure", hosting: "Hosting & Rules"
 };
 
 document.getElementById("project-name").textContent = DATA.project_name || "System Map";
