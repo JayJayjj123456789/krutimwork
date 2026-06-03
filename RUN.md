@@ -85,5 +85,23 @@ Authenticate with header `x-user-id: 1` (the app sends this automatically).
 | GET | `/api/reports` | `x-user-id` | Weekly report |
 
 ## Deployment
+
+### Option A — Firebase Hosting (recommended)
+```bash
+# Install Firebase CLI
+npm install -g firebase-tools
+
+# Login and initialize
+firebase login
+firebase init hosting
+
+# Build frontend
+cd frontend && npm run build && cd ..
+
+# Deploy
+firebase deploy
+```
+
+### Option B — Render (backend) + Vercel (frontend)
 - **Backend**: Push to Render — `render.yaml` auto-configures
 - **Frontend**: Push to Vercel — set `VITE_API_URL` to Render backend URL

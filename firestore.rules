@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Weather records - readable by all, writable by backend only
+    match /weatherRecords/{document} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Health profiles - users can read/write their own
+    match /healthProfiles/{document} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.user_id;
+    }
+
+    // Health analysis - users can read/write their own
+    match /healthAnalysis/{document} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.user_id;
+    }
+
+    // Recommendations - users can read their own
+    match /recommendations/{document} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // Chat history - users can read/write their own
+    match /chatHistory/{document} {
+      allow read, write: if request.auth != null && request.auth.uid == resource.data.user_id;
+    }
+  }
+}

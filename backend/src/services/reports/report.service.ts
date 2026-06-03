@@ -1,5 +1,7 @@
 import { getFirestore } from '../../config/firebase';
 import { generateReportSummary } from '../ai/summary.service';
+import { getForecast } from '../weather/forecast.service';
+import { calculateRisks } from '../health/risk.service';
 
 function httpError(message: string, status: number): Error & { status: number } {
   const err = new Error(message) as Error & { status: number };
@@ -9,50 +11,74 @@ function httpError(message: string, status: number): Error & { status: number } 
 
 export async function getWeeklyReport(userId: string, weekStart?: string) {
   const db = getFirestore();
-  const start = weekStart ? new Date(weekStart) : new Date(Date.now() - 7 * 86400000);
-  if (isNaN(start.getTime())) {
-    console.error(`[report.service] invalid weekStart date: "${weekStart}"`);
-    throw httpError('Invalid weekStart date', 400);
-  }
-  const end = new Date(start.getTime() + 7 * 86400000);
-  console.log(`[report.service] getWeeklyReport userId=${userId} range=${start.toISOString().split('T')[0]} → ${end.toISOString().split('T')[0]}`);
+  const today = new Date();
 
-  const snapshot = await db.collection('healthAnalysis')
-    .where('user_id', '==', userId)
-    .where('created_at', '>=', start.toISOString())
-    .where('created_at', '<=', end.toISOString())
+  // Get user's city from their latest weather record or default to Bangkok
+  const weatherSnap = await db.collection('weatherRecords')
+    .orderBy('timestamp', 'desc')
+    .limit(1)
     .get();
 
-  const analyses = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+  let lat = 13.75398; // Bangkok default
+  let lon = 100.50144;
+  let timezone = 'Asia/Bangkok';
 
-  if (analyses.length === 0) {
-    console.warn(`[report.service] no analyses found for userId=${userId} in range`);
-    return {
-      week_start: start.toISOString().split('T')[0],
-      week_end: end.toISOString().split('T')[0],
-      avg_health_score: 0,
-      analyses_count: 0,
-      ai_summary: '',
-      data: [],
-      message: 'No data for this week',
-    };
+  if (!weatherSnap.empty) {
+    const latestWeather = weatherSnap.docs[0].data();
+    lat = latestWeather.latitude ?? lat;
+    lon = latestWeather.longitude ?? lon;
+    timezone = latestWeather.timezone ?? timezone;
   }
 
-  const avgHealth =
-    analyses.reduce((s: number, a: any) => s + (a.health_score ?? 0), 0) / analyses.length;
-  console.log(`[report.service] ${analyses.length} analyses found, avgHealth=${avgHealth}`);
+  // Get 7-day weather forecast
+  console.log(`[report.service] fetching forecast for lat=${lat} lon=${lon}`);
+  const forecast = await getForecast(lat, lon, timezone);
+  const dailyForecasts = forecast.daily ?? [];
 
-  const aiSummary = await generateReportSummary(
-    Math.round(avgHealth),
-    analyses.length
-  );
+  // Generate predicted health scores for next 7 days
+  const forecastData = dailyForecasts.slice(0, 7).map((day: any) => {
+    // Calculate predicted risk based on forecast weather
+    const risks = calculateRisks({
+      temperature: day.temperature_max,
+      humidity: 70, // Default humidity (not in daily forecast)
+      aqi: 50, // Default AQI (not in forecast)
+      uv: day.uv_index_max ?? 5,
+      hasAsthma: false,
+      hasAllergy: false,
+      hasMigraine: false,
+    });
+
+    return {
+      date: day.date,
+      health_score: risks.healthScore,
+      respiratory_risk: risks.respiratoryRisk,
+      migraine_risk: risks.migraineRisk,
+      fatigue_risk: risks.fatigueRisk,
+      temperature_max: day.temperature_max,
+      temperature_min: day.temperature_min,
+      uv_index_max: day.uv_index_max,
+      precipitation_sum: day.precipitation_sum,
+      weather_code: day.weather_code,
+    };
+  });
+
+  const avgHealth = forecastData.length > 0
+    ? Math.round(forecastData.reduce((s: number, d: any) => s + d.health_score, 0) / forecastData.length)
+    : 0;
+
+  console.log(`[report.service] forecast generated for ${forecastData.length} days, avgHealth=${avgHealth}`);
+
+  const aiSummary = await generateReportSummary(avgHealth, forecastData.length);
+
+  const startDate = dailyForecasts[0]?.date ?? today.toISOString().split('T')[0];
+  const endDate = dailyForecasts[6]?.date ?? today.toISOString().split('T')[0];
 
   return {
-    week_start: start.toISOString().split('T')[0],
-    week_end: end.toISOString().split('T')[0],
-    avg_health_score: Math.round(avgHealth),
-    analyses_count: analyses.length,
+    week_start: startDate,
+    week_end: endDate,
+    avg_health_score: avgHealth,
+    analyses_count: forecastData.length,
     ai_summary: aiSummary ?? '',
-    data: analyses,
+    data: forecastData,
   };
 }

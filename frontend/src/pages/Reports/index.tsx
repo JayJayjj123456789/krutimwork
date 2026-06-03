@@ -70,38 +70,26 @@ export default function Reports() {
 
   const analyses = report?.data ?? []
 
-  // Generate past 7 days (historical data)
+  // Generate data from API response (next 7 days forecast)
   const generateWeekData = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-    const today = new Date()
-    const result = []
 
-    // Get the past 7 days
-    for (let i = 6; i >= 0; i--) {
-      const date = new Date(today)
-      date.setDate(date.getDate() - i)
+    return analyses.map((item: any, index: number) => {
+      const date = new Date(item.date)
       const dayName = days[date.getDay()]
-      const dateStr = date.toISOString().split('T')[0]
+      const isToday = index === 0
 
-      // Find analysis for this day (if exists)
-      const analysis = analyses.find(a => {
-        const aDate = new Date(a.created_at).toISOString().split('T')[0]
-        return aDate === dateStr
-      })
-
-      result.push({
-        label: i === 0 ? 'Today' : dayName,
-        date: dateStr,
-        primary: analysis?.health_score ?? 0,
-        secondary: analysis?.respiratory_risk === 'very_high' ? 200 :
-                   analysis?.respiratory_risk === 'high' ? 150 :
-                   analysis?.respiratory_risk === 'moderate' ? 100 :
-                   analysis?.respiratory_risk === 'low' ? 50 : 0,
-        hasData: !!analysis,
-      })
-    }
-
-    return result
+      return {
+        label: isToday ? 'Today' : dayName,
+        date: item.date,
+        primary: item.health_score ?? 0,
+        secondary: item.respiratory_risk === 'very_high' ? 200 :
+                   item.respiratory_risk === 'high' ? 150 :
+                   item.respiratory_risk === 'moderate' ? 100 :
+                   item.respiratory_risk === 'low' ? 50 : 0,
+        hasData: true,
+      }
+    })
   }
 
   const trendData = generateWeekData()
@@ -129,7 +117,7 @@ export default function Reports() {
           secondaryColor="rgba(198,198,199,0.6)"
           primaryLabel="Health Score"
           secondaryLabel="Resp. Risk"
-          title="7-Day Trend (Past Week)"
+          title="7-Day Forecast"
         />
       )}
 
@@ -137,7 +125,7 @@ export default function Reports() {
         <ReportTable
           columns={tableColumns}
           data={trendData}
-          title="Daily Summary (Past 7 Days)"
+          title="Daily Forecast (Next 7 Days)"
         />
       )}
     </div>
