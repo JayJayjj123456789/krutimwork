@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { withRetry } from '../../utils/retry';
 
 const GEOCODING_URL = 'https://geocoding-api.open-meteo.com/v1/search';
 
@@ -19,10 +20,14 @@ export async function geocode(name: string, count: number = 1): Promise<GeoLocat
   }
   const safeCount = Math.max(1, Math.min(10, Math.floor(count)));
   console.log(`[geocoding.service] searching "${trimmed}" count=${safeCount}`);
-  const res = await axios.get(GEOCODING_URL, {
+  const res = await withRetry(() => axios.get(GEOCODING_URL, {
     params: { name: trimmed, count: safeCount, language: 'en', format: 'json' },
     timeout: 10_000,
     headers: { "User-Agent": "AetherAI/1.0" },
+  }), {
+    retries: 3,
+    baseDelay: 1000,
+    onRetry: (err, a) => console.warn(`[geocoding.service] retry ${a} after:`, (err as Error)?.message),
   });
   const results: any[] = res.data?.results ?? [];
   if (results.length === 0) {

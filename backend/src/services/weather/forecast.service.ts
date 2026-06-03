@@ -64,8 +64,8 @@ export async function getForecast(
     timeout: 10_000,
     headers: { "User-Agent": "AetherAI/1.0" },
   }), {
-    retries: 1,
-    baseDelay: 500,
+    retries: 3,
+    baseDelay: 1000,
     onRetry: (err, a) => console.warn(`[forecast.service] retry ${a} after:`, (err as Error)?.message),
   });
 
