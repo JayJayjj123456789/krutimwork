@@ -31,6 +31,7 @@ const allowedOrigins = (process.env.ALLOWED_ORIGINS || 'http://localhost:5173')
   .map(o => o.trim())
   .filter(Boolean);
 
+app.set("trust proxy", 1);
 app.use(helmet());
 app.use(logRequest);
 

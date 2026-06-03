@@ -62,6 +62,7 @@ export async function getForecast(
       wind_speed_unit: 'kmh',
     },
     timeout: 10_000,
+    headers: { "User-Agent": "AetherAI/1.0" },
   }), {
     retries: 1,
     baseDelay: 500,

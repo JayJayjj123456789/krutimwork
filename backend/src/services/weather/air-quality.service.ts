@@ -23,6 +23,7 @@ export async function getAirQuality(lat: number, lon: number): Promise<AirQualit
       timezone: 'auto',
     },
     timeout: 10_000,
+    headers: { "User-Agent": "AetherAI/1.0" },
   }), {
     retries: 1,
     baseDelay: 500,

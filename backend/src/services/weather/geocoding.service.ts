@@ -22,6 +22,7 @@ export async function geocode(name: string, count: number = 1): Promise<GeoLocat
   const res = await axios.get(GEOCODING_URL, {
     params: { name: trimmed, count: safeCount, language: 'en', format: 'json' },
     timeout: 10_000,
+    headers: { "User-Agent": "AetherAI/1.0" },
   });
   const results: any[] = res.data?.results ?? [];
   if (results.length === 0) {
