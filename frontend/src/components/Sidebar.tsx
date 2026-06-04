@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import { NavLink } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
+import { useAuth } from '../context/AuthContext'
 import API from '../services/api'
 import { useNavigate } from 'react-router-dom'
 
@@ -25,6 +26,7 @@ interface GeoResult {
 export default function Sidebar() {
   const { theme, toggleTheme } = useTheme()
   const { city, setCity } = useUser()
+  const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<GeoResult[]>([])
@@ -154,10 +156,20 @@ export default function Sidebar() {
             <span className="material-symbols-outlined" style={{ fontSize: 18, color: 'var(--color-on-surface-variant)' }}>person</span>
           </div>
           <div className="user-card-info">
-            <p>Aether User</p>
+            <p>{user?.email ?? 'Aether User'}</p>
             <p>{city}</p>
           </div>
-          <span className="material-symbols-outlined" style={{ fontSize: 16, color: 'var(--color-on-surface-variant)' }}>settings</span>
+          <button
+            className="icon-btn"
+            aria-label="Sign out"
+            title="Sign out"
+            onClick={async () => {
+              await logout()
+              navigate('/login', { replace: true })
+            }}
+          >
+            <span className="material-symbols-outlined">logout</span>
+          </button>
         </div>
       </div>
     </aside>

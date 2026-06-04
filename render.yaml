@@ -11,7 +11,9 @@ services:
       - key: PORT
         value: 3000
       - key: ALLOWED_ORIGINS
-        sync: false
+        value: https://krutimwork.web.app,https://krutimwork.firebaseapp.com
+        # Firebase Hosting URLs are also auto-allowed by server.ts CORS pattern.
+        # Add custom domains here if needed (e.g. https://yourdomain.com).
       - key: TYPHOON_API_URL
         value: https://api.opentyphoon.ai/v1/chat/completions
       - key: TYPHOON_API_KEY

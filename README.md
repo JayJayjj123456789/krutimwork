@@ -16,7 +16,7 @@
 | Weather | [Open-Meteo](https://open-meteo.com/) (no API key) | $0 |
 | Geocoding | Open-Meteo Geocoding | $0 |
 | AI | [Typhoon](https://opentyphoon.ai/) `typhoon-v2.5-30b-a3b-instruct` | Free tier |
-| DB | [Supabase](https://supabase.com) (Postgres) | Free tier |
+| DB | [Firebase Firestore](https://firebase.google.com/products/firestore) | Free tier |
 | Frontend | Vite + React 18 + TypeScript | $0 |
 | Backend | Express + TypeScript | $0 |
 | Hosting | Render (backend) + Vercel (frontend) | Free tier |
@@ -24,8 +24,8 @@
 ## Architecture
 ```
 ┌────────────┐  ┌────────────┐  ┌──────────────┐
-│  Open-Meteo│  │  Typhoon   │  │   Supabase   │
-│  Weather+AQ│  │  LLM API   │  │  Postgres DB │
+│  Open-Meteo│  │  Typhoon   │  │   Firebase   │
+│  Weather+AQ│  │  LLM API   │  │  Firestore   │
 └─────┬──────┘  └─────┬──────┘  └──────┬───────┘
       │               │                │
       │     ┌─────────┴────────┐       │
@@ -34,7 +34,7 @@
             └────────┬─────────┘
                      │
               ┌──────┴──────┐
-              │  Vercel     │
+              │  Firebase   │
               │  React App  │
               └─────────────┘
 ```
@@ -49,21 +49,17 @@ npm install --prefix backend
 npm install --prefix frontend
 ```
 
-### 2. Database
-- Create a free Supabase project: https://supabase.com
-- Open the **SQL Editor** in your dashboard
-- Copy-paste `database/schema-enhanced.sql` and click **Run** (with RLS)
-- Run the seed:
-  ```sql
-  INSERT INTO users (name, email, city) VALUES ('Demo User', 'demo@local', 'Bangkok') RETURNING id;
-  INSERT INTO health_profiles (user_id, has_asthma, has_allergy, has_migraine, activity_level) VALUES (1, false, false, false, 'moderate');
-  ```
+### 2. Database (Firebase Firestore)
+- Create a free Firebase project: https://console.firebase.google.com
+- Enable **Firestore** in the dashboard
+- Download a service account key (Project Settings → Service Accounts → Generate New Private Key)
+- Save it as `backend/service-account.json` (or set the `FIREBASE_SERVICE_ACCOUNT` env var)
+- Set Firestore security rules from `firestore.rules`
 
 ### 3. Env
 ```bash
 # backend/.env
-SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-SUPABASE_KEY=eyJ...your_service_role_jwt
+FIREBASE_PROJECT_ID=your-project-id
 TYPHOON_API_KEY=sk-...
 TYPHOON_API_URL=https://api.opentyphoon.ai/v1/chat/completions
 ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
@@ -80,7 +76,7 @@ cd frontend && npm run dev
 Open http://127.0.0.1:5173
 
 ## Deploy
-- **Backend**: Connect repo to [Render](https://render.com); `render.yaml` configures it automatically. Set secrets in the dashboard (Supabase URL/Key, Typhoon Key, ALLOWED_ORIGINS).
+- **Backend**: Connect repo to [Render](https://render.com); `render.yaml` configures it automatically. Set secrets in the dashboard (Firebase service account, Typhoon Key, ALLOWED_ORIGINS).
 - **Frontend**: Connect repo to [Vercel](https://vercel.com); set `VITE_API_URL` env var to your Render backend URL. `vercel.json` is included for SPA routing.
 
 ## Endpoints
@@ -97,7 +93,7 @@ Open http://127.0.0.1:5173
 
 ## Security
 - Helmet, CORS whitelist, rate limiting (100/15min general, 10/min chat)
-- Supabase anon-key auth via `x-user-id` header (per-user data isolation)
+- Firebase Admin SDK auth via `x-user-id` header (per-user data isolation)
 - City name sanitization (HTML/script tag stripping, max 100 chars)
 - 4xx errors return original message; 5xx return generic "internal error" (no stack leak)
 

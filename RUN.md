@@ -2,7 +2,7 @@
 
 ## Prerequisites
 - Node.js 20+
-- A Supabase project (free tier)
+- A Firebase project (free tier) with Firestore enabled
 - A Typhoon API key (free from https://opentyphoon.ai)
 
 ## Setup
@@ -14,20 +14,17 @@ npm install --prefix backend
 npm install --prefix frontend
 ```
 
-### 2. Database (Supabase)
-- Create a free project at https://supabase.com
-- Open **SQL Editor**, run `database/schema-enhanced.sql`
-- Seed a test user:
-  ```sql
-  INSERT INTO users (name, email, city) VALUES ('Demo User', 'demo@local', 'Bangkok') RETURNING id;
-  INSERT INTO health_profiles (user_id, has_asthma, has_allergy, has_migraine, activity_level) VALUES (1, false, false, false, 'moderate');
-  ```
+### 2. Database (Firebase Firestore)
+- Create a free project at https://console.firebase.google.com
+- Enable **Firestore** in the dashboard
+- Download a service account key (Project Settings → Service Accounts → Generate New Private Key)
+- Save it as `backend/service-account.json` (or set the `FIREBASE_SERVICE_ACCOUNT` env var)
+- Apply security rules from `firestore.rules`
 
 ### 3. Configure environment
 **`backend/.env`:**
 ```
-SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-SUPABASE_KEY=eyJ...your_service_role_jwt
+FIREBASE_PROJECT_ID=your-project-id
 TYPHOON_API_KEY=sk-...
 TYPHOON_API_URL=https://api.opentyphoon.ai/v1/chat/completions
 ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173

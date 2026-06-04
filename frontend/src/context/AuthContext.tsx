@@ -15,7 +15,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>
   signup: (email: string, password: string) => Promise<void>
   googleLogin: () => Promise<void>
-  logout: () => void
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthState | undefined>(undefined)

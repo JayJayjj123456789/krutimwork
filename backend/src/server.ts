@@ -45,6 +45,10 @@ app.use(
       if (isDev && /^https?:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/.test(origin)) {
         return callback(null, true);
       }
+      // Allow Firebase Hosting URLs (*.web.app and *.firebaseapp.com)
+      if (/^https:\/\/[a-z0-9-]+\.(web\.app|firebaseapp\.com)$/.test(origin)) {
+        return callback(null, true);
+      }
       if (allowedOrigins.includes(origin)) return callback(null, true);
       callback(new Error('CORS: origin not allowed'));
     },

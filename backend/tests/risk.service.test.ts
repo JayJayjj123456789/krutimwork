@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { calculateRisks } from './risk.service'
+import { calculateRisks } from '../src/services/health/risk.service'
 
 describe('calculateRisks', () => {
   const base = {

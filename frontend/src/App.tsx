@@ -143,11 +143,26 @@ function RequireAuth({ children }: { children: React.ReactNode }) {
   return <>{children}</>
 }
 
+function AuthWatcher() {
+  const navigate = useNavigate()
+  const { logout } = useAuth()
+  useEffect(() => {
+    const handler = () => {
+      logout().catch(() => {})
+      navigate('/login', { replace: true })
+    }
+    window.addEventListener('auth:unauthorized', handler)
+    return () => window.removeEventListener('auth:unauthorized', handler)
+  }, [navigate, logout])
+  return null
+}
+
 export default function App() {
   return (
     <ThemeProvider>
       <AuthProvider>
         <UserProvider>
+          <AuthWatcher />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />

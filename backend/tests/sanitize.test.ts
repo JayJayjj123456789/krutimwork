@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { sanitizeForPrompt } from './sanitize'
+import { sanitizeForPrompt } from '../src/utils/sanitize'
 
 describe('sanitizeForPrompt', () => {
   it('strips HTML tags', () => {

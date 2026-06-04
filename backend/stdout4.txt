@@ -1,3 +1,0 @@
-
-[uncaughtException] Shutting down gracefully…
-HTTP server closed
