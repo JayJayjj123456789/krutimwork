@@ -84,7 +84,7 @@ export default function AIRecommendations() {
             <span className={`chip ${a.health_score >= 70 ? 'chip-good' : a.health_score >= 40 ? 'chip-neutral' : 'chip-warning'}`}>
               Health {a.health_score}/100
             </span>
-            <span className="chip chip-neutral">Updated just now</span>
+            <span className="chip chip-neutral">{a.created_at ? `Updated ${new Date(a.created_at).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}` : 'Updated just now'}</span>
           </div>
         </div>
 

@@ -159,7 +159,7 @@ export default function Dashboard() {
           <div style={{ marginTop: 16, display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             {aqi !== null && aqi <= 100 && <span className="chip chip-good">Low Risk</span>}
             {aqi !== null && aqi > 100 && <span className="chip chip-warning">Elevated Risk</span>}
-            <span className="chip chip-neutral">Updated just now</span>
+            <span className="chip chip-neutral">{weatherData?.timestamp ? `Updated ${new Date(weatherData.timestamp).toLocaleTimeString('th-TH', { hour: '2-digit', minute: '2-digit' })}` : 'Updated just now'}</span>
           </div>
         </div>
 

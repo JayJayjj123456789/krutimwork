@@ -21,7 +21,7 @@ export async function geocode(name: string, count: number = 1): Promise<GeoLocat
   const safeCount = Math.max(1, Math.min(10, Math.floor(count)));
   console.log(`[geocoding.service] searching "${trimmed}" count=${safeCount}`);
   const res = await withRetry(() => axios.get(GEOCODING_URL, {
-    params: { name: trimmed, count: safeCount, language: 'en', format: 'json' },
+    params: { name: trimmed, count: safeCount, format: 'json' },
     timeout: 10_000,
     headers: { "User-Agent": "AetherAI/1.0" },
   }), {

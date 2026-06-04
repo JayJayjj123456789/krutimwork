@@ -7,7 +7,7 @@ export const analyzeHealth = async (_userId: string, city: string, signal?: Abor
   return r.data.data
 }
 
-export const getRecommendations = async (analysisId: number, signal?: AbortSignal): Promise<Recommendation> => {
+export const getRecommendations = async (analysisId: string, signal?: AbortSignal): Promise<Recommendation> => {
   const r = await API.get<ApiResponse<Recommendation>>(`/recommendations?analysisId=${analysisId}`, { signal, timeout: 60_000 })
   if (!r.data.success) throw new Error(r.data.error || 'Failed to get recommendations')
   return r.data.data

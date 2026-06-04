@@ -17,6 +17,11 @@ export function useChat(userId: string) {
     }
   }, [])
 
+  useEffect(() => {
+    setMessages([])
+    setError(null)
+  }, [userId])
+
   const sendMessage = useCallback(async (question: string) => {
     abortRef.current?.abort()
     const controller = new AbortController()

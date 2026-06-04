@@ -34,8 +34,8 @@ export interface WeatherData {
 }
 
 export interface HealthProfile {
-  id: number
-  user_id: number
+  id: string
+  user_id: string
   has_asthma: boolean
   has_allergy: boolean
   has_migraine: boolean
@@ -43,8 +43,8 @@ export interface HealthProfile {
 }
 
 export interface HealthAnalysis {
-  id: number
-  user_id?: number
+  id: string
+  user_id?: string
   weather_record_id?: string | null
   health_score: number
   respiratory_risk: RiskLevel
@@ -55,8 +55,8 @@ export interface HealthAnalysis {
 }
 
 export interface Recommendation {
-  id: number
-  analysis_id: number
+  id: string
+  analysis_id: string
   activity: string
   clothing: string
   hydration: string
@@ -79,7 +79,7 @@ export interface ReportData {
   analyses_count: number
   ai_summary: string
   data: Array<{
-    id: number
+    id: string
     health_score: number
     respiratory_risk: string
     migraine_risk: string
