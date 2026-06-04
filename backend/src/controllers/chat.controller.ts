@@ -137,3 +137,7 @@ export async function chatHandler(req: Request, res: Response, next: NextFunctio
     next(err);
   }
 }
+
+export const _debugBuildWeatherContext = buildWeatherContext;
+export const _debugExtractCity = extractCityFromQuestion;
+export const _debugWeatherKeywords = WEATHER_KEYWORDS;
