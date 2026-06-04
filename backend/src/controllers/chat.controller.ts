@@ -50,7 +50,10 @@ async function buildWeatherContext(city: string): Promise<{ context: string; fet
     return { context: cached.data, fetched: true };
   }
   try {
+    console.log(`[chat.controller] calling getWeatherByCity("${city}")...`);
+    const t0 = Date.now();
     const w = await getWeatherByCity(city);
+    console.log(`[chat.controller] getWeatherByCity("${city}") OK in ${Date.now() - t0}ms, temp=${w.temperature}`);
     const aqiLabel = w.aqi !== null ? (w.aqi <= 50 ? 'ดีมาก' : w.aqi <= 100 ? 'ปานกลาง' : w.aqi <= 150 ? 'ไม่ดีต่อกลุ่มเสี่ยง' : 'ไม่ดี') : 'ไม่ทราบ';
     const uvLabel = w.uv !== null ? (w.uv <= 2 ? 'ต่ำ' : w.uv <= 5 ? 'ปานกลาง' : w.uv <= 7 ? 'สูง' : 'สูงมาก') : 'ไม่ทราบ';
     const ctx = `สภาพอากาศปัจจุบันที่ ${w.city}, ${w.country ?? ''}:
@@ -65,7 +68,7 @@ async function buildWeatherContext(city: string): Promise<{ context: string; fet
     weatherCache.set(city.toLowerCase(), { data: ctx, expires: Date.now() + WEATHER_CACHE_TTL_MS });
     return { context: ctx, fetched: true };
   } catch (e) {
-    console.warn(`[chat.controller] could not fetch weather for "${city}":`, (e as Error).message);
+    console.warn(`[chat.controller] getWeatherByCity("${city}") FAILED:`, (e as Error).message);
     return { context: '', fetched: false };
   }
 }
