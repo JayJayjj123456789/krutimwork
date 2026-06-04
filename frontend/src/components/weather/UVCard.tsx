@@ -12,8 +12,8 @@ export default function UVCard({ uv }: UVCardProps) {
   return (
     <div className={`glass-card stat-card ${styles.card}`}>
       <div className="stat-card-header">
-        <div className="stat-card-icon" style={{ background: isHigh ? 'rgba(255,180,171,0.12)' : 'rgba(137,208,237,0.08)' }}>
-          <span className="material-symbols-outlined icon-fill" style={{ color: isHigh ? 'var(--color-error)' : 'var(--color-secondary)', fontSize: 22 }}>wb_sunny</span>
+        <div className="stat-card-icon">
+          <span className="material-symbols-outlined icon-fill" style={{ color: isHigh ? 'var(--color-danger)' : 'var(--color-accent)', fontSize: 20 }}>wb_sunny</span>
         </div>
         <span className={`chip ${isHigh ? 'chip-warning' : 'chip-neutral'}`}>{text}</span>
       </div>

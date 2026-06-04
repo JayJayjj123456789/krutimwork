@@ -1,32 +1,21 @@
-.iconBox {
-  width: 36px;
-  height: 36px;
-  border-radius: var(--radius-md);
-  background: rgba(137, 208, 237, 0.12);
-  border: 1px solid rgba(137, 208, 237, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
 .subtitle {
   font-family: var(--font-headline);
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-primary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-ink);
+  margin-top: 2px;
 }
 
 .content {
   font-family: var(--font-body);
   font-size: 14px;
-  line-height: 1.7;
-  color: var(--color-on-surface-variant);
+  line-height: 1.55;
+  color: var(--color-ink);
 }
 
 .chips {
   display: flex;
-  gap: 8px;
-  margin-top: 16px;
+  gap: 6px;
+  margin-top: 12px;
   flex-wrap: wrap;
 }

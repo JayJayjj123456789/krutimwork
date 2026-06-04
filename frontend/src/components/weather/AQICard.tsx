@@ -14,8 +14,8 @@ export default function AQICard({ aqi, pm25 }: AQICardProps) {
   return (
     <div className="glass-card stat-card">
       <div className="stat-card-header">
-        <div className="stat-card-icon" style={{ background: 'rgba(137,208,237,0.12)' }}>
-          <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-secondary)', fontSize: 22 }}>air</span>
+        <div className="stat-card-icon">
+          <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-accent)', fontSize: 20 }}>air</span>
         </div>
         <span className={`chip chip-${{ low: 'good', moderate: 'yellow', high: 'warning', very_high: 'error' }[level] || 'neutral'}`}>
           {aqiText(aqi)}

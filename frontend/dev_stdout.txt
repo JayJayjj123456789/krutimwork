@@ -1,0 +1,48 @@
+
+> frontend@1.0.0 dev
+> vite
+
+
+  [32m[1mVITE[22m v5.4.21[39m  [2mready in [0m[1m1590[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m5173[22m/[39m
+[2m23:29:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/reports/TrendChart.tsx[22m
+[2m23:29:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/reports/TrendChart.tsx[22m
+[2m00:06:49[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:07:25[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+[2m00:08:07[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Dashboard.tsx[22m
+[2m00:08:31[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ai/Message.tsx[22m
+[2m00:11:47[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Health.tsx[22m
+[2m00:11:51[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Health.tsx[22m
+[2m00:11:56[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AIRecommendations.tsx[22m
+[2m00:22:08[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:22:14[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/ai/ChatBox.tsx[22m
+[2m00:22:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AIRecommendations.tsx[22m
+[2m00:22:54[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/AIRecommendations.tsx[22m
+[2m00:24:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/reports/ReportTable.tsx[22m
+[2m00:24:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/pages/Health.tsx[22m
+[2m00:46:11[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:13[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:27[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:34[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:38[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:43[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:46[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:50[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:53[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:57[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:46:59[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:47:01[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:47:12[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:47:17[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:47:23[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:47:32[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:51:48[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:51:55[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:53:35[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/index.css[22m
+[2m00:54:00[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+[2m00:54:05[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/App.tsx[22m
+[2m06:40:41[22m [36m[1m[vite][22m[39m [32mhmr update [39m[2m/src/components/WeatherBackdrop.tsx[22m

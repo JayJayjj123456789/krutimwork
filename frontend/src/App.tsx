@@ -6,6 +6,7 @@ import { AuthProvider, useAuth } from './context/AuthContext'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import Sidebar from './components/Sidebar'
 import BottomNav from './components/BottomNav'
+import WeatherBackdrop from './components/WeatherBackdrop'
 import Dashboard from './pages/Dashboard'
 import Health from './pages/Health'
 import AIRecommendations from './pages/AIRecommendations'
@@ -64,10 +65,7 @@ function Layout() {
 
   return (
     <div className="app-layout">
-      <div className="bg-orb" style={{ width: 600, height: 600, background: 'rgba(137,208,237,0.07)', top: '-15%', left: '10%' }} />
-      <div className="bg-orb" style={{ width: 500, height: 500, background: 'rgba(255,255,255,0.03)', bottom: '0%', right: '5%', animationDelay: '-7s' }} />
-      <div className="bg-orb" style={{ width: 350, height: 350, background: 'rgba(255,180,171,0.05)', top: '40%', right: '20%', animationDelay: '-12s' }} />
-
+      <WeatherBackdrop />
       <Sidebar />
       <BottomNav />
 

@@ -1,3 +1,1822 @@
 
-[uncaughtException] Shutting down gracefully…
-HTTP server closed
+> aether-ai-backend@1.0.0 dev
+> nodemon src/server.ts
+
+[33m[nodemon] 3.1.14[39m
+[33m[nodemon] to restart at any time, enter `rs`[39m
+[33m[nodemon] watching path(s): *.*[39m
+[33m[nodemon] watching extensions: ts,json[39m
+[32m[nodemon] starting `ts-node src/server.ts`[39m
+🚀 Aether AI Backend running on http://localhost:3000
+[REQ] GET / → 200 (8ms)
+[REQ] GET / → 200 (1ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.7, humidity=72, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[firebase] Admin SDK initialized
+[firebase] Firestore instance created
+[weather.service] persisted weather for "Bangkok" id=ijaFvw9Gs7lCReWGpCSv
+[weather.controller] getWeather success city="Bangkok" temp=28.7
+[REQ] GET /api/weather?city=Bangkok → 200 (10863ms)
+[geocode.controller] geocode name="Bangkok" count=2
+[geocoding.service] searching "Bangkok" count=2 languages=en,th
+[geocoding.service] found 2 result(s) for "Bangkok" via en: Bangkok, Brenggolo
+[geocode.controller] geocode success: 2 results for "Bangkok"
+[REQ] GET /api/weather/geocode?name=Bangkok&count=2 → 200 (1182ms)
+[REQ] POST /api/health/analyze → 401 (67ms)
+[REQ] GET /api/reports → 401 (1ms)
+[REQ] POST /api/health/analyze → 401 (1592ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[weather.controller] getWeather city="Chiang Mai"
+[weather.service] geocoding "Chiang Mai"...
+[geocoding.service] searching "Chiang Mai" count=1 languages=en,th
+[weather.controller] getWeather city="Phuket"
+[weather.service] geocoding "Phuket"...
+[geocoding.service] searching "Phuket" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[geocoding.service] found 1 result(s) for "Chiang Mai" via en: Chiang Mai
+[weather.service] geocoded "Chiang Mai" → Chiang Mai, Thailand (18.79038, 98.98468)
+[weather.service] fetching forecast + air quality for 18.79038, 98.98468...
+[forecast.service] fetching forecast for lat=18.79038 lon=98.98468 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=18.79038 lon=98.98468
+[forecast.service] forecast OK: current temp=28.7, humidity=72, 7 daily entries
+[forecast.service] forecast OK: current temp=25.2, humidity=93, 7 daily entries
+[geocoding.service] found 1 result(s) for "Phuket" via en: Phuket
+[weather.service] geocoded "Phuket" → Phuket, Thailand (7.89059, 98.3981)
+[weather.service] fetching forecast + air quality for 7.89059, 98.3981...
+[forecast.service] fetching forecast for lat=7.89059 lon=98.3981 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=7.89059 lon=98.3981
+[forecast.service] forecast OK: current temp=26.3, humidity=93, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=46 pm25=8.1 o3=39
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Chiang Mai" id=YBTja1ZVmuLCdBptw6rx
+[weather.controller] getWeather success city="Chiang Mai" temp=25.2
+[REQ] GET /api/weather?city=Chiang%20Mai → 200 (3290ms)
+[weather.service] persisted weather for "Bangkok" id=qxaI0L579ZQFtqC5fQN4
+[weather.controller] getWeather success city="Bangkok" temp=28.7
+[REQ] GET /api/weather?city=Bangkok → 200 (3337ms)
+[air-quality.service] result: aqi=25 pm25=5.8 o3=50
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phuket" id=rIAFVtr9Bx1Qg5faxTok
+[weather.controller] getWeather success city="Phuket" temp=26.3
+[REQ] GET /api/weather?city=Phuket → 200 (2709ms)
+[weather.controller] getWeather city="Koh Samui"
+[weather.service] geocoding "Koh Samui"...
+[geocoding.service] searching "Koh Samui" count=1 languages=en,th
+[weather.controller] getWeather city="Pattaya"
+[weather.service] geocoding "Pattaya"...
+[geocoding.service] searching "Pattaya" count=1 languages=en,th
+[weather.controller] getWeather city="Hat Yai"
+[weather.service] geocoding "Hat Yai"...
+[geocoding.service] searching "Hat Yai" count=1 languages=en,th
+[weather.controller] getWeather city="Krabi"
+[weather.service] geocoding "Krabi"...
+[geocoding.service] searching "Krabi" count=1 languages=en,th
+[weather.controller] getWeather city="Hua Hin"
+[weather.service] geocoding "Hua Hin"...
+[geocoding.service] searching "Hua Hin" count=1 languages=en,th
+[weather.controller] getWeather city="Chiang Rai"
+[weather.service] geocoding "Chiang Rai"...
+[geocoding.service] searching "Chiang Rai" count=1 languages=en,th
+[weather.controller] getWeather city="Ayutthaya"
+[weather.service] geocoding "Ayutthaya"...
+[geocoding.service] searching "Ayutthaya" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Pattaya" via en: Pattaya
+[weather.service] geocoded "Pattaya" → Pattaya, Thailand (12.93333, 100.88333)
+[weather.service] fetching forecast + air quality for 12.93333, 100.88333...
+[forecast.service] fetching forecast for lat=12.93333 lon=100.88333 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=12.93333 lon=100.88333
+[geocoding.service] found 1 result(s) for "Krabi" via en: Krabi
+[weather.service] geocoded "Krabi" → Krabi, Thailand (8.07257, 98.91052)
+[weather.service] fetching forecast + air quality for 8.07257, 98.91052...
+[forecast.service] fetching forecast for lat=8.07257 lon=98.91052 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=8.07257 lon=98.91052
+[geocoding.service] found 1 result(s) for "Hat Yai" via en: Hat Yai
+[weather.service] geocoded "Hat Yai" → Hat Yai, Thailand (7.00836, 100.47668)
+[weather.service] fetching forecast + air quality for 7.00836, 100.47668...
+[forecast.service] fetching forecast for lat=7.00836 lon=100.47668 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=7.00836 lon=100.47668
+[geocoding.service] found 1 result(s) for "Koh Samui" via en: Koh Samui Airport
+[weather.service] geocoded "Koh Samui" → Koh Samui Airport, Thailand (9.54675, 100.0621)
+[weather.service] fetching forecast + air quality for 9.54675, 100.0621...
+[forecast.service] fetching forecast for lat=9.54675 lon=100.0621 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=9.54675 lon=100.0621
+[geocoding.service] no results for "Ayutthaya" via en, trying next language
+[geocoding.service] found 1 result(s) for "Hua Hin" via en: Hua Hin
+[weather.service] geocoded "Hua Hin" → Hua Hin, Thailand (12.57065, 99.95876)
+[weather.service] fetching forecast + air quality for 12.57065, 99.95876...
+[forecast.service] fetching forecast for lat=12.57065 lon=99.95876 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=12.57065 lon=99.95876
+[geocoding.service] found 1 result(s) for "Chiang Rai" via en: Chiang Rai
+[weather.service] geocoded "Chiang Rai" → Chiang Rai, Thailand (19.90858, 99.8325)
+[weather.service] fetching forecast + air quality for 19.90858, 99.8325...
+[forecast.service] fetching forecast for lat=19.90858 lon=99.8325 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=19.90858 lon=99.8325
+[geocoding.service] no results for "Ayutthaya" via th, trying next language
+[REQ] GET /api/weather?city=Ayutthaya → 404 (1400ms)
+[forecast.service] forecast OK: current temp=26.3, humidity=95, 7 daily entries
+[forecast.service] forecast OK: current temp=27.6, humidity=83, 7 daily entries
+[forecast.service] forecast OK: current temp=27.1, humidity=80, 7 daily entries
+[forecast.service] forecast OK: current temp=24.9, humidity=98, 7 daily entries
+[forecast.service] forecast OK: current temp=25.2, humidity=95, 7 daily entries
+[forecast.service] forecast OK: current temp=26.2, humidity=86, 7 daily entries
+[air-quality.service] result: aqi=35 pm25=2.4 o3=57
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=23 pm25=4.9 o3=46
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=22 pm25=6.8 o3=30
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=29 pm25=3 o3=49
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=28 pm25=0.8 o3=58
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=66 pm25=15.3 o3=68
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Pattaya" id=OgYYf0Hg1dqHLFTG9SMq
+[weather.controller] getWeather success city="Pattaya" temp=27.6
+[REQ] GET /api/weather?city=Pattaya → 200 (2686ms)
+[weather.service] persisted weather for "Hat Yai" id=8B6ylYQIaXkyLNiCkFOd
+[weather.controller] getWeather success city="Hat Yai" temp=24.9
+[REQ] GET /api/weather?city=Hat%20Yai → 200 (3150ms)
+[weather.service] persisted weather for "Krabi" id=MV9wpieipXlgNlYv7Q6T
+[weather.controller] getWeather success city="Krabi" temp=26.3
+[REQ] GET /api/weather?city=Krabi → 200 (3144ms)
+[weather.service] persisted weather for "Koh Samui Airport" id=cZc0nFOQ3Xfxt4grH12L
+[weather.controller] getWeather success city="Koh Samui Airport" temp=27.1
+[REQ] GET /api/weather?city=Koh%20Samui → 200 (3207ms)
+[weather.service] persisted weather for "Hua Hin" id=XQQzrLhOcrASELybeYYE
+[weather.controller] getWeather success city="Hua Hin" temp=26.2
+[REQ] GET /api/weather?city=Hua%20Hin → 200 (3180ms)
+[weather.service] persisted weather for "Chiang Rai" id=7A99CzHkYqloQrlxDq8m
+[weather.controller] getWeather success city="Chiang Rai" temp=25.2
+[REQ] GET /api/weather?city=Chiang%20Rai → 200 (3205ms)
+[geocode.controller] geocode name="Phra Nakhon Si Ayutthaya" count=3
+[geocoding.service] searching "Phra Nakhon Si Ayutthaya" count=3 languages=en,th
+[geocoding.service] found 1 result(s) for "Phra Nakhon Si Ayutthaya" via en: Phra Nakhon Si Ayutthaya
+[geocode.controller] geocode success: 1 results for "Phra Nakhon Si Ayutthaya"
+[REQ] GET /api/weather/geocode?name=Phra%20Nakhon%20Si%20Ayutthaya&count=3 → 200 (1169ms)
+[auth.controller] signup success email=typhoon-test-20260604222701@aether-test.local userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2
+[REQ] POST /api/auth/signup → 201 (1536ms)
+[jwt-auth] authenticated userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2
+[health.controller] analyzeHealth userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2 city="Bangkok"
+[analysis.service] analyzeHealth userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.7, humidity=72, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=Lmowq6gjIfSwAQW1ujM3
+[analysis.service] live weather temp=28.7 aqi=29 humidity=72 weatherRecordId=Lmowq6gjIfSwAQW1ujM3
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.7 humidity=72 aqi=29 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=315
+[summary.service] health summary OK: length=315
+[analysis.service] AI summary: length=315
+[analysis.service] health_analysis saved id=ka75FpHXine10hJ91Vfq
+[health.controller] analyzeHealth success userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2 healthScore=90
+[REQ] POST /api/health/analyze → 200 (5330ms)
+[jwt-auth] authenticated userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2
+[chat.controller] chat userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2 question="?????? ???????????????????????????????? ????????????????..." hasWeatherContext=false weatherFetched=false
+[typhoon.service] chat question="?????? ???????????????????????????????? ????????????????..." hasWeatherContext=false weatherFetched=false
+[search.service] tavily searching: "?????? ???????????????????????????????? ????????????????..."
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=1000 promptLength=583 keySet=true
+[typhoon.service] response OK: length=207
+[chat.controller] chat success userId=Lwrpv1gDszQYcv38YsypN0vF8ZO2 answerLength=207
+[chat.controller] chat history saved to Firestore
+[REQ] POST /api/chat → 200 (1767ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.5, humidity=74, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=FuxVqK0cwiL8mgR7ABUw
+[analysis.service] live weather temp=28.5 aqi=29 humidity=74 weatherRecordId=FuxVqK0cwiL8mgR7ABUw
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.5 humidity=74 aqi=29 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=299
+[summary.service] health summary OK: length=299
+[analysis.service] AI summary: length=299
+[analysis.service] health_analysis saved id=m4Tovs0TKXN2eYr0lLyy
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (5392ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.5, humidity=74, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=gOdakuQq6CWXnIqjE8QR
+[analysis.service] live weather temp=28.5 aqi=29 humidity=74 weatherRecordId=gOdakuQq6CWXnIqjE8QR
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.5 humidity=74 aqi=29 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=330
+[summary.service] health summary OK: length=330
+[analysis.service] AI summary: length=330
+[analysis.service] health_analysis saved id=eCE2rq0YCFI0jQo6rcml
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (5334ms)
+[REQ] OPTIONS /api/recommendations?analysisId=eCE2rq0YCFI0jQo6rcml → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=eCE2rq0YCFI0jQo6rcml
+[recommendation.controller] found analysis id=eCE2rq0YCFI0jQo6rcml
+[recommendation.controller] weather temp=28.5 aqi=29
+[recommendation.service] generating recs: temp=28.5 aqi=29 uv=7.75 score=90
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=260 keySet=true
+[typhoon.service] response OK: length=326
+[recommendation.service] AI recs OK: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน ..."
+[insights.service] getMenuSuggestions: temp=28.5 humidity=74 aqi=29 uv=7.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=236
+[typhoon.service] response OK: length=582
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้ทำให้รู้สึกสดชื่น ไม่ร้อนจนเก...
+[recommendation.controller] got AI recs: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน ..."
+[recommendation.controller] recommendations saved id=1OEQGCwF9UONn4UX4MFr
+[REQ] GET /api/recommendations?analysisId=eCE2rq0YCFI0jQo6rcml → 200 (5884ms)
+[REQ] OPTIONS /api/reports → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=28.5, humidity=74, 7 daily entries
+[risk.service] calculating risks: temp=33.7 humidity=70 aqi=50 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=89
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=270
+[report.controller] getReport success: 7 analyses, avgScore=89
+[REQ] GET /api/reports → 200 (2110ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.5, humidity=74, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=zdkpXkCN0hKA0BgCIn4r
+[analysis.service] live weather temp=28.5 aqi=29 humidity=74 weatherRecordId=zdkpXkCN0hKA0BgCIn4r
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.5 humidity=74 aqi=29 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=306
+[summary.service] health summary OK: length=306
+[analysis.service] AI summary: length=306
+[analysis.service] health_analysis saved id=bbRVCqyW9PLZDbZaDRpF
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (4628ms)
+[REQ] OPTIONS /api/recommendations?analysisId=bbRVCqyW9PLZDbZaDRpF → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=bbRVCqyW9PLZDbZaDRpF
+[recommendation.controller] found analysis id=bbRVCqyW9PLZDbZaDRpF
+[recommendation.controller] weather temp=28.5 aqi=29
+[recommendation.service] generating recs: temp=28.5 aqi=29 uv=7.75 score=90
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=260 keySet=true
+[typhoon.service] response OK: length=274
+[recommendation.service] AI recs OK: activity="ควรออกกำลังกายกลางแจ้งได้ แต่หลีกเลี่ยงช่วงเวลาที่แดดแรง (10..."
+[insights.service] getMenuSuggestions: temp=28.5 humidity=74 aqi=29 uv=7.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=289
+[typhoon.service] response OK: length=611
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้ทำให้รู้สึกสบายใจ สดชื่น ไม่ร...
+[recommendation.controller] got AI recs: activity="ควรออกกำลังกายกลางแจ้งได้ แต่หลีกเลี่ยงช่วงเวลาที่แดดแรง (10..."
+[recommendation.controller] recommendations saved id=XePMlt0Pm7p6AQraP2tL
+[REQ] GET /api/recommendations?analysisId=bbRVCqyW9PLZDbZaDRpF → 200 (3722ms)
+[auth.controller] signup success email=menu-test-20260604224821@aether-test.local userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[REQ] POST /api/auth/signup → 201 (1244ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.3, humidity=76, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=N0E7UuL7mMji5zDbEYEG
+[insights.service] getMenuSuggestions: temp=28.3 humidity=76 aqi=29 uv=7.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=607
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Bangkok"
+[REQ] GET /api/insights/menu?city=Bangkok → 200 (6126ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Chiang Mai"
+[weather.service] geocoding "Chiang Mai"...
+[geocoding.service] searching "Chiang Mai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Chiang Mai" via en: Chiang Mai
+[weather.service] geocoded "Chiang Mai" → Chiang Mai, Thailand (18.79038, 98.98468)
+[weather.service] fetching forecast + air quality for 18.79038, 98.98468...
+[forecast.service] fetching forecast for lat=18.79038 lon=98.98468 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=18.79038 lon=98.98468
+[forecast.service] forecast OK: current temp=25.1, humidity=93, 7 daily entries
+[air-quality.service] result: aqi=46 pm25=8.1 o3=39
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Chiang Mai" id=dOTeGUaf1mr9ks7NEBM3
+[insights.service] getMenuSuggestions: temp=25.1 humidity=93 aqi=46 uv=8.6
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=346 keySet=true
+[typhoon.service] response OK: length=543
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Chiang Mai"
+[REQ] GET /api/insights/menu?city=Chiang%20Mai → 200 (2135ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Phuket"
+[weather.service] geocoding "Phuket"...
+[geocoding.service] searching "Phuket" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phuket" via en: Phuket
+[weather.service] geocoded "Phuket" → Phuket, Thailand (7.89059, 98.3981)
+[weather.service] fetching forecast + air quality for 7.89059, 98.3981...
+[forecast.service] fetching forecast for lat=7.89059 lon=98.3981 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=7.89059 lon=98.3981
+[forecast.service] forecast OK: current temp=26.5, humidity=92, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=5.8 o3=50
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phuket" id=F21kLoHTCXLOFuXZlAab
+[insights.service] getMenuSuggestions: temp=26.5 humidity=92 aqi=25 uv=5.65
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=552
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Phuket"
+[REQ] GET /api/insights/menu?city=Phuket → 200 (3339ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Pattaya"
+[weather.service] geocoding "Pattaya"...
+[geocoding.service] searching "Pattaya" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Pattaya" via en: Pattaya
+[weather.service] geocoded "Pattaya" → Pattaya, Thailand (12.93333, 100.88333)
+[weather.service] fetching forecast + air quality for 12.93333, 100.88333...
+[forecast.service] fetching forecast for lat=12.93333 lon=100.88333 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=12.93333 lon=100.88333
+[forecast.service] forecast OK: current temp=27.8, humidity=82, 7 daily entries
+[air-quality.service] result: aqi=35 pm25=2.4 o3=57
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Pattaya" id=CDOLmb8cjsORip4qqQEV
+[insights.service] getMenuSuggestions: temp=27.8 humidity=82 aqi=35 uv=8.55
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=626
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Pattaya"
+[REQ] GET /api/insights/menu?city=Pattaya → 200 (2565ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Krabi"
+[weather.service] geocoding "Krabi"...
+[geocoding.service] searching "Krabi" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Krabi" via en: Krabi
+[weather.service] geocoded "Krabi" → Krabi, Thailand (8.07257, 98.91052)
+[weather.service] fetching forecast + air quality for 8.07257, 98.91052...
+[forecast.service] fetching forecast for lat=8.07257 lon=98.91052 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=8.07257 lon=98.91052
+[forecast.service] forecast OK: current temp=26.2, humidity=96, 7 daily entries
+[air-quality.service] result: aqi=23 pm25=4.9 o3=46
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Krabi" id=VpF1iIPUCFrIEGobkD0Y
+[insights.service] getMenuSuggestions: temp=26.2 humidity=96 aqi=23 uv=6.95
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=538
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Krabi"
+[REQ] GET /api/insights/menu?city=Krabi → 200 (8476ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Hat Yai"
+[weather.service] geocoding "Hat Yai"...
+[geocoding.service] searching "Hat Yai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Hat Yai" via en: Hat Yai
+[weather.service] geocoded "Hat Yai" → Hat Yai, Thailand (7.00836, 100.47668)
+[weather.service] fetching forecast + air quality for 7.00836, 100.47668...
+[forecast.service] fetching forecast for lat=7.00836 lon=100.47668 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=7.00836 lon=100.47668
+[forecast.service] forecast OK: current temp=24.7, humidity=98, 7 daily entries
+[air-quality.service] result: aqi=22 pm25=6.8 o3=30
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Hat Yai" id=ucTV7sttF9qBXdY5y2zO
+[insights.service] getMenuSuggestions: temp=24.7 humidity=98 aqi=22 uv=8.15
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=517
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Hat Yai"
+[REQ] GET /api/insights/menu?city=Hat%20Yai → 200 (3986ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Hua Hin"
+[weather.service] geocoding "Hua Hin"...
+[geocoding.service] searching "Hua Hin" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Hua Hin" via en: Hua Hin
+[weather.service] geocoded "Hua Hin" → Hua Hin, Thailand (12.57065, 99.95876)
+[weather.service] fetching forecast + air quality for 12.57065, 99.95876...
+[forecast.service] fetching forecast for lat=12.57065 lon=99.95876 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=12.57065 lon=99.95876
+[forecast.service] forecast OK: current temp=26.3, humidity=85, 7 daily entries
+[air-quality.service] result: aqi=28 pm25=0.8 o3=58
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Hua Hin" id=jEDAO8hs37wHhqAd8WoJ
+[insights.service] getMenuSuggestions: temp=26.3 humidity=85 aqi=28 uv=2.85
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=517
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Hua Hin"
+[REQ] GET /api/insights/menu?city=Hua%20Hin → 200 (2358ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Koh Samui"
+[weather.service] geocoding "Koh Samui"...
+[geocoding.service] searching "Koh Samui" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Koh Samui" via en: Koh Samui Airport
+[weather.service] geocoded "Koh Samui" → Koh Samui Airport, Thailand (9.54675, 100.0621)
+[weather.service] fetching forecast + air quality for 9.54675, 100.0621...
+[forecast.service] fetching forecast for lat=9.54675 lon=100.0621 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=9.54675 lon=100.0621
+[forecast.service] forecast OK: current temp=27.3, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=3 o3=49
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Koh Samui Airport" id=wnrJrCGbyiguMdMvKEOF
+[insights.service] getMenuSuggestions: temp=27.3 humidity=79 aqi=29 uv=8.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=608
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Koh Samui"
+[REQ] GET /api/insights/menu?city=Koh%20Samui → 200 (3042ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Chiang Rai"
+[weather.service] geocoding "Chiang Rai"...
+[geocoding.service] searching "Chiang Rai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Chiang Rai" via en: Chiang Rai
+[weather.service] geocoded "Chiang Rai" → Chiang Rai, Thailand (19.90858, 99.8325)
+[weather.service] fetching forecast + air quality for 19.90858, 99.8325...
+[forecast.service] fetching forecast for lat=19.90858 lon=99.8325 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=19.90858 lon=99.8325
+[forecast.service] forecast OK: current temp=25.1, humidity=96, 7 daily entries
+[air-quality.service] result: aqi=66 pm25=15.3 o3=68
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Chiang Rai" id=zF1swDAfmGB9Hv33YvGU
+[insights.service] getMenuSuggestions: temp=25.1 humidity=96 aqi=66 uv=7.85
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=545
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Chiang Rai"
+[REQ] GET /api/insights/menu?city=Chiang%20Rai → 200 (4747ms)
+[jwt-auth] authenticated userId=hr0bkX1ZOAZshwhmqkxYKoOnx3v1
+[insights.controller] getMenu city="Phra Nakhon Si Ayutthaya"
+[weather.service] geocoding "Phra Nakhon Si Ayutthaya"...
+[geocoding.service] searching "Phra Nakhon Si Ayutthaya" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phra Nakhon Si Ayutthaya" via en: Phra Nakhon Si Ayutthaya
+[weather.service] geocoded "Phra Nakhon Si Ayutthaya" → Phra Nakhon Si Ayutthaya, Thailand (14.35167, 100.57739)
+[weather.service] fetching forecast + air quality for 14.35167, 100.57739...
+[forecast.service] fetching forecast for lat=14.35167 lon=100.57739 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=14.35167 lon=100.57739
+[forecast.service] forecast OK: current temp=26.7, humidity=95, 7 daily entries
+[air-quality.service] result: aqi=64 pm25=19.8 o3=16
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phra Nakhon Si Ayutthaya" id=Hl1aXH7HgidpidtCuxV5
+[insights.service] getMenuSuggestions: temp=26.7 humidity=95 aqi=64 uv=6.95
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=579
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Phra Nakhon Si Ayutthaya"
+[REQ] GET /api/insights/menu?city=Phra%20Nakhon%20Si%20Ayutthaya → 200 (2200ms)
+[auth.controller] signup success email=menu-test2-20260604224929@aether-test.local userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[REQ] POST /api/auth/signup → 201 (1152ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.3, humidity=76, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=4.8 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=WTJIaV9SNrxEuDqGf5W7
+[insights.service] getMenuSuggestions: temp=28.3 humidity=76 aqi=29 uv=7.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=520
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Bangkok"
+[REQ] GET /api/insights/menu?city=Bangkok → 200 (4768ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Chiang Mai"
+[weather.service] geocoding "Chiang Mai"...
+[geocoding.service] searching "Chiang Mai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Chiang Mai" via en: Chiang Mai
+[weather.service] geocoded "Chiang Mai" → Chiang Mai, Thailand (18.79038, 98.98468)
+[weather.service] fetching forecast + air quality for 18.79038, 98.98468...
+[forecast.service] fetching forecast for lat=18.79038 lon=98.98468 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=18.79038 lon=98.98468
+[forecast.service] forecast OK: current temp=25.1, humidity=93, 7 daily entries
+[air-quality.service] result: aqi=46 pm25=8.1 o3=39
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Chiang Mai" id=M42pSwVlNf3x645wkRqN
+[insights.service] getMenuSuggestions: temp=25.1 humidity=93 aqi=46 uv=8.6
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=346 keySet=true
+[typhoon.service] response OK: length=570
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Chiang Mai"
+[REQ] GET /api/insights/menu?city=Chiang%20Mai → 200 (4320ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Phuket"
+[weather.service] geocoding "Phuket"...
+[geocoding.service] searching "Phuket" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phuket" via en: Phuket
+[weather.service] geocoded "Phuket" → Phuket, Thailand (7.89059, 98.3981)
+[weather.service] fetching forecast + air quality for 7.89059, 98.3981...
+[forecast.service] fetching forecast for lat=7.89059 lon=98.3981 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=7.89059 lon=98.3981
+[forecast.service] forecast OK: current temp=26.5, humidity=92, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=5.8 o3=50
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phuket" id=XnxB9X9pUzuzvhGkRsOw
+[insights.service] getMenuSuggestions: temp=26.5 humidity=92 aqi=25 uv=5.65
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=555
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Phuket"
+[REQ] GET /api/insights/menu?city=Phuket → 200 (2630ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Pattaya"
+[weather.service] geocoding "Pattaya"...
+[geocoding.service] searching "Pattaya" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Pattaya" via en: Pattaya
+[weather.service] geocoded "Pattaya" → Pattaya, Thailand (12.93333, 100.88333)
+[weather.service] fetching forecast + air quality for 12.93333, 100.88333...
+[forecast.service] fetching forecast for lat=12.93333 lon=100.88333 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=12.93333 lon=100.88333
+[forecast.service] forecast OK: current temp=27.8, humidity=82, 7 daily entries
+[air-quality.service] result: aqi=35 pm25=2.4 o3=57
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Pattaya" id=gj2iS1IazIGhTz4IoEGJ
+[insights.service] getMenuSuggestions: temp=27.8 humidity=82 aqi=35 uv=8.55
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=586
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Pattaya"
+[REQ] GET /api/insights/menu?city=Pattaya → 200 (2684ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Krabi"
+[weather.service] geocoding "Krabi"...
+[geocoding.service] searching "Krabi" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Krabi" via en: Krabi
+[weather.service] geocoded "Krabi" → Krabi, Thailand (8.07257, 98.91052)
+[weather.service] fetching forecast + air quality for 8.07257, 98.91052...
+[forecast.service] fetching forecast for lat=8.07257 lon=98.91052 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=8.07257 lon=98.91052
+[forecast.service] forecast OK: current temp=26.2, humidity=96, 7 daily entries
+[air-quality.service] result: aqi=23 pm25=4.9 o3=46
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Krabi" id=viORTb0H1X1jiySKIvzR
+[insights.service] getMenuSuggestions: temp=26.2 humidity=96 aqi=23 uv=6.95
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=539
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Krabi"
+[REQ] GET /api/insights/menu?city=Krabi → 200 (4604ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Hat Yai"
+[weather.service] geocoding "Hat Yai"...
+[geocoding.service] searching "Hat Yai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Hat Yai" via en: Hat Yai
+[weather.service] geocoded "Hat Yai" → Hat Yai, Thailand (7.00836, 100.47668)
+[weather.service] fetching forecast + air quality for 7.00836, 100.47668...
+[forecast.service] fetching forecast for lat=7.00836 lon=100.47668 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=7.00836 lon=100.47668
+[forecast.service] forecast OK: current temp=24.7, humidity=98, 7 daily entries
+[air-quality.service] result: aqi=22 pm25=6.8 o3=30
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Hat Yai" id=U179W3laTChbbuiXpAnG
+[insights.service] getMenuSuggestions: temp=24.7 humidity=98 aqi=22 uv=8.15
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=536
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Hat Yai"
+[REQ] GET /api/insights/menu?city=Hat%20Yai → 200 (2913ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Hua Hin"
+[weather.service] geocoding "Hua Hin"...
+[geocoding.service] searching "Hua Hin" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Hua Hin" via en: Hua Hin
+[weather.service] geocoded "Hua Hin" → Hua Hin, Thailand (12.57065, 99.95876)
+[weather.service] fetching forecast + air quality for 12.57065, 99.95876...
+[forecast.service] fetching forecast for lat=12.57065 lon=99.95876 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=12.57065 lon=99.95876
+[forecast.service] forecast OK: current temp=26.3, humidity=85, 7 daily entries
+[air-quality.service] result: aqi=28 pm25=0.8 o3=58
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Hua Hin" id=kXa9sAGYogh8cYQ0WmAt
+[insights.service] getMenuSuggestions: temp=26.3 humidity=85 aqi=28 uv=2.85
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=547
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Hua Hin"
+[REQ] GET /api/insights/menu?city=Hua%20Hin → 200 (2763ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Koh Samui"
+[weather.service] geocoding "Koh Samui"...
+[geocoding.service] searching "Koh Samui" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Koh Samui" via en: Koh Samui Airport
+[weather.service] geocoded "Koh Samui" → Koh Samui Airport, Thailand (9.54675, 100.0621)
+[weather.service] fetching forecast + air quality for 9.54675, 100.0621...
+[forecast.service] fetching forecast for lat=9.54675 lon=100.0621 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=9.54675 lon=100.0621
+[forecast.service] forecast OK: current temp=27.3, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=29 pm25=3 o3=49
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Koh Samui Airport" id=Q1kQO1fMo6yxWGevIyxw
+[insights.service] getMenuSuggestions: temp=27.3 humidity=79 aqi=29 uv=8.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=568
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Koh Samui"
+[REQ] GET /api/insights/menu?city=Koh%20Samui → 200 (2644ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Chiang Rai"
+[weather.service] geocoding "Chiang Rai"...
+[geocoding.service] searching "Chiang Rai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Chiang Rai" via en: Chiang Rai
+[weather.service] geocoded "Chiang Rai" → Chiang Rai, Thailand (19.90858, 99.8325)
+[weather.service] fetching forecast + air quality for 19.90858, 99.8325...
+[forecast.service] fetching forecast for lat=19.90858 lon=99.8325 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=19.90858 lon=99.8325
+[forecast.service] forecast OK: current temp=25.1, humidity=96, 7 daily entries
+[air-quality.service] result: aqi=66 pm25=15.3 o3=68
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Chiang Rai" id=plOTu5z7fMgOh9CLkmNB
+[insights.service] getMenuSuggestions: temp=25.1 humidity=96 aqi=66 uv=7.85
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=544
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Chiang Rai"
+[REQ] GET /api/insights/menu?city=Chiang%20Rai → 200 (2863ms)
+[jwt-auth] authenticated userId=7lmM0kV7tyXgdA3MOzAYqgEH4PG2
+[insights.controller] getMenu city="Phra Nakhon Si Ayutthaya"
+[weather.service] geocoding "Phra Nakhon Si Ayutthaya"...
+[geocoding.service] searching "Phra Nakhon Si Ayutthaya" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phra Nakhon Si Ayutthaya" via en: Phra Nakhon Si Ayutthaya
+[weather.service] geocoded "Phra Nakhon Si Ayutthaya" → Phra Nakhon Si Ayutthaya, Thailand (14.35167, 100.57739)
+[weather.service] fetching forecast + air quality for 14.35167, 100.57739...
+[forecast.service] fetching forecast for lat=14.35167 lon=100.57739 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=14.35167 lon=100.57739
+[air-quality.service] result: aqi=64 pm25=19.8 o3=16
+[forecast.service] forecast OK: current temp=26.7, humidity=95, 7 daily entries
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phra Nakhon Si Ayutthaya" id=TfPl2c6h3DcpOgl5Zzei
+[insights.service] getMenuSuggestions: temp=26.7 humidity=95 aqi=64 uv=6.95
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] response OK: length=540
+[insights.service] menu suggestions: 3 items parsed
+[insights.controller] getMenu success: 3 items for "Phra Nakhon Si Ayutthaya"
+[REQ] GET /api/insights/menu?city=Phra%20Nakhon%20Si%20Ayutthaya → 200 (4701ms)
+[REQ] OPTIONS /api/reports → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=28.3, humidity=76, 7 daily entries
+[risk.service] calculating risks: temp=33.7 humidity=70 aqi=50 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=89
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=250
+[report.controller] getReport success: 7 analyses, avgScore=89
+[REQ] GET /api/reports → 200 (3117ms)
+[REQ] OPTIONS /api/reports → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[REQ] OPTIONS /api/weather?city=Bangkok → 204 (0ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[forecast.service] forecast OK: current temp=28.2, humidity=77, 7 daily entries
+[risk.service] calculating risks: temp=33.7 humidity=70 aqi=50 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=89
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.2, humidity=77, 7 daily entries
+[typhoon.service] response OK: length=282
+[report.controller] getReport success: 7 analyses, avgScore=89
+[air-quality.service] result: aqi=27 pm25=4.5 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=8xAqlXPessO8VxCSGzxF
+[weather.controller] getWeather success city="Bangkok" temp=28.2
+[REQ] GET /api/weather?city=Bangkok → 200 (2718ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.2, humidity=77, 7 daily entries
+[air-quality.service] result: aqi=27 pm25=4.5 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=E5pKY3QwLRKmHfNqeyKR
+[analysis.service] live weather temp=28.2 aqi=27 humidity=77 weatherRecordId=E5pKY3QwLRKmHfNqeyKR
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.2 humidity=77 aqi=27 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[REQ] OPTIONS /api/health/analyze → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.2, humidity=77, 7 daily entries
+[air-quality.service] result: aqi=27 pm25=4.5 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[typhoon.service] response OK: length=275
+[summary.service] health summary OK: length=275
+[analysis.service] AI summary: length=275
+[weather.service] persisted weather for "Bangkok" id=z9urO18bXWCKT7C0lklk
+[analysis.service] live weather temp=28.2 aqi=27 humidity=77 weatherRecordId=z9urO18bXWCKT7C0lklk
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.2 humidity=77 aqi=27 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[analysis.service] health_analysis saved id=tQPB5w5N7Mx8tQgaKzjp
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[typhoon.service] response OK: length=272
+[summary.service] health summary OK: length=272
+[analysis.service] AI summary: length=272
+[analysis.service] health_analysis saved id=xfH1cbm6eRa6Y9QwtXUp
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (5579ms)
+[REQ] OPTIONS /api/recommendations?analysisId=xfH1cbm6eRa6Y9QwtXUp → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=xfH1cbm6eRa6Y9QwtXUp
+[recommendation.controller] found analysis id=xfH1cbm6eRa6Y9QwtXUp
+[recommendation.controller] weather temp=28.2 aqi=27
+[recommendation.service] generating recs: temp=28.2 aqi=27 uv=7.75 score=90
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=260 keySet=true
+[typhoon.service] response OK: length=270
+[recommendation.service] AI recs OK: activity="ควรออกกำลังกายกลางแจ้งได้ แต่หลีกเลี่ยงช่วงเวลาที่แดดแรง (เช..."
+[insights.service] getMenuSuggestions: temp=28.2 humidity=77 aqi=27 uv=7.75
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=307
+[typhoon.service] response OK: length=554
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้เหมาะกับการผ่อนคลาย ท้องฟ้าแจ...
+[recommendation.controller] got AI recs: activity="ควรออกกำลังกายกลางแจ้งได้ แต่หลีกเลี่ยงช่วงเวลาที่แดดแรง (เช..."
+[recommendation.controller] recommendations saved id=8W5dk6NS3e0h1w8Kk4di
+[REQ] GET /api/recommendations?analysisId=xfH1cbm6eRa6Y9QwtXUp → 200 (5268ms)
+[REQ] OPTIONS /api/weather/geocode?name=phi&count=5 → 204 (1ms)
+[geocode.controller] geocode name="phi" count=5
+[geocoding.service] searching "phi" count=5 languages=en,th
+[REQ] OPTIONS /api/weather/geocode?name=phim&count=5 → 204 (1ms)
+[geocode.controller] geocode name="phim" count=5
+[geocoding.service] searching "phim" count=5 languages=en,th
+[geocoding.service] found 5 result(s) for "phi" via en: Pinheiro, Phi, Pinheiro Airport, Philadelphia, Philippines
+[geocode.controller] geocode success: 5 results for "phi"
+[REQ] GET /api/weather/geocode?name=phi&count=5 → 200 (1196ms)
+[REQ] OPTIONS /api/weather/geocode?name=phima&count=5 → 204 (1ms)
+[geocode.controller] geocode name="phima" count=5
+[geocoding.service] searching "phima" count=5 languages=en,th
+[geocoding.service] found 3 result(s) for "phima" via en: Phimai, Phimaroche, Phimaldanda
+[geocode.controller] geocode success: 3 results for "phima"
+[REQ] GET /api/weather/geocode?name=phima&count=5 → 200 (244ms)
+[geocoding.service] found 5 result(s) for "phim" via en: Phimai, Phimro, Miana Phumbal, Phimikada, Phimaroche
+[geocode.controller] geocode success: 5 results for "phim"
+[REQ] GET /api/weather/geocode?name=phim&count=5 → 200 (1172ms)
+[REQ] OPTIONS /api/weather/geocode?name=phimai&count=5 → 204 (0ms)
+[geocode.controller] geocode name="phimai" count=5
+[geocoding.service] searching "phimai" count=5 languages=en,th
+[geocoding.service] found 1 result(s) for "phimai" via en: Phimai
+[geocode.controller] geocode success: 1 results for "phimai"
+[REQ] GET /api/weather/geocode?name=phimai&count=5 → 200 (231ms)
+[REQ] OPTIONS /api/weather?city=Phimai → 204 (1ms)
+[weather.controller] getWeather city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.6, humidity=78, 7 daily entries
+[air-quality.service] result: aqi=51 pm25=7.9 o3=56
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=zMLhluiBkiiukltMIRxk
+[weather.controller] getWeather success city="Phimai" temp=27.6
+[REQ] GET /api/weather?city=Phimai → 200 (1865ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.6, humidity=78, 7 daily entries
+[air-quality.service] result: aqi=51 pm25=7.9 o3=56
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=7xk0GIZwT2lMU6IMyXBs
+[analysis.service] live weather temp=27.6 aqi=51 humidity=78 weatherRecordId=7xk0GIZwT2lMU6IMyXBs
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.6 humidity=78 aqi=51 uv=8.3 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=15(low) migraine=10(low) fatigue=15(low) healthScore=87
+[analysis.service] risks: score=87 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=87 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=303 keySet=true
+[typhoon.service] response OK: length=302
+[summary.service] health summary OK: length=302
+[analysis.service] AI summary: length=302
+[analysis.service] health_analysis saved id=rRgGEZuo5ANKSEotKF7j
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=87
+[REQ] POST /api/health/analyze → 200 (5099ms)
+[REQ] OPTIONS /api/recommendations?analysisId=rRgGEZuo5ANKSEotKF7j → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=rRgGEZuo5ANKSEotKF7j
+[recommendation.controller] found analysis id=rRgGEZuo5ANKSEotKF7j
+[recommendation.controller] weather temp=27.6 aqi=51
+[recommendation.service] generating recs: temp=27.6 aqi=51 uv=8.3 score=87
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=259 keySet=true
+[typhoon.service] response OK: length=283
+[recommendation.service] AI recs OK: activity="ควรออกกำลังกายกลางแจ้งได้ในช่วงเช้าหรือเย็น เน้นหลีกเลี่ยงช่..."
+[insights.service] getMenuSuggestions: temp=27.6 humidity=78 aqi=51 uv=8.3
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=346 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=278
+[typhoon.service] response OK: length=624
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้ทำให้รู้สึกสบายใจ ไม่ร้อนจนเก...
+[recommendation.controller] got AI recs: activity="ควรออกกำลังกายกลางแจ้งได้ในช่วงเช้าหรือเย็น เน้นหลีกเลี่ยงช่..."
+[recommendation.controller] recommendations saved id=jAVhewo0rtsnYHw28FLR
+[REQ] GET /api/recommendations?analysisId=rRgGEZuo5ANKSEotKF7j → 200 (6190ms)
+[REQ] OPTIONS /api/chat → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[chat.controller] chat userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 question="hello..." hasWeatherContext=false weatherFetched=false
+[typhoon.service] chat question="hello..." hasWeatherContext=false weatherFetched=false
+[search.service] tavily searching: "hello..."
+[search.service] 5 results for "hello"
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=1000 promptLength=2048 keySet=true
+[typhoon.service] response OK: length=107
+[chat.controller] chat success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 answerLength=107
+[chat.controller] chat history saved to Firestore
+[REQ] POST /api/chat → 200 (1888ms)
+[REQ] OPTIONS /api/reports → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=28.2, humidity=77, 7 daily entries
+[risk.service] calculating risks: temp=33.7 humidity=70 aqi=50 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=89
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=310
+[report.controller] getReport success: 7 analyses, avgScore=89
+[REQ] OPTIONS /api/reports → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=28, humidity=79, 7 daily entries
+[risk.service] calculating risks: temp=33.7 humidity=70 aqi=50 uv=7.75 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=89
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=273
+[report.controller] getReport success: 7 analyses, avgScore=89
+[REQ] GET /api/reports → 200 (7276ms)
+[REQ] OPTIONS /api/reports → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=27.9, humidity=82, 7 daily entries
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[risk.service] calculating risks: temp=31.4 humidity=70 aqi=50 uv=5.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=91
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=267
+[report.controller] getReport success: 7 analyses, avgScore=91
+[REQ] GET /api/reports → 200 (3937ms)
+[REQ] OPTIONS /api/weather?city=Bangkok → 204 (1ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=27.9, humidity=82, 7 daily entries
+[air-quality.service] result: aqi=26 pm25=4 o3=52
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=EIpqdVQO1vmsjH9jtdtR
+[weather.controller] getWeather success city="Bangkok" temp=27.9
+[REQ] GET /api/weather?city=Bangkok → 200 (2791ms)
+[REQ] OPTIONS /api/weather/geocode?name=phimai&count=5 → 204 (1ms)
+[geocode.controller] geocode name="phimai" count=5
+[geocoding.service] searching "phimai" count=5 languages=en,th
+[geocoding.service] found 1 result(s) for "phimai" via en: Phimai
+[geocode.controller] geocode success: 1 results for "phimai"
+[REQ] GET /api/weather/geocode?name=phimai&count=5 → 304 (1141ms)
+[REQ] OPTIONS /api/weather?city=Phimai → 204 (0ms)
+[weather.controller] getWeather city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=4Iezk5qizvIgdfQQMzNv
+[weather.controller] getWeather success city="Phimai" temp=27.4
+[REQ] GET /api/weather?city=Phimai → 200 (1743ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=f0kNXlz4aF3LBkDTYKLf
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=f0kNXlz4aF3LBkDTYKLf
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=313
+[summary.service] health summary OK: length=313
+[analysis.service] AI summary: length=313
+[analysis.service] health_analysis saved id=pGespI9ogKAZHcGgb1DP
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (3764ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=NDHpkbE9Y8Ny67wRmADM
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=NDHpkbE9Y8Ny67wRmADM
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=315
+[summary.service] health summary OK: length=315
+[analysis.service] AI summary: length=315
+[analysis.service] health_analysis saved id=xDUtymr9loSxtWCLyzkZ
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (5444ms)
+[REQ] OPTIONS /api/recommendations?analysisId=xDUtymr9loSxtWCLyzkZ → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=xDUtymr9loSxtWCLyzkZ
+[recommendation.controller] found analysis id=xDUtymr9loSxtWCLyzkZ
+[recommendation.controller] weather temp=27.4 aqi=50
+[recommendation.service] generating recs: temp=27.4 aqi=50 uv=7.45 score=90
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=260 keySet=true
+[typhoon.service] response OK: length=310
+[recommendation.service] AI recs OK: activity="ควรออกกำลังกายกลางแจ้งได้ เช่น เดินเร็วหรือปั่นจักรยาน แต่หล..."
+[insights.service] getMenuSuggestions: temp=27.4 humidity=79 aqi=50 uv=7.45
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=206
+[typhoon.service] response OK: length=554
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้ทำให้รู้สึกสบายใจ ไม่ร้อนจนเก...
+[recommendation.controller] got AI recs: activity="ควรออกกำลังกายกลางแจ้งได้ เช่น เดินเร็วหรือปั่นจักรยาน แต่หล..."
+[recommendation.controller] recommendations saved id=VpqG9lwGKjbYZpQhfdit
+[REQ] GET /api/recommendations?analysisId=xDUtymr9loSxtWCLyzkZ → 200 (5833ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=zpeqkaDl8tLhOWwFayWK
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=zpeqkaDl8tLhOWwFayWK
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=298
+[summary.service] health summary OK: length=298
+[analysis.service] AI summary: length=298
+[analysis.service] health_analysis saved id=iCY1Epbe0OuyGYkWz318
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (5836ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[REQ] OPTIONS /api/weather?city=Phimai → 204 (1ms)
+[weather.controller] getWeather city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=pslv5OmfM0psZHFuCZ9G
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=pslv5OmfM0psZHFuCZ9G
+[weather.service] persisted weather for "Phimai" id=OgiWSI3bdedSOZ16BC03
+[weather.controller] getWeather success city="Phimai" temp=27.4
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[REQ] OPTIONS /api/weather?city=Bangkok → 204 (1ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=27.9, humidity=82, 7 daily entries
+[air-quality.service] result: aqi=26 pm25=4 o3=52
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=syarugl2jHDaMlhUsR2Q
+[weather.controller] getWeather success city="Bangkok" temp=27.9
+[REQ] GET /api/weather?city=Bangkok → 200 (706ms)
+[typhoon.service] response OK: length=316
+[summary.service] health summary OK: length=316
+[analysis.service] AI summary: length=316
+[analysis.service] health_analysis saved id=NeQhHBn6ju7rJzCGlxaS
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=27.9, humidity=82, 7 daily entries
+[air-quality.service] result: aqi=26 pm25=4 o3=52
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=r8tmzkCT5nrQyq1OxAql
+[weather.controller] getWeather success city="Bangkok" temp=27.9
+[REQ] GET /api/weather?city=Bangkok → 200 (656ms)
+[REQ] OPTIONS /api/weather/geocode?name=phi&count=5 → 204 (0ms)
+[geocode.controller] geocode name="phi" count=5
+[geocoding.service] searching "phi" count=5 languages=en,th
+[geocoding.service] found 5 result(s) for "phi" via en: Pinheiro, Phi, Pinheiro Airport, Philadelphia, Philippines
+[geocode.controller] geocode success: 5 results for "phi"
+[REQ] GET /api/weather/geocode?name=phi&count=5 → 304 (1155ms)
+[REQ] OPTIONS /api/weather/geocode?name=phim&count=5 → 204 (1ms)
+[geocode.controller] geocode name="phim" count=5
+[geocoding.service] searching "phim" count=5 languages=en,th
+[geocoding.service] found 5 result(s) for "phim" via en: Phimai, Phimro, Miana Phumbal, Phimikada, Phimaroche
+[geocode.controller] geocode success: 5 results for "phim"
+[REQ] GET /api/weather/geocode?name=phim&count=5 → 304 (221ms)
+[REQ] OPTIONS /api/weather?city=Phimai → 204 (1ms)
+[weather.controller] getWeather city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=9lOvjokr5WlSNt1vmeSK
+[weather.controller] getWeather success city="Phimai" temp=27.4
+[REQ] GET /api/weather?city=Phimai → 200 (2246ms)
+[REQ] OPTIONS /api/health/analyze → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=OmfnCwDK57NWuP2iAoiW
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=OmfnCwDK57NWuP2iAoiW
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=315
+[summary.service] health summary OK: length=315
+[analysis.service] AI summary: length=315
+[analysis.service] health_analysis saved id=6JJ6f36V0kXI9jmTg1sA
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (3211ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=SQGK9NXGxbxYDbEVgnC5
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=SQGK9NXGxbxYDbEVgnC5
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=333
+[summary.service] health summary OK: length=333
+[analysis.service] AI summary: length=333
+[analysis.service] health_analysis saved id=XMOLiU5K9Jfy9PyVx81m
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (7874ms)
+[REQ] OPTIONS /api/recommendations?analysisId=XMOLiU5K9Jfy9PyVx81m → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=XMOLiU5K9Jfy9PyVx81m
+[recommendation.controller] found analysis id=XMOLiU5K9Jfy9PyVx81m
+[recommendation.controller] weather temp=27.4 aqi=50
+[recommendation.service] generating recs: temp=27.4 aqi=50 uv=7.45 score=90
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=260 keySet=true
+[typhoon.service] response OK: length=272
+[recommendation.service] AI recs OK: activity="ควรออกกำลังกายกลางแจ้งได้ เช่น เดินเร็วหรือปั่นจักรยาน แต่หล..."
+[insights.service] getMenuSuggestions: temp=27.4 humidity=79 aqi=50 uv=7.45
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=347 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=533
+[insights.service] menu suggestions: 3 items parsed
+[typhoon.service] response OK: length=238
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้เหมาะกับการผ่อนคลาย ท้องฟ้าแจ...
+[recommendation.controller] got AI recs: activity="ควรออกกำลังกายกลางแจ้งได้ เช่น เดินเร็วหรือปั่นจักรยาน แต่หล..."
+[recommendation.controller] recommendations saved id=gJWJ6eVwjLsNE7V3A5AQ
+[REQ] GET /api/recommendations?analysisId=XMOLiU5K9Jfy9PyVx81m → 200 (26413ms)
+[REQ] OPTIONS /api/reports → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=27.9, humidity=82, 7 daily entries
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=7.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=32.4 humidity=70 aqi=50 uv=8.35 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.4 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.9 humidity=70 aqi=50 uv=8.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=7.65 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=31.7 humidity=70 aqi=50 uv=5.95 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[risk.service] calculating risks: temp=31.4 humidity=70 aqi=50 uv=5.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=91
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=236
+[report.controller] getReport success: 7 analyses, avgScore=91
+[REQ] GET /api/reports → 200 (9365ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.4, humidity=79, 7 daily entries
+[air-quality.service] result: aqi=50 pm25=8.3 o3=54
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=S6nrjbZ72ORbsUkWtwze
+[analysis.service] live weather temp=27.4 aqi=50 humidity=79 weatherRecordId=S6nrjbZ72ORbsUkWtwze
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=27.4 humidity=79 aqi=50 uv=7.45 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=10(low) fatigue=15(low) healthScore=90
+[analysis.service] risks: score=90 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=90 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=304 keySet=true
+[typhoon.service] response OK: length=286
+[summary.service] health summary OK: length=286
+[analysis.service] AI summary: length=286
+[analysis.service] health_analysis saved id=4D8S5qc4GYaYtZlBfw2H
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=90
+[REQ] POST /api/health/analyze → 200 (25941ms)
+[REQ] OPTIONS /api/weather?city=Bangkok → 204 (1ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=VUKXf5V4a2LF24Yb50Df
+[analysis.service] live weather temp=28.8 aqi=25 humidity=71 weatherRecordId=VUKXf5V4a2LF24Yb50Df
+[weather.service] persisted weather for "Bangkok" id=X4CtoMxBLWhA4heUhNC8
+[weather.controller] getWeather success city="Bangkok" temp=28.8
+[REQ] GET /api/weather?city=Bangkok → 200 (3314ms)
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.8 humidity=71 aqi=25 uv=6.5 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=5(low) fatigue=10(low) healthScore=93
+[analysis.service] risks: score=93 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=93 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=303 keySet=true
+[typhoon.service] response OK: length=312
+[summary.service] health summary OK: length=312
+[analysis.service] AI summary: length=312
+[analysis.service] health_analysis saved id=vj18hnryFZoE26aCNSMB
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=93
+[REQ] POST /api/health/analyze → 200 (6348ms)
+[REQ] OPTIONS /api/health/analyze → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=c9jm3gEhGzvSvEHCF64Q
+[analysis.service] live weather temp=28.8 aqi=25 humidity=71 weatherRecordId=c9jm3gEhGzvSvEHCF64Q
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.8 humidity=71 aqi=25 uv=6.5 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=5(low) fatigue=10(low) healthScore=93
+[analysis.service] risks: score=93 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=93 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=303 keySet=true
+[typhoon.service] response OK: length=314
+[summary.service] health summary OK: length=314
+[analysis.service] AI summary: length=314
+[analysis.service] health_analysis saved id=gYdYP61iXhFkJPWz6rKW
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=93
+[REQ] POST /api/health/analyze → 200 (6331ms)
+[REQ] OPTIONS /api/recommendations?analysisId=gYdYP61iXhFkJPWz6rKW → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=gYdYP61iXhFkJPWz6rKW
+[recommendation.controller] found analysis id=gYdYP61iXhFkJPWz6rKW
+[recommendation.controller] weather temp=28.8 aqi=25
+[recommendation.service] generating recs: temp=28.8 aqi=25 uv=6.5 score=93
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=259 keySet=true
+[typhoon.service] response OK: length=248
+[recommendation.service] AI recs OK: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน..."
+[insights.service] getMenuSuggestions: temp=28.8 humidity=71 aqi=25 uv=6.5
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=346 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=310
+[typhoon.service] response OK: length=575
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศที่แจ่มใส อุณหภูมิสบายๆ และความชื้น...
+[recommendation.controller] got AI recs: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน..."
+[recommendation.controller] recommendations saved id=J1tR3POgZxwhvdCkuaJR
+[REQ] GET /api/recommendations?analysisId=gYdYP61iXhFkJPWz6rKW → 200 (5969ms)
+[REQ] OPTIONS /api/reports → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[report.controller] getReport userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 weekStart=auto
+[report.service] fetching forecast for lat=13.75398 lon=100.50144
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[risk.service] calculating risks: temp=33.5 humidity=70 aqi=50 uv=6.5 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=10(low) fatigue=15(low) healthScore=92
+[risk.service] calculating risks: temp=34.2 humidity=70 aqi=50 uv=7.15 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=33.3 humidity=70 aqi=50 uv=7.55 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=34 humidity=70 aqi=50 uv=8.6 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=15(low) fatigue=20(low) healthScore=88
+[risk.service] calculating risks: temp=30.7 humidity=70 aqi=50 uv=8.9 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=10(low) fatigue=10(low) healthScore=93
+[risk.service] calculating risks: temp=31 humidity=70 aqi=50 uv=4.9 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=0(low) fatigue=0(low) healthScore=100
+[risk.service] calculating risks: temp=31.5 humidity=70 aqi=50 uv=5.8 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=0(low) migraine=5(low) fatigue=5(low) healthScore=97
+[report.service] forecast generated for 7 days, avgHealth=92
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=183 keySet=true
+[typhoon.service] response OK: length=247
+[report.controller] getReport success: 7 analyses, avgScore=92
+[REQ] GET /api/reports → 200 (2868ms)
+[REQ] OPTIONS /api/weather/geocode?name=phi&count=5 → 204 (0ms)
+[geocode.controller] geocode name="phi" count=5
+[geocoding.service] searching "phi" count=5 languages=en,th
+[geocoding.service] found 5 result(s) for "phi" via en: Pinheiro, Phi, Pinheiro Airport, Philadelphia, Philippines
+[geocode.controller] geocode success: 5 results for "phi"
+[REQ] GET /api/weather/geocode?name=phi&count=5 → 304 (1176ms)
+[REQ] OPTIONS /api/weather/geocode?name=phim&count=5 → 204 (0ms)
+[geocode.controller] geocode name="phim" count=5
+[geocoding.service] searching "phim" count=5 languages=en,th
+[geocoding.service] found 5 result(s) for "phim" via en: Phimai, Phimro, Miana Phumbal, Phimikada, Phimaroche
+[geocode.controller] geocode success: 5 results for "phim"
+[REQ] GET /api/weather/geocode?name=phim&count=5 → 304 (232ms)
+[REQ] OPTIONS /api/weather/geocode?name=phima&count=5 → 204 (0ms)
+[geocode.controller] geocode name="phima" count=5
+[geocoding.service] searching "phima" count=5 languages=en,th
+[geocoding.service] found 3 result(s) for "phima" via en: Phimai, Phimaroche, Phimaldanda
+[geocode.controller] geocode success: 3 results for "phima"
+[REQ] GET /api/weather/geocode?name=phima&count=5 → 304 (231ms)
+[REQ] OPTIONS /api/weather/geocode?name=phimai&count=5 → 204 (0ms)
+[geocode.controller] geocode name="phimai" count=5
+[geocoding.service] searching "phimai" count=5 languages=en,th
+[geocoding.service] found 1 result(s) for "phimai" via en: Phimai
+[geocode.controller] geocode success: 1 results for "phimai"
+[REQ] GET /api/weather/geocode?name=phimai&count=5 → 304 (230ms)
+[REQ] OPTIONS /api/weather?city=Phimai%2C%20Nakhon%20Ratchasima%2C%20Thailand → 204 (0ms)
+[REQ] OPTIONS /api/weather?city=Phimai → 204 (0ms)
+[weather.controller] getWeather city="Phimai, Nakhon Ratchasima, Thailand"
+[weather.service] geocoding "Phimai, Nakhon Ratchasima, Thailand"...
+[geocoding.service] searching "Phimai, Nakhon Ratchasima, Thailand" count=1 languages=en,th
+[weather.controller] getWeather city="Phimai"
+[weather.service] geocoding "Phimai"...
+[geocoding.service] searching "Phimai" count=1 languages=en,th
+[geocoding.service] no results for "Phimai, Nakhon Ratchasima, Thailand" via en, trying next language
+[geocoding.service] no results for "Phimai, Nakhon Ratchasima, Thailand" via th, trying next language
+[REQ] GET /api/weather?city=Phimai%2C%20Nakhon%20Ratchasima%2C%20Thailand → 404 (482ms)
+[geocoding.service] found 1 result(s) for "Phimai" via en: Phimai
+[weather.service] geocoded "Phimai" → Phimai, Thailand (15.22324, 102.49473)
+[weather.service] fetching forecast + air quality for 15.22324, 102.49473...
+[forecast.service] fetching forecast for lat=15.22324 lon=102.49473 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=15.22324 lon=102.49473
+[forecast.service] forecast OK: current temp=27.5, humidity=77, 7 daily entries
+[air-quality.service] result: aqi=38 pm25=10.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Phimai" id=v6lN5QNjnMXhDGMGKhJi
+[weather.controller] getWeather success city="Phimai" temp=27.5
+[REQ] GET /api/weather?city=Phimai → 200 (2697ms)
+[weather.controller] getWeather city="Phimai, Nakhon Ratchasima, Thailand"
+[weather.service] geocoding "Phimai, Nakhon Ratchasima, Thailand"...
+[geocoding.service] searching "Phimai, Nakhon Ratchasima, Thailand" count=1 languages=en,th
+[geocoding.service] no results for "Phimai, Nakhon Ratchasima, Thailand" via en, trying next language
+[geocoding.service] no results for "Phimai, Nakhon Ratchasima, Thailand" via th, trying next language
+[REQ] GET /api/weather?city=Phimai%2C%20Nakhon%20Ratchasima%2C%20Thailand → 404 (1430ms)
+[REQ] GET /favicon.ico → 404 (2ms)
+[REQ] OPTIONS /api/weather/geocode?name=bang&count=5 → 204 (0ms)
+[geocode.controller] geocode name="bang" count=5
+[geocoding.service] searching "bang" count=5 languages=en,th
+[REQ] OPTIONS /api/weather/geocode?name=bangkok&count=5 → 204 (0ms)
+[geocode.controller] geocode name="bangkok" count=5
+[geocoding.service] searching "bangkok" count=5 languages=en,th
+[geocoding.service] found 5 result(s) for "bang" via en: Bangui, Bang, Bīnak Kūh-e Bānk, Bang, Bang
+[geocode.controller] geocode success: 5 results for "bang"
+[REQ] GET /api/weather/geocode?name=bang&count=5 → 200 (1252ms)
+[geocoding.service] found 5 result(s) for "bangkok" via en: Bangkok, Brenggolo, Bangkok, Bangkok, Bangkok
+[geocode.controller] geocode success: 5 results for "bangkok"
+[REQ] GET /api/weather/geocode?name=bangkok&count=5 → 200 (2513ms)
+[REQ] OPTIONS /api/weather?city=Bangkok%2C%20Thailand → 204 (1ms)
+[weather.controller] getWeather city="Bangkok, Thailand"
+[weather.service] geocoding "Bangkok, Thailand"...
+[geocoding.service] searching "Bangkok, Thailand" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok, Thailand" via en: Bangkok
+[weather.service] geocoded "Bangkok, Thailand" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=OPiH4v6x0qf3n3h66QE8
+[weather.controller] getWeather success city="Bangkok" temp=28.8
+[REQ] GET /api/weather?city=Bangkok%2C%20Thailand → 200 (1737ms)
+[REQ] OPTIONS /api/health/analyze → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=F21tJC0cQrzoGIf5goBJ
+[analysis.service] live weather temp=28.8 aqi=25 humidity=71 weatherRecordId=F21tJC0cQrzoGIf5goBJ
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.8 humidity=71 aqi=25 uv=6.5 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=5(low) fatigue=10(low) healthScore=93
+[analysis.service] risks: score=93 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=93 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=303 keySet=true
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=4crj9GQV6lVMQwnHS51A
+[analysis.service] live weather temp=28.8 aqi=25 humidity=71 weatherRecordId=4crj9GQV6lVMQwnHS51A
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.8 humidity=71 aqi=25 uv=6.5 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=5(low) fatigue=10(low) healthScore=93
+[analysis.service] risks: score=93 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=93 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=303 keySet=true
+[typhoon.service] response OK: length=304
+[summary.service] health summary OK: length=304
+[analysis.service] AI summary: length=304
+[analysis.service] health_analysis saved id=ZtaJw6OWIAOpcfsHiaBB
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=93
+[REQ] POST /api/health/analyze → 200 (5304ms)
+[REQ] OPTIONS /api/recommendations?analysisId=ZtaJw6OWIAOpcfsHiaBB → 204 (0ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=ZtaJw6OWIAOpcfsHiaBB
+[typhoon.service] response OK: length=355
+[summary.service] health summary OK: length=355
+[analysis.service] AI summary: length=355
+[recommendation.controller] found analysis id=ZtaJw6OWIAOpcfsHiaBB
+[recommendation.controller] weather temp=28.8 aqi=25
+[recommendation.service] generating recs: temp=28.8 aqi=25 uv=6.5 score=93
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=259 keySet=true
+[analysis.service] health_analysis saved id=Ho595PGnrnF1dSh6Dlsj
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=93
+[typhoon.service] response OK: length=246
+[recommendation.service] AI recs OK: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน..."
+[insights.service] getMenuSuggestions: temp=28.8 humidity=71 aqi=25 uv=6.5
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=346 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=294
+[typhoon.service] response OK: length=585
+[insights.service] menu suggestions: 3 items parsed
+[recommendation.service] done: menu=3 items, mood=อากาศแบบนี้ทำให้รู้สึกสดชื่น ใจเย็นสบาย ...
+[recommendation.controller] got AI recs: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน..."
+[recommendation.controller] recommendations saved id=WohCoURYFnUhNAjUA1K1
+[REQ] GET /api/recommendations?analysisId=ZtaJw6OWIAOpcfsHiaBB → 200 (6391ms)
+[REQ] OPTIONS /api/weather?city=Bangkok → 204 (1ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=en1ykqIQWHXziJd5VdTl
+[weather.controller] getWeather success city="Bangkok" temp=28.8
+[REQ] GET /api/weather?city=Bangkok → 200 (3283ms)
+[REQ] OPTIONS /api/weather?city=Bangkok → 204 (1ms)
+[REQ] OPTIONS /api/health/analyze → 204 (0ms)
+[weather.controller] getWeather city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[health.controller] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[analysis.service] analyzeHealth userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 city="Bangkok"
+[weather.service] geocoding "Bangkok"...
+[geocoding.service] searching "Bangkok" count=1 languages=en,th
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[geocoding.service] found 1 result(s) for "Bangkok" via en: Bangkok
+[weather.service] geocoded "Bangkok" → Bangkok, Thailand (13.75398, 100.50144)
+[weather.service] fetching forecast + air quality for 13.75398, 100.50144...
+[forecast.service] fetching forecast for lat=13.75398 lon=100.50144 tz=Asia/Bangkok
+[air-quality.service] fetching for lat=13.75398 lon=100.50144
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[forecast.service] forecast OK: current temp=28.8, humidity=71, 7 daily entries
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[air-quality.service] result: aqi=25 pm25=3.6 o3=51
+[weather.service] forecast received, daily=7 days
+[weather.service] air quality data: available
+[weather.service] persisted weather for "Bangkok" id=yvMt29B4DFJKFiGDS9Bi
+[weather.controller] getWeather success city="Bangkok" temp=28.8
+[REQ] GET /api/weather?city=Bangkok → 200 (3239ms)
+[weather.service] persisted weather for "Bangkok" id=bKcyfJQBsOQ4yFHfLVcP
+[analysis.service] live weather temp=28.8 aqi=25 humidity=71 weatherRecordId=bKcyfJQBsOQ4yFHfLVcP
+[analysis.service] healthProfile: not found (using defaults)
+[risk.service] calculating risks: temp=28.8 humidity=71 aqi=25 uv=6.9 asthma=false allergy=false migraine=false
+[risk.service] result: respiratory=5(low) migraine=5(low) fatigue=10(low) healthScore=93
+[analysis.service] risks: score=93 respiratory=low migraine=low fatigue=low
+[summary.service] generateHealthSummary: score=93 resp=low migraine=low fatigue=low
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=303 keySet=true
+[typhoon.service] response OK: length=300
+[summary.service] health summary OK: length=300
+[analysis.service] AI summary: length=300
+[analysis.service] health_analysis saved id=4ELCiTEQUzeHXhd4hb4c
+[health.controller] analyzeHealth success userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1 healthScore=93
+[REQ] POST /api/health/analyze → 200 (6050ms)
+[REQ] OPTIONS /api/recommendations?analysisId=4ELCiTEQUzeHXhd4hb4c → 204 (1ms)
+[jwt-auth] authenticated userId=oJ3flndC8tSeb7ISOKKrc5W6Jol1
+[recommendation.controller] getRecommendations analysisId=4ELCiTEQUzeHXhd4hb4c
+[recommendation.controller] found analysis id=4ELCiTEQUzeHXhd4hb4c
+[recommendation.controller] weather temp=28.8 aqi=25
+[recommendation.service] generating recs: temp=28.8 aqi=25 uv=6.9 score=93
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=500 promptLength=259 keySet=true
+[typhoon.service] response OK: length=246
+[recommendation.service] AI recs OK: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน..."
+[insights.service] getMenuSuggestions: temp=28.8 humidity=71 aqi=25 uv=6.9
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=400 promptLength=346 keySet=true
+[typhoon.service] calling model=typhoon-v2.5-30b-a3b-instruct maxTokens=200 promptLength=287 keySet=true
+[typhoon.service] response OK: length=536
+[insights.service] menu suggestions: 3 items parsed
+[typhoon.service] response OK: length=263
+[recommendation.service] done: menu=3 items, mood=อากาศแจ่มใส อุณหภูมิสบาย ความชื้นปานกลาง...
+[recommendation.controller] got AI recs: activity="เหมาะสำหรับออกกำลังกายกลางแจ้ง เช่น เดินเร็วหรือปั่นจักรยาน..."
+[recommendation.controller] recommendations saved id=OY8SOOlMbZml7s2uzJif
+[REQ] GET /api/recommendations?analysisId=4ELCiTEQUzeHXhd4hb4c → 200 (10762ms)

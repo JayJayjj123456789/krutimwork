@@ -47,7 +47,7 @@ export default function Health() {
                 strokeLinecap="round"
                 strokeDasharray={251}
                 strokeDashoffset={healthData ? Math.max(0, 251 - (healthData.health_score / 100) * 251) : 251}
-                style={{ transition: 'stroke-dashoffset 1.2s ease-out', filter: 'drop-shadow(0 0 10px rgba(137,208,237,0.6))' }}
+                style={{ transition: 'stroke-dashoffset 1.2s ease-out' }}
               />
             </svg>
             <div style={{ zIndex: 1, textAlign: 'center' }}>
@@ -64,33 +64,26 @@ export default function Health() {
         <div className="risk-cards-grid">
           {healthData ? Object.entries(riskConfig).map(([key, cfg]) => {
             const level = healthData[cfg.field as keyof typeof healthData] || 'low'
-            const color = RISK_COLORS[level as RiskLevel] || 'var(--color-on-surface-variant)'
-            const bg = level === 'high' || level === 'very_high' ? 'rgba(255,180,171,0.1)' : 'rgba(137,208,237,0.08)'
+            const color = RISK_COLORS[level as RiskLevel] || 'var(--color-ink-muted)'
             return (
-              <div key={key} className="glass-card" style={{ display: 'flex', gap: 12, alignItems: 'center', padding: 16 }}>
-                <div style={{ width: 44, height: 44, borderRadius: 'var(--radius-md)', background: bg, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                  <span className="material-symbols-outlined icon-fill" style={{ color, fontSize: 24 }}>{cfg.icon}</span>
+              <div key={key} className="glass-card" style={{ display: 'flex', gap: 12, alignItems: 'center', padding: 14 }}>
+                <div style={{ width: 36, height: 36, borderRadius: 'var(--radius-sm)', background: 'var(--color-surface-2)', border: '1px solid var(--color-border)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                  <span className="material-symbols-outlined icon-fill" style={{ color, fontSize: 20 }}>{cfg.icon}</span>
                 </div>
                 <div>
-                  <p style={{ fontFamily: 'var(--font-headline)', fontSize: 13, fontWeight: 700, color: 'var(--color-primary)' }}>{cfg.label}</p>
-                  <p style={{ fontSize: 12, color, fontWeight: 600, marginTop: 2 }}>{RISK_LABELS_TH[level as RiskLevel] || level}</p>
+                  <p style={{ fontFamily: 'var(--font-headline)', fontSize: 13, fontWeight: 500, color: 'var(--color-ink)' }}>{cfg.label}</p>
+                  <p style={{ fontSize: 12, color, marginTop: 2 }}>{RISK_LABELS_TH[level as RiskLevel] || level}</p>
                 </div>
               </div>
             )
           }) : null}
         </div>
 
-        <div className="ai-accent-card" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-          <span className="material-symbols-outlined ai-watermark">auto_awesome</span>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
-              <span className="material-symbols-outlined icon-fill" style={{ color: 'var(--color-ai-accent)', fontSize: 20 }}>auto_awesome</span>
-              <span className="section-label" style={{ color: 'var(--color-ai-accent)' }}>AI Personalized Insight</span>
-            </div>
-            <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.7, color: 'var(--color-on-surface-variant)' }}>
-              {healthData?.ai_summary || '-'}
-            </p>
-          </div>
+        <div className="ai-accent-card" style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+          <span className="section-label">Personalized insight</span>
+          <p style={{ fontFamily: 'var(--font-body)', fontSize: 14, lineHeight: 1.55, color: 'var(--color-ink)' }}>
+            {healthData?.ai_summary || '-'}
+          </p>
         </div>
       </div>
     </div>

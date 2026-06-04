@@ -14,7 +14,8 @@
     "firebase": "12.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^6.28.0"
+    "react-router-dom": "^6.28.0",
+    "weather-health-ai": "file:.."
   },
   "devDependencies": {
     "@types/react": "^18.3.12",

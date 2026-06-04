@@ -1,6 +1,6 @@
 .strip {
   display: flex;
-  gap: 12px;
+  gap: 8px;
 }
 
 .day {
@@ -8,44 +8,43 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 12px;
-  border-radius: var(--radius-lg);
-  background: var(--color-glass-fill);
-  border: 1px solid var(--color-glass-border);
-  transition: background 0.2s;
+  gap: 6px;
+  padding: 12px 8px;
+  border-radius: var(--radius-md);
+  background: var(--color-surface-2);
+  border: 1px solid var(--color-border);
+  transition: border-color 0.12s;
 }
 
 .day:hover {
-  background: var(--color-glass-fill-hover);
+  border-color: var(--color-border-strong);
 }
 
 .active {
-  background: rgba(137, 208, 237, 0.1);
-  border-color: rgba(137, 208, 237, 0.25);
+  border-color: var(--color-accent);
 }
 
 .label {
   font-family: var(--font-headline);
   font-size: 11px;
-  font-weight: 700;
-  color: var(--color-on-surface-variant);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-weight: 500;
+  color: var(--color-ink-muted);
 }
 
 .active .label {
-  color: var(--color-secondary);
+  color: var(--color-ink);
 }
 
 .high {
   font-family: var(--font-headline);
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-primary);
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
 }
 
 .low {
   font-size: 12px;
-  color: var(--color-on-surface-variant);
+  color: var(--color-ink-faint);
+  font-variant-numeric: tabular-nums;
 }

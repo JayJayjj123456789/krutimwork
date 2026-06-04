@@ -1,0 +1,29 @@
+[jwt-auth] invalid token: Decoding Firebase ID token failed. Make sure you passed the entire string JWT which represents an ID token. See https://firebase.google.com/docs/auth/admin/verify-id-tokens for details on how to retrieve an ID token.
+[geocoding.service] all languages exhausted for "Ayutthaya"
+[weather.service] city not found: "Ayutthaya"
+[weather.controller] getWeather error: City not found: Ayutthaya
+[ERROR-HANDLER] 404 - City not found: Ayutthaya
+[ERROR-HANDLER] request: GET /api/weather?city=Ayutthaya
+Error: City not found: Ayutthaya
+    at getWeatherByCity (E:\testtest\backend\src\services\weather\weather.service.ts:76:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getWeather (E:\testtest\backend\src\controllers\weather.controller.ts:8:18)
+[search.service] tavily search failed: Request failed with status code 400
+[geocoding.service] all languages exhausted for "Phimai, Nakhon Ratchasima, Thailand"
+[weather.service] city not found: "Phimai, Nakhon Ratchasima, Thailand"
+[weather.controller] getWeather error: City not found: Phimai, Nakhon Ratchasima, Thailand
+[ERROR-HANDLER] 404 - City not found: Phimai, Nakhon Ratchasima, Thailand
+[ERROR-HANDLER] request: GET /api/weather?city=Phimai%2C%20Nakhon%20Ratchasima%2C%20Thailand
+Error: City not found: Phimai, Nakhon Ratchasima, Thailand
+    at getWeatherByCity (E:\testtest\backend\src\services\weather\weather.service.ts:76:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getWeather (E:\testtest\backend\src\controllers\weather.controller.ts:8:18)
+[geocoding.service] all languages exhausted for "Phimai, Nakhon Ratchasima, Thailand"
+[weather.service] city not found: "Phimai, Nakhon Ratchasima, Thailand"
+[weather.controller] getWeather error: City not found: Phimai, Nakhon Ratchasima, Thailand
+[ERROR-HANDLER] 404 - City not found: Phimai, Nakhon Ratchasima, Thailand
+[ERROR-HANDLER] request: GET /api/weather?city=Phimai%2C%20Nakhon%20Ratchasima%2C%20Thailand
+Error: City not found: Phimai, Nakhon Ratchasima, Thailand
+    at getWeatherByCity (E:\testtest\backend\src\services\weather\weather.service.ts:76:25)
+    at processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async getWeather (E:\testtest\backend\src\controllers\weather.controller.ts:8:18)

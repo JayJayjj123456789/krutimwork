@@ -23,6 +23,7 @@
     "helmet": "^8.2.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.6.0",
+    "weather-health-ai": "file:..",
     "ws": "^8.21.0"
   },
   "devDependencies": {

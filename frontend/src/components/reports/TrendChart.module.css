@@ -23,6 +23,7 @@
   align-items: flex-end;
   gap: 3px;
   width: 100%;
+  flex: 1;
   justify-content: center;
 }
 

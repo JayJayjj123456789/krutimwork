@@ -26,11 +26,11 @@ export default function ChatBox({ messages, onSend, loading }: ChatBoxProps) {
           <Message key={msg.id} message={msg} />
         ))}
         {loading && (
-          <div className="bubble-ai">
-            <div style={{ display: 'flex', gap: 6, padding: '8px 0' }}>
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-on-surface-variant)', opacity: 0.4, animation: 'pulse-glow 1.2s infinite' }} />
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-on-surface-variant)', opacity: 0.4, animation: 'pulse-glow 1.2s infinite 0.2s' }} />
-              <span style={{ width: 8, height: 8, borderRadius: '50%', background: 'var(--color-on-surface-variant)', opacity: 0.4, animation: 'pulse-glow 1.2s infinite 0.4s' }} />
+          <div className="bubble-ai" aria-label="Aether is typing">
+            <div style={{ display: 'flex', gap: 5, padding: '4px 0' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-ink-faint)', animation: 'typing-bounce 1.2s ease-in-out infinite' }} />
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-ink-faint)', animation: 'typing-bounce 1.2s ease-in-out 0.15s infinite' }} />
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: 'var(--color-ink-faint)', animation: 'typing-bounce 1.2s ease-in-out 0.3s infinite' }} />
             </div>
           </div>
         )}
