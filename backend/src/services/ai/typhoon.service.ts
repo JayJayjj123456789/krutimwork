@@ -52,23 +52,27 @@ export async function callTyphoon(
   });
 }
 
-export async function chat(_userId: string, question: string, weatherContext = ''): Promise<string> {
-  console.log(`[typhoon.service] chat question="${question.slice(0, 80)}..." hasWeatherContext=${!!weatherContext}`);
+export async function chat(_userId: string, question: string, weatherContext = '', weatherFetched = true): Promise<string> {
+  console.log(`[typhoon.service] chat question="${question.slice(0, 80)}..." hasWeatherContext=${!!weatherContext} weatherFetched=${weatherFetched}`);
   const cleanQuestion = sanitizeForPrompt(question);
 
   const searchResult = await searchWeb(cleanQuestion).catch(() => '');
 
   const appContext = weatherContext
-    ? `ข้อมูลสภาพอากาศจากแอป Aether AI (ใช้ข้อมูลนี้เป็นหลักถ้ามี):\n${weatherContext}\n\n`
+    ? `ข้อมูลสภาพอากาศจากแอป Aether AI (ใช้ข้อมูลนี้เป็นหลัก):\n${weatherContext}\n\n`
     : '';
 
   const webContext = searchResult
     ? `ข้อมูลจากอินเทอร์เน็ต (ใช้เป็นข้อมูลเสริม):\n${searchResult}\n\n`
     : '';
 
+  const honestyGuard = !weatherFetched
+    ? `⚠️ สำคัญ: ระบบไม่สามารถดึงข้อมูลสภาพอากาศแบบเรียลไทม์สำหรับเมืองนี้ได้ในขณะนี้ ห้ามเดาตัวเลขอุณหภูมิ ค่า AQI หรือค่าอื่นๆ ที่เป็นตัวเลขเฉพาะ บอกผู้ใช้ตรงๆ ว่าไม่สามารถตรวจสอบข้อมูลได้ และแนะนำให้ลองเมืองอื่นหรือตรวจสอบจากแอปพลิเคชันสภาพอากาศโดยตรง\n\n`
+    : '';
+
   const prompt = `คุณเป็นผู้ช่วยอัจฉริยะด้านสุขภาพและสภาพอากาศ ตอบเป็นภาษาไทยเท่านั้น สั้น กระชับ มีประโยชน์ ใช้ตัวเลขจากข้อมูลสภาพอากาศของแอปเป็นหลัก ถ้าไม่มีข้อมูลจากแอป ให้ใช้ข้อมูลจากอินเทอร์เน็ต
 
-${appContext}${webContext}คำถาม: ${cleanQuestion}`;
+${honestyGuard}${appContext}${webContext}คำถาม: ${cleanQuestion}`;
 
   return callTyphoon(prompt, 'typhoon-v2.5-30b-a3b-instruct', 1000);
 }

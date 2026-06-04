@@ -43,11 +43,11 @@ function extractCityFromQuestion(question: string): string | null {
   return null;
 }
 
-async function buildWeatherContext(city: string): Promise<string> {
+async function buildWeatherContext(city: string): Promise<{ context: string; fetched: boolean }> {
   const cached = weatherCache.get(city.toLowerCase());
   if (cached && cached.expires > Date.now()) {
     console.log(`[chat.controller] weather cache hit for "${city}"`);
-    return cached.data;
+    return { context: cached.data, fetched: true };
   }
   try {
     const w = await getWeatherByCity(city);
@@ -63,10 +63,10 @@ async function buildWeatherContext(city: string): Promise<string> {
 - สภาพ: weather_code=${w.weather_code}, is_day=${w.is_day}
 - เวลา: ${w.timestamp}`;
     weatherCache.set(city.toLowerCase(), { data: ctx, expires: Date.now() + WEATHER_CACHE_TTL_MS });
-    return ctx;
+    return { context: ctx, fetched: true };
   } catch (e) {
     console.warn(`[chat.controller] could not fetch weather for "${city}":`, (e as Error).message);
-    return '';
+    return { context: '', fetched: false };
   }
 }
 
@@ -97,18 +97,21 @@ export async function chatHandler(req: Request, res: Response, next: NextFunctio
     }
 
     let weatherContext = '';
+    let weatherFetched = false;
     if (WEATHER_KEYWORDS.test(cleanQuestion)) {
       const city = extractCityFromQuestion(cleanQuestion);
       if (city) {
         console.log(`[chat.controller] detected weather question for city "${city}"`);
-        weatherContext = await buildWeatherContext(city);
+        const result = await buildWeatherContext(city);
+        weatherContext = result.context;
+        weatherFetched = result.fetched;
       } else {
         console.log('[chat.controller] weather question but no city detected');
       }
     }
 
-    console.log(`[chat.controller] chat userId=${userId} question="${cleanQuestion.slice(0, 80)}..." hasWeatherContext=${!!weatherContext}`);
-    const answer = await chat(userId, cleanQuestion, weatherContext);
+    console.log(`[chat.controller] chat userId=${userId} question="${cleanQuestion.slice(0, 80)}..." hasWeatherContext=${!!weatherContext} weatherFetched=${weatherFetched}`);
+    const answer = await chat(userId, cleanQuestion, weatherContext, weatherFetched);
     console.log(`[chat.controller] chat success userId=${userId} answerLength=${answer.length}`);
 
     try {
