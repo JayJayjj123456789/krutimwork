@@ -77,11 +77,7 @@ export async function chatHandler(req: Request, res: Response, next: NextFunctio
   try {
     const { question } = req.body;
 
-    if (!req.userId) {
-      console.warn('[chat.controller] no userId in request');
-      return res.status(401).json({ success: false, error: 'Authentication required' });
-    }
-    const userId = req.userId;
+    const userId = req.userId || 'anonymous';
     if (!question || typeof question !== 'string') {
       console.warn(`[chat.controller] invalid question body="${JSON.stringify(req.body)}"`);
       return res.status(400).json({ success: false, error: 'question required' });

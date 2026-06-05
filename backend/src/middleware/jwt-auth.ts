@@ -12,7 +12,8 @@ declare global {
 export async function requireJwtAuth(req: Request, res: Response, next: NextFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ success: false, error: 'Authentication required. Provide Bearer token.' });
+    console.log('[jwt-auth] no token provided, allowing request (auth disabled)');
+    return next();
   }
 
   const token = authHeader.slice(7);
@@ -23,6 +24,6 @@ export async function requireJwtAuth(req: Request, res: Response, next: NextFunc
     next();
   } catch (err) {
     console.warn('[jwt-auth] invalid token:', (err as Error).message);
-    return res.status(401).json({ success: false, error: 'Invalid or expired token.' });
+    return next();
   }
 }

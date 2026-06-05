@@ -1,35 +1,53 @@
-import { Routes, Route, useLocation, useNavigate, Navigate } from 'react-router-dom'
+import { Routes, Route, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useState, useEffect, useRef } from 'react'
 import { ThemeProvider } from './context/ThemeContext'
 import { UserProvider, useUser } from './context/UserContext'
-import { AuthProvider, useAuth } from './context/AuthContext'
+import { AuthProvider } from './context/AuthContext'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import Sidebar from './components/Sidebar'
 import BottomNav from './components/BottomNav'
 import WeatherBackdrop from './components/WeatherBackdrop'
+import DeviceFrame from './components/DeviceFrame'
 import Dashboard from './pages/Dashboard'
 import Health from './pages/Health'
 import AIRecommendations from './pages/AIRecommendations'
 import Chat from './pages/Chat'
 import Reports from './pages/Reports'
-import Login from './pages/Login'
-import Signup from './pages/Signup'
 import API from './services/api'
 
-const pageTitles: Record<string, { title: string; sub: string }> = {
-  '/':        { title: 'Dashboard',         sub: 'Real-time atmospheric & health overview' },
-  '/health':  { title: 'Health Analysis',   sub: 'AI-powered health risk monitoring'       },
-  '/ai':      { title: 'AI Recommendations',sub: 'Personalized daily guidance from AI'     },
-  '/chat':    { title: 'AI Chat',           sub: 'Ask anything about weather & health'     },
-  '/reports': { title: 'Weekly Reports',    sub: 'Historical data & trend analysis'        },
+const pageTitles = {
+  en: {
+    '/':        { title: 'Dashboard',         sub: 'Real-time atmospheric & health overview' },
+    '/health':  { title: 'Health Analysis',   sub: 'AI-powered health risk monitoring'       },
+    '/ai':      { title: 'AI Recommendations',sub: 'Personalized daily guidance from AI'     },
+    '/chat':    { title: 'AI Chat',           sub: 'Ask anything about weather & health'     },
+    '/reports': { title: 'Weekly Reports',    sub: 'Historical data & trend analysis'        },
+  },
+  th: {
+    '/':        { title: 'แดชบอร์ด',         sub: 'ภาพรวมสภาพอากาศและสุขภาพแบบเรียลไทม์' },
+    '/health':  { title: 'วิเคราะห์สุขภาพ',  sub: 'ติดตามความเสี่ยงสุขภาพด้วย AI'          },
+    '/ai':      { title: 'คำแนะนำจาก AI',   sub: 'คำแนะนำเฉพาะตัวจาก AI'                  },
+    '/chat':    { title: 'แชทกับ AI',        sub: 'ถามอะไรก็ได้เกี่ยวกับอากาศและสุขภาพ' },
+    '/reports': { title: 'รายงานประจำสัปดาห์',sub: 'ข้อมูลย้อนหลังและวิเคราะห์แนวโน้ม' },
+  },
 }
 
 function Layout() {
   const location = useLocation()
-  const page = pageTitles[location.pathname] ?? pageTitles['/']
+  const [searchParams] = useSearchParams()
+  const phoneMode = searchParams.get('device') === 'phone'
+  const deviceParam = searchParams.get('device') ? `?${searchParams.toString()}` : ''
+  const [lang, setLang] = useState<'en' | 'th'>(() => (document.documentElement.lang === 'th' ? 'th' : 'en'))
+  const page = pageTitles[lang][location.pathname as keyof typeof pageTitles.en] ?? pageTitles[lang]['/']
+
+  const toggleLang = () => {
+    const next = lang === 'en' ? 'th' : 'en'
+    setLang(next)
+    document.documentElement.lang = next
+  }
   const { city, setCity } = useUser()
   const navigate = useNavigate()
-  console.log(`[App] route: ${location.pathname} city="${city}"`)
+  console.log(`[App] route: ${location.pathname} city="${city}" phone=${phoneMode}`)
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<{ name: string; country: string | null; admin1: string | null }[]>([])
   const [open, setOpen] = useState(false)
@@ -60,11 +78,11 @@ function Layout() {
 
   const pick = (g: { name: string; country: string | null; admin1: string | null }) => {
     const label = `${g.name}${g.admin1 && g.admin1 !== g.name ? ', ' + g.admin1 : ''}, ${g.country ?? ''}`
-    setCity(label); setQuery(''); setResults([]); setOpen(false); navigate('/')
+    setCity(label); setQuery(''); setResults([]); setOpen(false); navigate(`/${deviceParam}`)
   }
 
   return (
-    <div className="app-layout">
+    <div className={`app-layout${phoneMode ? ' phone-mode' : ''}`}>
       <WeatherBackdrop />
       <Sidebar />
       <BottomNav />
@@ -107,13 +125,17 @@ function Layout() {
             <button className="icon-btn" aria-label="Notifications">
               <span className="material-symbols-outlined">notifications</span>
             </button>
+            <button className="lang-btn" onClick={toggleLang} aria-label="Toggle language">
+              <span className="material-symbols-outlined">translate</span>
+              <span className="lang-label">{lang === 'en' ? 'TH' : 'EN'}</span>
+            </button>
             <button className="icon-btn" aria-label="Settings">
               <span className="material-symbols-outlined">settings</span>
             </button>
           </div>
         </header>
 
-        <div className="page-content">
+        <div className="page-content page-enter" key={location.pathname}>
           <div className="page-header">
             <h2>{page.title}</h2>
             <p>{page.sub}</p>
@@ -135,24 +157,35 @@ function Layout() {
 }
 
 function RequireAuth({ children }: { children: React.ReactNode }) {
-  const { user, loading } = useAuth()
-  if (loading) return <div className="loading-screen"><span className="spinner" /></div>
-  if (!user) return <Navigate to="/login" replace />
+  // TEMP: auth disabled — login page is not ready
   return <>{children}</>
+  // const { user, loading } = useAuth()
+  // if (loading) return <div className="loading-screen"><span className="spinner" /></div>
+  // if (!user) return <Navigate to="/login" replace />
+  // return <>{children}</>
 }
 
 function AuthWatcher() {
-  const navigate = useNavigate()
-  const { logout } = useAuth()
-  useEffect(() => {
-    const handler = () => {
-      logout().catch(() => {})
-      navigate('/login', { replace: true })
-    }
-    window.addEventListener('auth:unauthorized', handler)
-    return () => window.removeEventListener('auth:unauthorized', handler)
-  }, [navigate, logout])
+  // TEMP: auth disabled — do not redirect to /login on 401
   return null
+  // const navigate = useNavigate()
+  // const { logout } = useAuth()
+  // useEffect(() => {
+  //   const handler = () => {
+  //     logout().catch(() => {})
+  //     navigate('/login', { replace: true })
+  //   }
+  //   window.addEventListener('auth:unauthorized', handler)
+  //   return () => window.removeEventListener('auth:unauthorized', handler)
+  // }, [navigate, logout])
+}
+
+function MaybeFrame({ children }: { children: React.ReactNode }) {
+  const [searchParams] = useSearchParams()
+  if (searchParams.get('device') === 'phone') {
+    return <DeviceFrame>{children}</DeviceFrame>
+  }
+  return <>{children}</>
 }
 
 export default function App() {
@@ -162,9 +195,10 @@ export default function App() {
         <UserProvider>
           <AuthWatcher />
           <Routes>
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/*" element={<RequireAuth><Layout /></RequireAuth>} />
+            {/* TEMP: login/signup disabled — not ready yet */}
+            {/* <Route path="/login" element={<Login />} /> */}
+            {/* <Route path="/signup" element={<Signup />} /> */}
+            <Route path="/*" element={<RequireAuth><MaybeFrame><Layout /></MaybeFrame></RequireAuth>} />
           </Routes>
         </UserProvider>
       </AuthProvider>

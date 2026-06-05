@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useSearchParams } from 'react-router-dom'
 import { useTheme } from '../context/ThemeContext'
 import { useUser } from '../context/UserContext'
 import { useAuth } from '../context/AuthContext'
@@ -25,6 +25,8 @@ interface GeoResult {
 
 export default function Sidebar() {
   const { theme, toggleTheme } = useTheme()
+  const [searchParams] = useSearchParams()
+  const deviceParam = searchParams.get('device') ? `?${searchParams.toString()}` : ''
   const { city, setCity } = useUser()
   const { user, logout } = useAuth()
   const navigate = useNavigate()
@@ -78,7 +80,7 @@ export default function Sidebar() {
     setQuery('')
     setResults([])
     setOpen(false)
-    navigate('/')
+    navigate(`/${deviceParam}`)
   }
 
   return (
@@ -134,7 +136,7 @@ export default function Sidebar() {
         {navItems.map(({ to, icon, label }) => (
           <NavLink
             key={to}
-            to={to}
+            to={`${to}${deviceParam}`}
             end={to === '/'}
             className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
           >

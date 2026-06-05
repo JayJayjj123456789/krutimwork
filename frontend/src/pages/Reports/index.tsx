@@ -70,7 +70,6 @@ export default function Reports() {
 
   const analyses = report?.data ?? []
 
-  // Generate data from API response (next 7 days forecast)
   const generateWeekData = () => {
     const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
@@ -82,7 +81,7 @@ export default function Reports() {
       return {
         label: isToday ? 'Today' : dayName,
         date: item.date,
-        primary: item.health_score ?? 0,
+        primary: typeof item.health_score === 'number' ? item.health_score : 0,
         secondary: item.respiratory_risk === 'very_high' ? 200 :
                    item.respiratory_risk === 'high' ? 150 :
                    item.respiratory_risk === 'moderate' ? 100 :
@@ -93,6 +92,8 @@ export default function Reports() {
   }
 
   const trendData = generateWeekData()
+  console.log('[Reports] trendData:', trendData)
+  console.log('[Reports] report:', report)
 
   const tableColumns = [
     { key: 'label', label: 'Day', render: (r: { label: string; primary: number }) => r.label },

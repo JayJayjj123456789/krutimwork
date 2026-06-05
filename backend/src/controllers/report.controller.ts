@@ -4,13 +4,9 @@ import { getWeeklyReport } from '../services/reports/report.service';
 export async function getReport(req: Request, res: Response, next: NextFunction) {
   try {
     const userId = req.userId;
-    if (!userId) {
-      console.warn('[report.controller] no userId');
-      return res.status(401).json({ success: false, error: 'Authentication required' });
-    }
     const weekStart = typeof req.query.weekStart === 'string' ? req.query.weekStart : undefined;
-    console.log(`[report.controller] getReport userId=${userId} weekStart=${weekStart || 'auto'}`);
-    const result = await getWeeklyReport(userId, weekStart);
+    console.log(`[report.controller] getReport userId=${userId || 'anonymous'} weekStart=${weekStart || 'auto'}`);
+    const result = await getWeeklyReport(userId || 'anonymous', weekStart);
     console.log(`[report.controller] getReport success: ${result.analyses_count} analyses, avgScore=${result.avg_health_score}`);
     res.json({ success: true, data: result });
   } catch (err) {

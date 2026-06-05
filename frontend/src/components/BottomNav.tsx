@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom'
+import { NavLink, useSearchParams } from 'react-router-dom'
 
 const navItems = [
   { to: '/',              icon: 'dashboard',         label: 'Dashboard' },
@@ -9,12 +9,14 @@ const navItems = [
 ]
 
 export default function BottomNav() {
+  const [searchParams] = useSearchParams()
+  const deviceParam = searchParams.get('device') ? `?${searchParams.toString()}` : ''
   return (
     <nav className="bottom-nav">
       {navItems.map(({ to, icon, label }) => (
         <NavLink
           key={to}
-          to={to}
+          to={`${to}${deviceParam}`}
           end={to === '/'}
           className={({ isActive }) => `nav-item${isActive ? ' active' : ''}`}
         >

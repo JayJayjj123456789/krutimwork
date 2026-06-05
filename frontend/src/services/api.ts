@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, InternalAxiosRequestConfig } from 'axios'
 import { auth } from '../config/firebase'
 
-const DEFAULT_API_URL = 'https://aether-ai-backend-obts.onrender.com/api'
+const DEFAULT_API_URL = '/api'
 const API: AxiosInstance = axios.create({
   baseURL: import.meta.env.VITE_API_URL || DEFAULT_API_URL,
   timeout: 30_000,

@@ -23,7 +23,23 @@ export default function TrendChart({
   secondaryLabel,
   title = '7-Day Trend',
 }: TrendChartProps) {
-  const maxVal = Math.max(...data.flatMap(d => [d.primary, d.secondary ?? 0]), 100)
+  console.log('[TrendChart] data:', JSON.stringify(data))
+  const validData = data.filter(d => typeof d.primary === 'number' && d.primary > 0)
+  const maxVal = Math.max(...validData.flatMap(d => [d.primary, d.secondary ?? 0]), 100)
+  console.log('[TrendChart] validData:', validData.length, 'maxVal:', maxVal)
+
+  if (validData.length === 0) {
+    return (
+      <div className="glass-card">
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <span style={{ fontFamily: 'var(--font-headline)', fontSize: 15, fontWeight: 700, color: 'var(--color-primary)' }}>{title}</span>
+        </div>
+        <div style={{ height: 180, display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--color-on-surface-variant)', fontSize: 13 }}>
+          No forecast data available
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="glass-card">
@@ -46,15 +62,17 @@ export default function TrendChart({
       </div>
       <div className={styles.chart}>
         {data.map((d, index) => {
-          const primaryH = (d.primary / maxVal) * 100
-          const secondaryH = d.secondary ? (d.secondary / maxVal) * 100 : 0
+          const primaryH = d.primary > 0 ? (d.primary / maxVal) * 100 : 0
+          const secondaryH = d.secondary && d.secondary > 0 ? (d.secondary / maxVal) * 100 : 0
           return (
             <div key={`${d.label}-${index}`} className={styles.barCol}>
               <div className={styles.bars}>
-                {d.secondary !== undefined && (
+                {d.secondary !== undefined && secondaryH > 0 && (
                   <div className={styles.bar} style={{ height: `${secondaryH}%`, background: secondaryColor }} />
                 )}
-                <div className={styles.bar} style={{ height: `${primaryH}%`, background: primaryColor }} />
+                {primaryH > 0 && (
+                  <div className={styles.bar} style={{ height: `${primaryH}%`, background: primaryColor }} />
+                )}
               </div>
               <span className={styles.label}>{d.label}</span>
             </div>
